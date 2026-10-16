@@ -1,0 +1,4340 @@
+{
+  "id": "kogakuin-2024-information-cs-v1",
+  "university": "kogakuin",
+  "faculty": "information",
+  "department": "cs",
+  "entryYear": 2024,
+  "label": "工学院大学・2024年度入学・情報学部コンピュータ科学科",
+  "version": "1.0.0",
+  "publicationYear": null,
+  "revisionYear": null,
+  "publicationYearNote": "URLの2025は資料の識別用。公開・改訂日の公式記載は未確認。",
+  "applicability": "通常の2024年度入学。編入・転学科・特例は別途確認。判定時所属がコンピュータ科学科であること。",
+  "releaseStatus": "verified",
+  "source": {
+    "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+    "pages": [2, 3, 4],
+    "checkedAt": "2026-10-16",
+    "status": "verified",
+    "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+  },
+  "courses": [
+    {
+      "id": "kgu-cs-2-001",
+      "officialCode": null,
+      "name": "情報ロジカルライティングⅠ",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-002",
+      "officialCode": null,
+      "name": "工学院大スタディーズ",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-003",
+      "officialCode": null,
+      "name": "情報ロジカルライティングⅡ",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-004",
+      "officialCode": null,
+      "name": "海外総合文化B",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-005",
+      "officialCode": null,
+      "name": "美術A",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-006",
+      "officialCode": null,
+      "name": "スポーツ・身体文化論",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-007",
+      "officialCode": null,
+      "name": "スポーツ科学",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-008",
+      "officialCode": null,
+      "name": "科学論A",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-009",
+      "officialCode": null,
+      "name": "科学論B",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-010",
+      "officialCode": null,
+      "name": "環境経済学",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-011",
+      "officialCode": null,
+      "name": "技術者を志す私たちの総合文化プロジェクト",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-012",
+      "officialCode": null,
+      "name": "教育学A",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-013",
+      "officialCode": null,
+      "name": "教育学B",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-014",
+      "officialCode": null,
+      "name": "経営学A",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-015",
+      "officialCode": null,
+      "name": "経営学B",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-016",
+      "officialCode": null,
+      "name": "経済学A",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-017",
+      "officialCode": null,
+      "name": "経済学B",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-018",
+      "officialCode": null,
+      "name": "芸術学A",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-019",
+      "officialCode": null,
+      "name": "芸術学B",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-020",
+      "officialCode": null,
+      "name": "現代文化論A",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-021",
+      "officialCode": null,
+      "name": "現代文化論B",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-022",
+      "officialCode": null,
+      "name": "国際関係論A",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-023",
+      "officialCode": null,
+      "name": "国際関係論B",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-024",
+      "officialCode": null,
+      "name": "社会学A",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-025",
+      "officialCode": null,
+      "name": "社会学B",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-026",
+      "officialCode": null,
+      "name": "社会思想A",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-027",
+      "officialCode": null,
+      "name": "社会思想B",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-028",
+      "officialCode": null,
+      "name": "宗教学A",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-029",
+      "officialCode": null,
+      "name": "宗教学B",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-030",
+      "officialCode": null,
+      "name": "心理学A",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-031",
+      "officialCode": null,
+      "name": "心理学B",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-032",
+      "officialCode": null,
+      "name": "身体健康学",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-033",
+      "officialCode": null,
+      "name": "政治学A",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-034",
+      "officialCode": null,
+      "name": "政治学B",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-035",
+      "officialCode": null,
+      "name": "哲学A",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-036",
+      "officialCode": null,
+      "name": "哲学B",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-037",
+      "officialCode": null,
+      "name": "日本国憲法",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-038",
+      "officialCode": null,
+      "name": "文学A",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-039",
+      "officialCode": null,
+      "name": "文学B",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-040",
+      "officialCode": null,
+      "name": "法学A(日本国憲法1単位を含む)",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-041",
+      "officialCode": null,
+      "name": "法学B(日本国憲法1単位を含む)",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-042",
+      "officialCode": null,
+      "name": "倫理学A",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-043",
+      "officialCode": null,
+      "name": "倫理学B",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-044",
+      "officialCode": null,
+      "name": "歴史学A",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-045",
+      "officialCode": null,
+      "name": "歴史学B",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-046",
+      "officialCode": null,
+      "name": "論理学A",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-047",
+      "officialCode": null,
+      "name": "論理学B",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-048",
+      "officialCode": null,
+      "name": "海外総合文化A",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-049",
+      "officialCode": null,
+      "name": "美術B",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-050",
+      "officialCode": null,
+      "name": "Basic Communication I",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-051",
+      "officialCode": null,
+      "name": "Basic English I",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-052",
+      "officialCode": null,
+      "name": "Basic Communication II",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-053",
+      "officialCode": null,
+      "name": "Basic English II",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-054",
+      "officialCode": null,
+      "name": "Basic Academic English I",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-055",
+      "officialCode": null,
+      "name": "Basic Academic English II",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-056",
+      "officialCode": null,
+      "name": "English for Intercultural Communication A",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-057",
+      "officialCode": null,
+      "name": "English for Global Communication A",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-058",
+      "officialCode": null,
+      "name": "English for Global Communication B",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-059",
+      "officialCode": null,
+      "name": "Introduction to English for Global Communication I",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-060",
+      "officialCode": null,
+      "name": "Introduction to English for Global CommunicationⅡ",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-061",
+      "officialCode": null,
+      "name": "English for Intercultural Communication B",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-062",
+      "officialCode": null,
+      "name": "Intensive English Course",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-063",
+      "officialCode": null,
+      "name": "日本語中級Ⅰ",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-064",
+      "officialCode": null,
+      "name": "ドイツ語初級",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-065",
+      "officialCode": null,
+      "name": "フランス語初級",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-066",
+      "officialCode": null,
+      "name": "ロシア語初級",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-067",
+      "officialCode": null,
+      "name": "中国語初級",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-068",
+      "officialCode": null,
+      "name": "中国語中級",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-069",
+      "officialCode": null,
+      "name": "日本語中級Ⅱ",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-070",
+      "officialCode": null,
+      "name": "中国語集中講座A",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-071",
+      "officialCode": null,
+      "name": "中国語集中講座B",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-072",
+      "officialCode": null,
+      "name": "身体･運動科学演習Ⅰ",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-073",
+      "officialCode": null,
+      "name": "身体･運動科学演習Ⅱ",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-074",
+      "officialCode": null,
+      "name": "生涯スポーツ1",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-075",
+      "officialCode": null,
+      "name": "生涯スポーツ2",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-076",
+      "officialCode": null,
+      "name": "生涯スポーツ3",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-077",
+      "officialCode": null,
+      "name": "インターンシップA",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-078",
+      "officialCode": null,
+      "name": "インターンシップB",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-079",
+      "officialCode": null,
+      "name": "キャリアデザイン",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-080",
+      "officialCode": null,
+      "name": "教育者のための遊びの指導法",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-081",
+      "officialCode": null,
+      "name": "事業運営の基礎知識",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-082",
+      "officialCode": null,
+      "name": "中国の社会と文化",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-083",
+      "officialCode": null,
+      "name": "日本経済分析入門",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-2-084",
+      "officialCode": null,
+      "name": "医薬工協働（PBL）",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-085",
+      "officialCode": null,
+      "name": "情報処理入門",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-086",
+      "officialCode": null,
+      "name": "線形代数学及び演習Ⅰ",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-087",
+      "officialCode": null,
+      "name": "微分及び演習",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-088",
+      "officialCode": null,
+      "name": "積分及び演習",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-089",
+      "officialCode": null,
+      "name": "線形代数学及び演習Ⅱ",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-090",
+      "officialCode": null,
+      "name": "化学及び演習Ⅰ",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-091",
+      "officialCode": null,
+      "name": "物理学及び演習Ⅰ",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-092",
+      "officialCode": null,
+      "name": "化学及び演習Ⅱ",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-093",
+      "officialCode": null,
+      "name": "物理学及び演習Ⅱ",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-094",
+      "officialCode": null,
+      "name": "線形代数学及び演習Ⅲ",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-095",
+      "officialCode": null,
+      "name": "偏微分及び演習",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-096",
+      "officialCode": null,
+      "name": "物理学実験",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-097",
+      "officialCode": null,
+      "name": "物理学及び演習ⅢC",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-098",
+      "officialCode": null,
+      "name": "物理学及び演習ⅢD",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-099",
+      "officialCode": null,
+      "name": "重積分及び演習",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-100",
+      "officialCode": null,
+      "name": "線形代数学及び演習Ⅳ",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-101",
+      "officialCode": null,
+      "name": "生物学基礎論",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-102",
+      "officialCode": null,
+      "name": "情報学基礎論Ⅰ",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-103",
+      "officialCode": null,
+      "name": "プログラミングおよび演習1",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-104",
+      "officialCode": null,
+      "name": "情報数学および演習1",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-105",
+      "officialCode": null,
+      "name": "プログラミングおよび演習2",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-106",
+      "officialCode": null,
+      "name": "情報数学および演習2",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-107",
+      "officialCode": null,
+      "name": "情報学基礎論Ⅱ",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-108",
+      "officialCode": null,
+      "name": "論理回路",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-109",
+      "officialCode": null,
+      "name": "プログラミングおよび演習3",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-110",
+      "officialCode": null,
+      "name": "プログラミングおよび演習4",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-111",
+      "officialCode": null,
+      "name": "情報数学および演習3",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-112",
+      "officialCode": null,
+      "name": "情報数学および演習4",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-113",
+      "officialCode": null,
+      "name": "確率･統計Ⅰ",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-114",
+      "officialCode": null,
+      "name": "電気回路理論Ⅰ",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-115",
+      "officialCode": null,
+      "name": "電気回路理論演習Ⅰ",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-116",
+      "officialCode": null,
+      "name": "情報学実験",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-117",
+      "officialCode": null,
+      "name": "コンピュータ科学序論",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-118",
+      "officialCode": null,
+      "name": "コンピュータ科学実験",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-119",
+      "officialCode": null,
+      "name": "コンピュータアーキテクチャ",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-120",
+      "officialCode": null,
+      "name": "データ構造とアルゴリズム及び演習",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-121",
+      "officialCode": null,
+      "name": "情報学特別講義",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-122",
+      "officialCode": null,
+      "name": "計算幾何学",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-123",
+      "officialCode": null,
+      "name": "統計解析学",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-124",
+      "officialCode": null,
+      "name": "情報技術者英語",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-125",
+      "officialCode": null,
+      "name": "情報理論",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-126",
+      "officialCode": null,
+      "name": "離散数学",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-127",
+      "officialCode": null,
+      "name": "情報学先端技術",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-128",
+      "officialCode": null,
+      "name": "情報社会と情報倫理",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-129",
+      "officialCode": null,
+      "name": "微分方程式",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-130",
+      "officialCode": null,
+      "name": "英語文献講読",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-131",
+      "officialCode": null,
+      "name": "音響工学基礎",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-132",
+      "officialCode": null,
+      "name": "信号処理概論",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-133",
+      "officialCode": null,
+      "name": "信号処理演習",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-134",
+      "officialCode": null,
+      "name": "画像工学基礎",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-135",
+      "officialCode": null,
+      "name": "計算数理",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-136",
+      "officialCode": null,
+      "name": "機械学習",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-137",
+      "officialCode": null,
+      "name": "応用音響処理",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-138",
+      "officialCode": null,
+      "name": "応用画像処理",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-139",
+      "officialCode": null,
+      "name": "最適化論",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-140",
+      "officialCode": null,
+      "name": "組み込みシステム",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-141",
+      "officialCode": null,
+      "name": "組み込みシステム演習(PBL)",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-142",
+      "officialCode": null,
+      "name": "インターフェース論",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-143",
+      "officialCode": null,
+      "name": "オブジェクト指向プログラミング",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-144",
+      "officialCode": null,
+      "name": "基本ソフトウェア論",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-145",
+      "officialCode": null,
+      "name": "数値計算法概論",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-146",
+      "officialCode": null,
+      "name": "オブジェクト指向プログラミング演習(PBL)",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-147",
+      "officialCode": null,
+      "name": "ソフトウェア工学Ⅰ",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-148",
+      "officialCode": null,
+      "name": "並列･分散システム",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-149",
+      "officialCode": null,
+      "name": "ソフトウェア工学Ⅱ",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-150",
+      "officialCode": null,
+      "name": "Webシステム演習(PBL)",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-151",
+      "officialCode": null,
+      "name": "セキュリティ概論",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-152",
+      "officialCode": null,
+      "name": "サイバーセキュリティ1",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-153",
+      "officialCode": null,
+      "name": "情報ネットワーク論",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-154",
+      "officialCode": null,
+      "name": "サイバーセキュリティ2",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-155",
+      "officialCode": null,
+      "name": "企業経営と情報セキュリティ",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-156",
+      "officialCode": null,
+      "name": "サイバーセキュリティ演習1",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-157",
+      "officialCode": null,
+      "name": "サイバーセキュリティ演習2",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-158",
+      "officialCode": null,
+      "name": "知的財産",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-159",
+      "officialCode": null,
+      "name": "コンピュータ科学セミナーⅠ(PBL)",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-160",
+      "officialCode": null,
+      "name": "コンピュータ科学セミナーⅡ(PBL)",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-161",
+      "officialCode": null,
+      "name": "学外研修",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-162",
+      "officialCode": null,
+      "name": "卒業論文(PBL)",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    },
+    {
+      "id": "kgu-cs-3-163",
+      "officialCode": null,
+      "name": "情報と職業",
+      "aliases": [],
+      "university": "kogakuin",
+      "faculty": "information",
+      "department": "cs",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [3],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    }
+  ],
+  "placements": [
+    {
+      "courseId": "kgu-cs-2-001",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-002",
+      "credits": "1",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-003",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-004",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-005",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-006",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-007",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-008",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-009",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-010",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-011",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-012",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-013",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-014",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-015",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-016",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-017",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-018",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-019",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-020",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-021",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-022",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-023",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-024",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-025",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-026",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-027",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-028",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-029",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-030",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-031",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-032",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-033",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-034",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-035",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-036",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-037",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-038",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-039",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-040",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-041",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-042",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-043",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-044",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-045",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-046",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-047",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-048",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-049",
+      "credits": "2",
+      "section": "I-a",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-050",
+      "credits": "1",
+      "section": "I-b",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-051",
+      "credits": "1",
+      "section": "I-b",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-052",
+      "credits": "1",
+      "section": "I-b",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-053",
+      "credits": "1",
+      "section": "I-b",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-054",
+      "credits": "1",
+      "section": "I-b",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-055",
+      "credits": "1",
+      "section": "I-b",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-056",
+      "credits": "1",
+      "section": "I-b",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-057",
+      "credits": "1",
+      "section": "I-b",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-058",
+      "credits": "1",
+      "section": "I-b",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-059",
+      "credits": "1",
+      "section": "I-b",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-060",
+      "credits": "1",
+      "section": "I-b",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-061",
+      "credits": "1",
+      "section": "I-b",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-062",
+      "credits": "2",
+      "section": "I-b",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-063",
+      "credits": "1",
+      "section": "I-b",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-064",
+      "credits": "1",
+      "section": "I-b",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-065",
+      "credits": "1",
+      "section": "I-b",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-066",
+      "credits": "1",
+      "section": "I-b",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-067",
+      "credits": "1",
+      "section": "I-b",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-068",
+      "credits": "1",
+      "section": "I-b",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-069",
+      "credits": "1",
+      "section": "I-b",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-070",
+      "credits": "1",
+      "section": "I-b",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-071",
+      "credits": "1",
+      "section": "I-b",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-072",
+      "credits": "1",
+      "section": "I-c",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-073",
+      "credits": "1",
+      "section": "I-c",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-074",
+      "credits": "1",
+      "section": "I-c",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-075",
+      "credits": "1",
+      "section": "I-c",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-076",
+      "credits": "1",
+      "section": "I-c",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-077",
+      "credits": "1",
+      "section": "I-d",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-078",
+      "credits": "2",
+      "section": "I-d",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-079",
+      "credits": "2",
+      "section": "I-d",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-080",
+      "credits": "2",
+      "section": "I-d",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-081",
+      "credits": "2",
+      "section": "I-d",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-082",
+      "credits": "2",
+      "section": "I-d",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-083",
+      "credits": "2",
+      "section": "I-d",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-2-084",
+      "credits": "2",
+      "section": "I-d",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-085",
+      "credits": "2",
+      "section": "II-a",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-086",
+      "credits": "1.5",
+      "section": "II-a",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-087",
+      "credits": "1.5",
+      "section": "II-a",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-088",
+      "credits": "1.5",
+      "section": "II-a",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-089",
+      "credits": "1.5",
+      "section": "II-a",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-090",
+      "credits": "1.5",
+      "section": "II-a",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-091",
+      "credits": "1.5",
+      "section": "II-a",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-092",
+      "credits": "1.5",
+      "section": "II-a",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-093",
+      "credits": "1.5",
+      "section": "II-a",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-094",
+      "credits": "1.5",
+      "section": "II-a",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-095",
+      "credits": "1.5",
+      "section": "II-a",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-096",
+      "credits": "1",
+      "section": "II-a",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-097",
+      "credits": "1.5",
+      "section": "II-a",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-098",
+      "credits": "1.5",
+      "section": "II-a",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-099",
+      "credits": "1.5",
+      "section": "II-a",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-100",
+      "credits": "1.5",
+      "section": "II-a",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-101",
+      "credits": "2",
+      "section": "II-a",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-102",
+      "credits": "2",
+      "section": "II-b",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-103",
+      "credits": "1.5",
+      "section": "II-b",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-104",
+      "credits": "1.5",
+      "section": "II-b",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-105",
+      "credits": "1.5",
+      "section": "II-b",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-106",
+      "credits": "1.5",
+      "section": "II-b",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-107",
+      "credits": "2",
+      "section": "II-b",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-108",
+      "credits": "2",
+      "section": "II-b",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-109",
+      "credits": "1.5",
+      "section": "II-b",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-110",
+      "credits": "1.5",
+      "section": "II-b",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-111",
+      "credits": "1.5",
+      "section": "II-b",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-112",
+      "credits": "1.5",
+      "section": "II-b",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-113",
+      "credits": "2",
+      "section": "II-b",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-114",
+      "credits": "2",
+      "section": "II-b",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-115",
+      "credits": "1",
+      "section": "II-b",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-116",
+      "credits": "2",
+      "section": "II-b",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-117",
+      "credits": "2",
+      "section": "II-b",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-118",
+      "credits": "2",
+      "section": "II-b",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-119",
+      "credits": "2",
+      "section": "II-b",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-120",
+      "credits": "3",
+      "section": "II-b",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-121",
+      "credits": "1",
+      "section": "II-b",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-122",
+      "credits": "2",
+      "section": "II-b",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-123",
+      "credits": "2",
+      "section": "II-b",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-124",
+      "credits": "1",
+      "section": "II-b",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-125",
+      "credits": "2",
+      "section": "II-b",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-126",
+      "credits": "2",
+      "section": "II-b",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-127",
+      "credits": "2",
+      "section": "II-b",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-128",
+      "credits": "2",
+      "section": "II-b",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-129",
+      "credits": "2",
+      "section": "II-b",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-130",
+      "credits": "2",
+      "section": "II-b",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-131",
+      "credits": "2",
+      "section": "III-A",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-132",
+      "credits": "2",
+      "section": "III-A",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-133",
+      "credits": "1",
+      "section": "III-A",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-134",
+      "credits": "2",
+      "section": "III-A",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-135",
+      "credits": "2",
+      "section": "III-A",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-136",
+      "credits": "2",
+      "section": "III-A",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-137",
+      "credits": "2",
+      "section": "III-A",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-138",
+      "credits": "2",
+      "section": "III-A",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-139",
+      "credits": "2",
+      "section": "III-A",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-140",
+      "credits": "2",
+      "section": "III-A",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-141",
+      "credits": "1",
+      "section": "III-A",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-142",
+      "credits": "2",
+      "section": "III-B",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-143",
+      "credits": "2",
+      "section": "III-B",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-144",
+      "credits": "2",
+      "section": "III-B",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-145",
+      "credits": "2",
+      "section": "III-B",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-146",
+      "credits": "1",
+      "section": "III-B",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-147",
+      "credits": "2",
+      "section": "III-B",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-148",
+      "credits": "2",
+      "section": "III-B",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-149",
+      "credits": "2",
+      "section": "III-B",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-150",
+      "credits": "1",
+      "section": "III-B",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-151",
+      "credits": "2",
+      "section": "III-C",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-152",
+      "credits": "2",
+      "section": "III-C",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-153",
+      "credits": "2",
+      "section": "III-C",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-154",
+      "credits": "2",
+      "section": "III-C",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-155",
+      "credits": "2",
+      "section": "III-C",
+      "kind": "selective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-156",
+      "credits": "1",
+      "section": "III-C",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-157",
+      "credits": "1",
+      "section": "III-C",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-158",
+      "credits": "2",
+      "section": "III-C",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-159",
+      "credits": "1",
+      "section": "III-common",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-160",
+      "credits": "1",
+      "section": "III-common",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-161",
+      "credits": "2",
+      "section": "III-common",
+      "kind": "elective",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-162",
+      "credits": "8",
+      "section": "thesis",
+      "kind": "required",
+      "eligible": true,
+      "external": false
+    },
+    {
+      "courseId": "kgu-cs-3-163",
+      "credits": "2",
+      "section": "excluded",
+      "kind": "excluded",
+      "eligible": false,
+      "external": false
+    }
+  ],
+  "equivalences": [],
+  "caps": [
+    {
+      "id": "other-department-6",
+      "maximum": "6",
+      "selector": {
+        "external": true
+      },
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      }
+    }
+  ],
+  "rules": [
+    {
+      "id": "kogakuin-2024-information-cs-v1-total",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "graduation",
+      "label": "算入対象の合計単位",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "credits",
+        "minimum": "124",
+        "selector": {}
+      }
+    },
+    {
+      "id": "kogakuin-2024-information-cs-v1-I-a",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "graduation",
+      "label": "総合文化科目",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "credits",
+        "minimum": "14",
+        "selector": {
+          "sections": ["I-a"]
+        }
+      }
+    },
+    {
+      "id": "kogakuin-2024-information-cs-v1-I-b",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "graduation",
+      "label": "外国語科目",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "credits",
+        "minimum": "8",
+        "selector": {
+          "sections": ["I-b"]
+        }
+      }
+    },
+    {
+      "id": "kogakuin-2024-information-cs-v1-I-c",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "graduation",
+      "label": "保健体育科目",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "credits",
+        "minimum": "2",
+        "selector": {
+          "sections": ["I-c"]
+        }
+      }
+    },
+    {
+      "id": "kogakuin-2024-information-cs-v1-II-a",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "graduation",
+      "label": "共通基礎科目",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "credits",
+        "minimum": "12",
+        "selector": {
+          "sections": ["II-a"]
+        }
+      }
+    },
+    {
+      "id": "kogakuin-2024-information-cs-v1-thesis",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "graduation",
+      "label": "卒業論文",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "credits",
+        "minimum": "8",
+        "selector": {
+          "sections": ["thesis"]
+        }
+      }
+    },
+    {
+      "id": "kogakuin-2024-information-cs-v1-special",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "graduation",
+      "label": "専門基礎＋専門（卒論除く）",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "credits",
+        "minimum": "71",
+        "selector": {
+          "sections": ["II-b", "III-A", "III-B", "III-C", "III-common"]
+        }
+      }
+    },
+    {
+      "id": "kogakuin-2024-information-cs-v1-mandatory-special",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "graduation",
+      "label": "専門基礎＋専門の必修",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "credits",
+        "minimum": "29",
+        "selector": {
+          "sections": ["II-b", "III-A", "III-B", "III-C", "III-common"],
+          "kinds": ["required"]
+        }
+      }
+    },
+    {
+      "id": "kogakuin-2024-information-cs-v1-selective",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "graduation",
+      "label": "専門基礎＋専門の選択必修",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "credits",
+        "minimum": "12",
+        "selector": {
+          "sections": ["II-b", "III-A", "III-B", "III-C", "III-common"],
+          "kinds": ["selective"]
+        }
+      }
+    },
+    {
+      "id": "kogakuin-2024-information-cs-v1-III-A-selective",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "graduation",
+      "label": "III-A 選択必修",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "credits",
+        "minimum": "2",
+        "selector": {
+          "sections": ["III-A"],
+          "kinds": ["selective"]
+        }
+      }
+    },
+    {
+      "id": "kogakuin-2024-information-cs-v1-III-B-selective",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "graduation",
+      "label": "III-B 選択必修",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "credits",
+        "minimum": "2",
+        "selector": {
+          "sections": ["III-B"],
+          "kinds": ["selective"]
+        }
+      }
+    },
+    {
+      "id": "kogakuin-2024-information-cs-v1-III-C-selective",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "graduation",
+      "label": "III-C 選択必修",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "credits",
+        "minimum": "2",
+        "selector": {
+          "sections": ["III-C"],
+          "kinds": ["selective"]
+        }
+      }
+    },
+    {
+      "id": "kogakuin-2024-information-cs-v1-mandatory",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "graduation",
+      "label": "必修科目すべて",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [2, 3, 4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "allCourses",
+        "courseIds": [
+          "kgu-cs-2-050",
+          "kgu-cs-2-051",
+          "kgu-cs-2-052",
+          "kgu-cs-2-053",
+          "kgu-cs-2-054",
+          "kgu-cs-2-055",
+          "kgu-cs-2-072",
+          "kgu-cs-2-073",
+          "kgu-cs-3-085",
+          "kgu-cs-3-086",
+          "kgu-cs-3-087",
+          "kgu-cs-3-088",
+          "kgu-cs-3-089",
+          "kgu-cs-3-102",
+          "kgu-cs-3-103",
+          "kgu-cs-3-104",
+          "kgu-cs-3-105",
+          "kgu-cs-3-106",
+          "kgu-cs-3-107",
+          "kgu-cs-3-108",
+          "kgu-cs-3-109",
+          "kgu-cs-3-110",
+          "kgu-cs-3-113",
+          "kgu-cs-3-114",
+          "kgu-cs-3-115",
+          "kgu-cs-3-116",
+          "kgu-cs-3-117",
+          "kgu-cs-3-118",
+          "kgu-cs-3-124",
+          "kgu-cs-3-159",
+          "kgu-cs-3-160",
+          "kgu-cs-3-162"
+        ]
+      }
+    }
+  ],
+  "externalConditions": [
+    "在学期間、学籍、編入・転学科、特例措置は成績PDFだけでは確認できません。",
+    "大学の正式な卒業判定ではありません。公式資料と教務窓口で最終確認してください。"
+  ],
+  "unresolved": [
+    "実際のKu-port成績PDFの書式・評価記号は未検証。",
+    "他学科の算入可能科目の公式コード・単位数・対応関係は未収録。未知科目として要確認になります。",
+    "認定・代替科目の公式対応表は未提供。自動置換しません。",
+    "資料の改訂日、在学期間等の学則条件はこのPDFから確定していません。"
+  ],
+  "excludedExternal": [
+    {
+      "name": "応用確率・統計学",
+      "department": "情報デザイン学科"
+    },
+    {
+      "name": "応用確率・統計学演習",
+      "department": "情報デザイン学科"
+    },
+    {
+      "name": "多変量解析",
+      "department": "情報科学科"
+    },
+    {
+      "name": "数値計算法",
+      "department": "情報通信工学科"
+    },
+    {
+      "name": "数値計算論",
+      "department": "情報デザイン学科"
+    },
+    {
+      "name": "通信システム基礎",
+      "department": "情報通信工学科"
+    },
+    {
+      "name": "情報ネットワーク基礎論",
+      "department": "情報デザイン学科"
+    },
+    {
+      "name": "情報ネットワーク概論",
+      "department": "情報科学科"
+    },
+    {
+      "name": "オブジェクト指向設計論",
+      "department": "情報デザイン学科"
+    },
+    {
+      "name": "オブジェクト指向設計演習",
+      "department": "情報デザイン学科"
+    },
+    {
+      "name": "情報コンテンツと知的財産",
+      "department": "情報デザイン学科"
+    },
+    {
+      "name": "情報と法",
+      "department": "情報科学科"
+    },
+    {
+      "name": "機械学習",
+      "department": "情報科学科"
+    }
+  ],
+  "totalRuleId": "kogakuin-2024-information-cs-v1-total"
+}
