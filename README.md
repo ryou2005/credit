@@ -135,3 +135,14 @@ Basic English I | | 1 | 任意の原記号 | 2025 | 修得
 Google認証の通信や、静的サイト配信自体に伴うホスティング事業者のアクセス記録は別です。本番ホスティング側にも、URL・成績を含むログやアクセス解析を追加しない運用が必要です。
 
 PDF.jsの日本語CMap・標準フォント・WASMは、起動・ビルド前に依存パッケージから public/pdfjs/ へコピーします。配信元はアプリと同一で、外部CDNを使いません。
+
+## チームへの共有（GitHub Pages）
+
+`.github/workflows/pages.yml` はmainへのpush時にテスト・ビルドし、distだけをGitHub Pagesに配信します。認証なしの公開サイトになります。PDFや成績はブラウザ内で処理します。
+
+1. リポジトリの Settings → Pages → Build and deployment → Source で GitHub Actions を選択します。設定権限がなければ所有者に依頼してください。
+2. この設定ファイルの変更をmainへマージします。
+3. Actions → Publish GitHub Pages が成功するまで待ちます。main反映後にPagesを設定した場合は、Run workflowでmainを選んで実行できます。
+4. 公開完了後のURLは https://ryou2005.github.io/credit/ です。GitHub Pagesの画面・実行結果に表示されたURLでも確認してください。
+
+以降はmain更新で再公開されます。ソースのブランチをそのまま配信する設定は使いません。サイト公開と正式な卒業判定・実PDFの検証完了は別です。
