@@ -295,8 +295,18 @@ describe("PDF取り込み境界と学校認証", () => {
     const raw = "未知科目 | | 1.5 | ZZ | 2025 | 不明";
     const r = parseTextLines(
       [
-        { page: 2, text: raw },
-        { page: 1, text: "学籍番号 J124000" },
+        {
+          page: 2,
+          y: 700,
+          text: raw,
+          items: [{ str: raw, x: 40, width: 100 }],
+        },
+        {
+          page: 1,
+          y: 700,
+          text: "学籍番号 J124000",
+          items: [{ str: "学籍番号 J124000", x: 40, width: 100 }],
+        },
       ],
       official,
     );
