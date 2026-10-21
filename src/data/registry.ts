@@ -54,6 +54,10 @@ export function parseStudentNumber(input: string) {
     normalized,
     supported: !!candidate,
     curriculumId: candidate?.id,
+    // Display labels for auto-filling the form after login; present only when supported.
+    entryYear: candidate ? String(candidate.entryYear) : undefined,
+    facultyLabel: candidate ? f?.label : undefined,
+    departmentLabel: candidate ? d?.label : undefined,
     label:
       candidate?.label ??
       "対象外です。別年度・別学科のルールへは切り替えません。",

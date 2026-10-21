@@ -1,4 +1,9 @@
-import { createRemoteJWKSet, jwtVerify, type JWTVerifyGetKey } from "jose";
+import {
+  createRemoteJWKSet,
+  jwtVerify,
+  type JWTPayload,
+  type JWTVerifyGetKey,
+} from "jose";
 export interface AuthConfig {
   clientId: string;
   allowedDomains: string[];
@@ -33,7 +38,7 @@ export async function verifyCredential(
   nonce: string,
   config = authConfig,
   keys: JWTVerifyGetKey = googleKeys,
-) {
+): Promise<JWTPayload> {
   if (!authReady(config) || !nonce) throw new Error("認証設定が不正です。");
   const { payload } = await jwtVerify(token, keys, {
     algorithms: ["RS256"],
@@ -46,6 +51,10 @@ export async function verifyCredential(
     payload.nonce !== nonce ||
     !payload.sub ||
     (payload.azp && payload.azp !== config.clientId) ||
+    // Workspace hosted-domain claim must match the allowlist when both are present.
+    (config.allowedDomains.length &&
+      typeof payload.hd === "string" &&
+      !config.allowedDomains.includes(payload.hd.toLowerCase())) ||
     !allowedIdentity(
       payload.email,
       payload.email_verified,
@@ -53,7 +62,7 @@ export async function verifyCredential(
     )
   )
     throw new Error("Googleアカウントの確認に失敗しました。");
-  return true;
+  return payload;
 }
 interface GoogleId {
   initialize(options: {
@@ -98,7 +107,7 @@ function loadGoogle() {
 }
 export function mountGoogleButton(
   element: HTMLElement,
-  success: () => void,
+  success: (email: string) => void,
   failure: () => void,
 ) {
   let active = true,
@@ -115,8 +124,8 @@ export function mountGoogleButton(
           if (!active || consumed) return;
           consumed = true;
           void verifyCredential(response.credential, nonce)
-            .then(() => {
-              if (active) success();
+            .then((payload) => {
+              if (active) success(String(payload.email ?? ""));
             })
             .catch(() => {
               if (active) {

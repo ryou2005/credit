@@ -38,7 +38,7 @@ describe("Google署名付き認証", () => {
     expect(allowedIdentity("fictional@gmail.com", true, [])).toBe(true);
     await expect(
       verifyCredential(await token(), "expected", config, keys),
-    ).resolves.toBe(true);
+    ).resolves.toMatchObject({ email: "fictional@example.test" });
   });
   it("nonce不一致", async () => {
     await expect(
