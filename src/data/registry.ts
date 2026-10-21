@@ -77,6 +77,7 @@ export const sectionLabels: Record<string, string> = {
   "III-B": "専門 B",
   "III-C": "専門 C",
   "III-common": "専門 共通",
+  external: "他学科（学部枠）",
   thesis: "卒業論文",
   excluded: "算入対象外",
 };

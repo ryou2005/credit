@@ -24,9 +24,7 @@ test("認証なしの取り込み画面：暗号化・破損PDFから手入力�
   });
   await expect(page.getByRole("alert")).toContainText("PDF");
   await page.getByRole("button", { name: "手入力で始める" }).click();
-  await expect(
-    page.getByRole("heading", { name: "成績の確認・修正" }),
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "成績の修正" })).toBeVisible();
 });
 
 test("結果のスマートフォン表示と印刷PDF出力", async ({ page }, info) => {
@@ -36,12 +34,6 @@ test("結果のスマートフォン表示と印刷PDF出力", async ({ page }, 
   await page.getByRole("checkbox").check();
   await page.getByRole("button", { name: "成績の取り込みへ" }).click();
   await page.getByRole("button", { name: "架空の成績を読み込む" }).click();
-  await page
-    .getByLabel("成績一覧・修得状況・除外した行を確認しました。", {
-      exact: false,
-    })
-    .check();
-  await page.getByRole("button", { name: "卒業要件をチェック" }).click();
   await expect(
     page.getByRole("heading", { name: "単位要件に未充足あり" }),
   ).toBeVisible();
@@ -75,7 +67,8 @@ test("認証なしで対象を入力し文字PDFをアップロードする", as
  await page.getByRole("button",{name:"成績の取り込みへ"}).click();
  await expect(page.getByLabel("成績PDF",{exact:true})).toBeEnabled();
  await page.getByLabel("成績PDF",{exact:true}).setInputFiles({name:"fictional.pdf",mimeType:"application/pdf",buffer:Buffer.from(pdf("Fictional course"))});
- await expect(page.getByRole("heading",{name:"成績の確認・修正"})).toBeVisible();
+ // Straight to the result: the unreadable line is left for review.
+ await expect(page.getByRole("heading",{name:"要確認",exact:true})).toBeVisible();
  await expect(page.getByText("学籍番号の照合ができていません。",{exact:false})).toBeVisible();
  expect(outbound).toEqual([]);
 });
