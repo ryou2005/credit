@@ -1,13 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import {
   registry,
+  courseMaster,
   parseStudentNumber,
   sectionLabels,
   selectManualCurriculum,
 } from "../data/registry";
 import { creditText, type Grade, type GradeStatus } from "../domain/schema";
 import { evaluateCurriculum } from "../domain/engine";
+import {
+  isExcludedSimilar,
+  lookupMaster,
+  type MasterCourse,
+} from "../domain/master";
 import { identityIssue } from "../pdf/normalize";
+import { GradeSummary } from "./GradeSummary";
 import {
   authConfig,
   authReady,
@@ -20,6 +27,15 @@ const headlines = {
   unmet: "単位要件に未充足あり",
   review: "要確認",
 };
+const groupLabels: Record<MasterCourse["group"], string> = {
+  I: "第Ⅰ群",
+  "II-a": "第Ⅱ群a",
+  "II-b": "第Ⅱ群b",
+  III: "第Ⅲ群",
+  other: "その他",
+};
+const offering = (x: MasterCourse) =>
+  `${courseMaster.departments[x.department]?.label ?? x.department}・${groupLabels[x.group]}・${x.credits}単位`;
 type Result = ReturnType<typeof evaluateCurriculum>;
 export default function App() {
   const [session, setSession] = useState<"none" | "local" | "demo">("none");
@@ -114,13 +130,23 @@ export default function App() {
       p = c.placements.find((x) => x.courseId === id);
     update(g.id, {
       courseId: id,
+      masterId: id,
       ...(course && p
         ? {
             name: course.name,
             code: course.officialCode ?? "",
             credits: p.credits,
+            creditSource: "master",
           }
         : {}),
+    });
+  };
+  // Another department's offering chosen by the student (ambiguous name).
+  const selectOffering = (g: Grade, id: string) => {
+    const x = courseMaster.courses.find((m) => m.id === id);
+    update(g.id, {
+      masterId: id,
+      ...(x ? { credits: x.credits, creditSource: "master" } : {}),
     });
   };
   const add = () => {
@@ -566,12 +592,31 @@ export default function App() {
                 学籍番号の照合ができていません。本人の成績か、原本で確認してください。
               </p>
             )}
+            <GradeSummary grades={grades} />
             <p className="small">
               不明な評価は「要確認」のまま残してください。修得済みへの変更は原本での確認が必要です。氏名など成績以外の行は「対象外の行として除く」で除外できます。
             </p>
             <div className="grade-list">
               {grades.map((g, index) => {
                 const p = c.placements.find((x) => x.courseId === g.courseId);
+                const m = courseMaster.courses.find((x) => x.id === g.masterId);
+                const found = g.otherDepartment
+                  ? lookupMaster(courseMaster, c, g.name, {
+                      otherDepartment: true,
+                    })
+                  : undefined;
+                const choice = !m ? found : undefined;
+                // Equivalent offerings in several departments: name them all,
+                // since the PDF cannot tell which one was taken.
+                const offerings =
+                  m &&
+                  found &&
+                  !found.needsChoice &&
+                  found.candidates.length > 1
+                    ? found.candidates
+                    : m
+                      ? [m]
+                      : [];
                 return (
                   <article className="grade-row" key={g.id}>
                     <div className="row-top">
@@ -592,6 +637,49 @@ export default function App() {
                           : "要確認"}
                       </span>
                     </div>
+                    {g.otherDepartment && m && (
+                      <p
+                        className={
+                          "master-info" +
+                          (isExcludedSimilar(courseMaster, c, m) ? " warn" : "")
+                        }
+                      >
+                        他学科の科目：{offerings.map(offering).join(" または ")}
+                        {isExcludedSimilar(courseMaster, c, m)
+                          ? " — 類似科目のため、学部枠として卒業単位に算入できません（公式PDF p4 注1）"
+                          : " — 学部枠（最大6単位・選択扱い）の対象"}
+                      </p>
+                    )}
+                    {choice?.needsChoice && (
+                      <label className="master-info warn">
+                        同じ名前の科目が複数の学科にあります。開講学科を選んでください。
+                        <select
+                          aria-label={`開講学科 ${index + 1}`}
+                          value=""
+                          onChange={(e) => selectOffering(g, e.target.value)}
+                        >
+                          <option value="">選択してください</option>
+                          {choice.candidates.map((x) => (
+                            <option key={x.id} value={x.id}>
+                              {offering(x)}
+                              {isExcludedSimilar(courseMaster, c, x)
+                                ? "（類似科目・算入不可）"
+                                : ""}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                    )}
+                    {g.otherDepartment && !m && !choice?.candidates.length && (
+                      <p className="master-info warn">
+                        他学科の科目ですが、科目マスター（情報学部4学科の第Ⅱ群b・第Ⅲ群）に見つかりません。
+                      </p>
+                    )}
+                    {!g.credits.trim() && (
+                      <p className="master-info warn">
+                        単位数が分かりません。シラバス等で確認して入力してください。
+                      </p>
+                    )}
                     <div className="grade-fields">
                       <label className="course-field">
                         科目マスターとの対応
@@ -619,7 +707,11 @@ export default function App() {
                           aria-label={`科目名 ${index + 1}`}
                           value={g.name}
                           onChange={(e) =>
-                            update(g.id, { name: e.target.value, courseId: "" })
+                            update(g.id, {
+                              name: e.target.value,
+                              courseId: "",
+                              masterId: "",
+                            })
                           }
                         />
                       </label>
@@ -634,12 +726,16 @@ export default function App() {
                       </label>
                       <label>
                         単位
+                        {g.creditSource === "master" && "（マスターで補完）"}
                         <input
                           aria-label={`単位 ${index + 1}`}
                           inputMode="decimal"
                           value={g.credits}
                           onChange={(e) =>
-                            update(g.id, { credits: e.target.value })
+                            update(g.id, {
+                              credits: e.target.value,
+                              creditSource: "user",
+                            })
                           }
                         />
                       </label>
@@ -804,6 +900,7 @@ export default function App() {
                 印刷・PDF保存
               </button>
             </div>
+            <GradeSummary grades={grades} />
             <p className="small">
               不足単位は条件ごとに重なります。各条件の不足を合算して、卒業までの不足総単位数にはできません。
             </p>

@@ -1,5 +1,7 @@
 import { matchCourse } from "../domain/engine";
+import { lookupMaster, type CourseMaster } from "../domain/master";
 import type { Curriculum, Grade } from "../domain/schema";
+import { courseMaster } from "../data/registry";
 
 export interface TextItem {
   str: string;
@@ -37,6 +39,10 @@ const GROUP = /第[IVX]+群/;
 const CATEGORY =
   /総合文化科目|外国語科目|保健体育科目|キャリア支援科目|専門共通科目|共通基礎科目|専門基礎科目|専門科目|数理.?データサイエンス/;
 const KIND = /^(必修|選択必修|選択)$|選必|区分/;
+// Heading of courses taken from another 情報学部 department (e.g. 情報系他学科科目).
+// The PDF never names the offering department; outside this heading a course is
+// the student's own department's.
+const OTHER_DEPARTMENT = /他学科/;
 
 interface Columns {
   name: string;
@@ -115,7 +121,11 @@ function draftStatus(c: Columns): Grade["status"] {
   return "unknown";
 }
 
-export function parseTextLines(rows: TextRow[], c: Curriculum) {
+export function parseTextLines(
+  rows: TextRow[],
+  c: Curriculum,
+  master: CourseMaster = courseMaster,
+) {
   const grades: Grade[] = [];
   const identifiers = new Set<string>();
   for (const r of rows)
@@ -181,12 +191,25 @@ export function parseTextLines(rows: TextRow[], c: Curriculum) {
           }
           continue; // headers / titles / notes / identity / footers are not grades
         }
-        const course = matchCourse(c, cols.name);
-        // Keep the PDF's printed credit as-is (blank stays blank); the engine
-        // compares it against the master's credit separately.
+        const otherDepartment = OTHER_DEPARTMENT.test(crumb.category);
+        // Another department's course never maps onto this curriculum, even
+        // with an identical name (e.g. 機械学習 of 情報科学科 vs this 第Ⅲ群).
+        const found = lookupMaster(master, c, cols.name, { otherDepartment });
+        // Own-department master entries share the curriculum's course IDs, so a
+        // master hit (whitespace-insensitive) also identifies the course.
+        const course = otherDepartment
+          ? undefined
+          : (matchCourse(c, cols.name) ??
+            c.courses.find((x) => x.id === found.entry?.id));
+        // The PDF leaves an F row's credit blank: fill it from the course
+        // master. A printed credit is kept as-is; the engine checks it.
+        const credits = cols.credit || (found.entry?.credits ?? "");
         push(cols.name, row, {
           courseId: course?.id ?? "",
-          credits: cols.credit,
+          masterId: found.entry?.id ?? "",
+          otherDepartment,
+          credits,
+          creditSource: cols.credit ? "pdf" : credits ? "master" : undefined,
           evaluation: cols.evaluation,
           year: cols.year,
           status: draftStatus(cols),

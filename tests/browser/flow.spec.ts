@@ -45,6 +45,24 @@ test("架空データの入力・修正・再計算・印刷・リセット", as
   ).toBeVisible();
   expect(errors).toEqual([]);
 });
+test("単位の集計：落単を数え、結果画面にも表示する", async ({ page }) => {
+  await enter(page);
+  await page.getByRole("button", { name: "全条件充足のデモ" }).click();
+  const summary = page.getByRole("region", { name: "単位の集計" });
+  await expect(summary).toBeVisible();
+  await expect(summary.getByText("落単している科目")).toHaveCount(0);
+  await page
+    .getByRole("combobox", { name: "修得状況 1", exact: true })
+    .selectOption("failed");
+  await expect(summary.getByText("落単している科目")).toBeVisible();
+  await expect(summary.getByText("1科目", { exact: true })).toBeVisible();
+  await calculate(page);
+  await expect(
+    page
+      .getByRole("region", { name: "単位の集計" })
+      .getByText("落単している科目"),
+  ).toBeVisible();
+});
 test("対象外番号とスマートフォン幅", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");

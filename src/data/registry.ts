@@ -1,7 +1,10 @@
 import raw from "./kogakuin-2024.json";
+import rawMaster from "./course-master.json";
 import { validateCurriculum } from "../domain/validate";
+import { validateCourseMaster } from "../domain/master";
 export { validateCurriculum } from "../domain/validate";
 export const official = validateCurriculum(raw);
+export const courseMaster = validateCourseMaster(rawMaster);
 export const registry = [official].filter(
   (c) => c.releaseStatus === "verified",
 );

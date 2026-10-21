@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { parseTextLines, type TextRow } from "../src/pdf/normalize";
-import { official } from "../src/data/registry";
+import { courseMaster, official } from "../src/data/registry";
 
 // Build a synthetic Ku-port-like row from [x, text] cells. Mirrors read.ts:
 // items sorted by x, text = joined strings. Column x positions match the real PDF.
@@ -59,7 +59,7 @@ describe("Ku-port成績一覧表の列解析", () => {
     expect(g.courseId).not.toBe(""); // 科目マスターに一致（Ⅰ↔I は NFKC で一致）
   });
 
-  it("F行: 単位数欄が空でも列がずれず、不合格になる", () => {
+  it("F行: 単位数欄が空でも列がずれず、不合格になり、単位数はマスターで補う", () => {
     const r = parseTextLines(
       [header(1), course(1, "文学A", "", "F", "2025")],
       official,
@@ -67,7 +67,8 @@ describe("Ku-port成績一覧表の列解析", () => {
     const g = r.grades.at(-1)!;
     expect(g.evaluation).toBe("F");
     expect(g.year).toBe("2025"); // 年度を単位数として誤読しない
-    expect(g.credits).toBe(""); // 空欄のまま
+    expect(g.credits).toBe("2"); // PDFは空欄 → 科目マスターの2単位
+    expect(g.creditSource).toBe("master");
     expect(g.status).toBe("failed");
   });
 
@@ -160,6 +161,43 @@ describe("Ku-port成績一覧表の列解析", () => {
     );
     const ids = r.grades.map((g) => g.courseId).filter(Boolean);
     expect(new Set(ids).size).toBe(1); // 同一 courseId に解決
+  });
+
+  it("「情報系他学科科目」の見出しの下は他学科の科目として扱い、改ページ後も引き継ぐ", () => {
+    const r = parseTextLines(
+      [
+        header(3),
+        row(3, [[24, "第Ⅲ群 専門科目"]]),
+        course(3, "機械学習", "2.0", "A", "2025"), // 自学科（CS 第Ⅲ群A）
+        row(3, [[24, "情報系他学科科目 専門科目 選択"]]),
+        header(4),
+        course(4, "デジタル信号処理", "2.0", "C", "2026"),
+        course(4, "デジタル信号処理演習", "1.0", "C", "2026"),
+        course(4, "機械学習", "", "F", "2025"), // 情報科学科の類似科目
+        row(4, [[24, "数理・データサイエンス・AI（リテラシー）"]]),
+        course(4, "情報学基礎論I", "2.0", "B", "2024"), // 再掲：自学科に戻る
+      ],
+      official,
+    );
+    const [ownMl, dsp, dspLab, otherMl, relisted] = r.grades;
+    expect(ownMl.otherDepartment).toBe(false);
+    expect(ownMl.courseId).not.toBe("");
+    // 他学科：判定用の科目IDには結び付けず、マスターの他学科科目に対応させる
+    for (const g of [dsp, dspLab, otherMl]) {
+      expect(g.otherDepartment).toBe(true);
+      expect(g.courseId).toBe("");
+    }
+    const dept = (g: typeof dsp) =>
+      courseMaster.courses.find((x) => x.id === g.masterId)?.department;
+    expect(dept(dspLab)).toBe("id");
+    expect(dsp.masterId).not.toBe("");
+    expect(dept(otherMl)).toBe("is");
+    expect(otherMl.credits).toBe("2"); // 空欄のFをマスターで補完
+    expect(otherMl.creditSource).toBe("master");
+    expect(relisted.otherDepartment).toBe(false);
+    expect(official.courses.find((x) => x.id === relisted.courseId)?.name).toBe(
+      "情報学基礎論Ⅰ",
+    );
   });
 
   it("交換形式（| 区切り）と原文・ページ保持は従来どおり", () => {

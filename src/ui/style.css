@@ -549,6 +549,79 @@ progress::-webkit-progress-value {
   font-size: 13px;
   padding-left: 20px;
 }
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 4px 0 20px;
+}
+.stat {
+  background: #f4f8f6;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.stat span {
+  font-size: 12px;
+  color: #577b70;
+  font-weight: 650;
+}
+.stat strong {
+  display: block;
+  font-size: 30px;
+  line-height: 1.3;
+  font-weight: 750;
+}
+.stat small {
+  color: #65766e;
+  font-size: 12px;
+}
+.stat.warn {
+  background: #fbefe9;
+}
+.stat.warn strong {
+  color: #873d22;
+}
+.grade-bars {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+.grade-bar {
+  display: grid;
+  grid-template-columns: 2.4em 1fr 3.5em;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+}
+.grade-bar span {
+  font-weight: 700;
+}
+.grade-bar strong {
+  text-align: right;
+  font-weight: 650;
+}
+.grade-bar.fail progress::-webkit-progress-value {
+  background: #b8583a;
+}
+.grade-bar.fail progress {
+  accent-color: #b8583a;
+}
+.failed-list {
+  font-size: 13px;
+  padding-left: 20px;
+}
+.failed-list li span {
+  margin-left: 10px;
+  color: #65766e;
+}
+.master-info {
+  font-size: 12px;
+  color: #4b6656;
+  margin: 0 0 12px;
+}
+.master-info.warn {
+  color: #842f27;
+}
 footer {
   border-top: 1px solid #d5dfd8;
   padding: 24px 0 36px;
@@ -585,6 +658,15 @@ footer {
   .login-grid,
   .result-grid {
     grid-template-columns: 1fr;
+  }
+  .stat-grid {
+    gap: 8px;
+  }
+  .stat {
+    padding: 10px;
+  }
+  .stat strong {
+    font-size: 22px;
   }
   .panel {
     padding: 20px;
