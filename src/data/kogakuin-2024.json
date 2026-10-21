@@ -807,7 +807,7 @@
       "id": "kgu-cs-2-050",
       "officialCode": null,
       "name": "Basic Communication I",
-      "aliases": [],
+      "aliases": ["Basic Com.I"],
       "university": "kogakuin",
       "faculty": "information",
       "department": "cs",
@@ -823,7 +823,7 @@
       "id": "kgu-cs-2-051",
       "officialCode": null,
       "name": "Basic English I",
-      "aliases": [],
+      "aliases": ["Basic Eng.I"],
       "university": "kogakuin",
       "faculty": "information",
       "department": "cs",
@@ -839,7 +839,7 @@
       "id": "kgu-cs-2-052",
       "officialCode": null,
       "name": "Basic Communication II",
-      "aliases": [],
+      "aliases": ["Basic Com.II"],
       "university": "kogakuin",
       "faculty": "information",
       "department": "cs",
@@ -855,7 +855,7 @@
       "id": "kgu-cs-2-053",
       "officialCode": null,
       "name": "Basic English II",
-      "aliases": [],
+      "aliases": ["Basic Eng.II"],
       "university": "kogakuin",
       "faculty": "information",
       "department": "cs",
@@ -871,7 +871,7 @@
       "id": "kgu-cs-2-054",
       "officialCode": null,
       "name": "Basic Academic English I",
-      "aliases": [],
+      "aliases": ["Ba.Acad.Eng I"],
       "university": "kogakuin",
       "faculty": "information",
       "department": "cs",
@@ -887,7 +887,7 @@
       "id": "kgu-cs-2-055",
       "officialCode": null,
       "name": "Basic Academic English II",
-      "aliases": [],
+      "aliases": ["Ba.Acad.Eng II"],
       "university": "kogakuin",
       "faculty": "information",
       "department": "cs",
@@ -4100,7 +4100,14 @@
         "type": "credits",
         "minimum": "71",
         "selector": {
-          "sections": ["II-b", "III-A", "III-B", "III-C", "III-common"]
+          "sections": [
+            "II-b",
+            "III-A",
+            "III-B",
+            "III-C",
+            "III-common",
+            "external"
+          ]
         }
       }
     },
@@ -4278,7 +4285,7 @@
   ],
   "unresolved": [
     "実際のKu-port成績PDFの書式・評価記号は未検証。",
-    "他学科の算入可能科目の公式コード・単位数・対応関係は未収録。未知科目として要確認になります。",
+    "他学科の科目は、成績PDFの「情報系他学科科目」の見出しと科目マスターで識別し、学部枠（最大6単位・選択扱い）に算入します。p4注1の類似科目は算入しません。開講学科はPDFに出ないため、同名科目が複数学科にある場合は候補から判断しています。",
     "認定・代替科目の公式対応表は未提供。自動置換しません。",
     "資料の改訂日、在学期間等の学則条件はこのPDFから確定していません。"
   ],

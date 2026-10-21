@@ -1,6 +1,11 @@
 import { getDocument, GlobalWorkerOptions } from "pdfjs-dist";
 import worker from "pdfjs-dist/build/pdf.worker.min.mjs?url";
-import { parseTextLines, validatePdfFile, type TextLine } from "./normalize";
+import {
+  parseTextLines,
+  validatePdfFile,
+  type TextItem,
+  type TextRow,
+} from "./normalize";
 import type { Curriculum } from "../domain/schema";
 GlobalWorkerOptions.workerSrc = worker;
 export async function readPdf(file: File, c: Curriculum) {
@@ -32,35 +37,41 @@ export async function readPdf(file: File, c: Curriculum) {
       throw new Error(
         "100ページを超えています。成績ページだけを再保存してください。",
       );
-    const lines: TextLine[] = [];
+    const rows: TextRow[] = [];
     for (let p = 1; p <= pdf.numPages; p++) {
-      const text = await (await pdf.getPage(p)).getTextContent();
-      const rows = new Map<number, { x: number; s: string }[]>();
-      for (const item of text.items) {
+      const content = await (await pdf.getPage(p)).getTextContent();
+      const byY = new Map<number, TextItem[]>();
+      for (const item of content.items) {
         if (!("str" in item)) continue;
+        // Group into visual rows by rounded baseline; keep x for column slicing.
         const y = Math.round(item.transform[5] / 3) * 3;
-        const row = rows.get(y) ?? [];
-        row.push({ x: item.transform[4], s: item.str });
-        rows.set(y, row);
+        const row = byY.get(y) ?? [];
+        row.push({
+          str: item.str,
+          x: item.transform[4],
+          width: item.width ?? 0,
+        });
+        byY.set(y, row);
       }
-      for (const [, row] of [...rows].sort((a, b) => b[0] - a[0])) {
-        const str = row
-          .sort((a, b) => a.x - b.x)
-          .map((i) => i.s)
+      for (const [y, items] of [...byY].sort((a, b) => b[0] - a[0])) {
+        items.sort((a, b) => a.x - b.x);
+        const text = items
+          .map((i) => i.str)
           .join(" ")
+          .replace(/\s+/g, " ")
           .trim();
-        if (str) lines.push({ page: p, text: str });
+        if (text) rows.push({ page: p, y, text, items });
       }
     }
-    if (!lines.length)
+    if (!rows.length)
       throw new Error(
         "文字を取り出せませんでした。画像のみのPDFは未対応です。Ku-portから文字を含むPDFを再保存するか手入力してください。",
       );
-    if (lines.length > 3000)
+    if (rows.length > 3000)
       throw new Error(
         "文字行が多すぎます。成績ページだけを再保存してください。",
       );
-    return parseTextLines(lines, c);
+    return parseTextLines(rows, c);
   } catch (e) {
     if (e instanceof Error && e.name === "PasswordException")
       throw new Error(

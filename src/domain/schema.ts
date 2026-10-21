@@ -129,6 +129,13 @@ export interface Grade {
   status: GradeStatus;
   confirmed: boolean;
   provenance: { kind: "pdf" | "manual" | "demo"; page?: number; raw: string };
+  // Course master entry (any 情報学部 department); "" when not identified.
+  masterId?: string;
+  // Where `credits` came from: printed in the PDF, filled from the course
+  // master (a blank F row), or typed by the student.
+  creditSource?: "pdf" | "master" | "user";
+  // Listed under the PDF's 情報系他学科科目 heading.
+  otherDepartment?: boolean;
 }
 export type CheckStatus = "met" | "unmet" | "review";
 export interface RuleResult {

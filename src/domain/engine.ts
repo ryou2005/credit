@@ -1,4 +1,5 @@
 import { validateCurriculum } from "./validate";
+import { isExcludedSimilar, type CourseMaster } from "./master";
 import {
   units,
   type Curriculum,
@@ -22,6 +23,30 @@ export function matchCourse(c: Curriculum, name: string, code = "") {
   );
   return matches.length === 1 ? matches[0] : undefined;
 }
+// A course of another 情報学部 department taken under the PDF's 他学科 heading:
+// it counts in the 学部枠 as an elective (p4 注1), capped by the curriculum's
+// external cap. Similar courses listed in 注1 never count.
+function externalPlacement(
+  c: Curriculum,
+  master: CourseMaster | undefined,
+  g: Grade,
+): { placement?: Placement; excluded?: boolean } {
+  const x = master?.courses.find((m) => m.id === g.masterId);
+  if (!master || !x || !g.otherDepartment) return {};
+  if (x.department === c.department || !["II-b", "III"].includes(x.group))
+    return {};
+  if (isExcludedSimilar(master, c, x)) return { excluded: true };
+  return {
+    placement: {
+      courseId: `external:${x.id}`,
+      credits: x.credits,
+      section: "external",
+      kind: "elective",
+      eligible: true,
+      external: true,
+    },
+  };
+}
 const matches = (p: Placement, s: Selector) =>
   (!s.sections || s.sections.includes(p.section)) &&
   (!s.kinds || s.kinds.includes(p.kind)) &&
@@ -30,7 +55,11 @@ const matches = (p: Placement, s: Selector) =>
 export function evaluateCurriculum(
   input: Curriculum,
   grades: Grade[],
-  options: { allowFixture?: boolean; documentIssues?: string[] } = {},
+  options: {
+    allowFixture?: boolean;
+    documentIssues?: string[];
+    master?: CourseMaster;
+  } = {},
 ) {
   const c = validateCurriculum(input);
   if (
@@ -42,11 +71,16 @@ export function evaluateCurriculum(
     notes: string[] = [];
   const accepted = new Map<string, Placement>();
   for (const g of grades) {
-    const original = c.courses.find((x) => x.id === g.courseId);
+    const external = g.courseId ? {} : externalPlacement(c, options.master, g);
+    const original = external.placement
+      ? { source: { status: "verified" } }
+      : c.courses.find((x) => x.id === g.courseId);
     const eq = c.equivalences.find(
       (x) => x.from === g.courseId && x.source.status === "verified",
     );
-    const p = c.placements.find((x) => x.courseId === (eq?.to ?? g.courseId));
+    const p =
+      external.placement ??
+      c.placements.find((x) => x.courseId === (eq?.to ?? g.courseId));
     if (!g.confirmed) {
       issues.push(`${g.name || "名称未入力"}：読み取り・入力内容が未確認`);
       continue;
@@ -61,9 +95,17 @@ export function evaluateCurriculum(
       notes.push(`${g.name}：修得済みではないため算入しません`);
       continue;
     }
+    if (external.excluded) {
+      notes.push(
+        `${g.name}：他学科の類似科目のため学部枠に算入しません（p4 注1）`,
+      );
+      continue;
+    }
     if (!original || !p) {
       issues.push(
-        `${g.name || "名称未入力"}：未知の科目・分類。自動算入しません`,
+        g.otherDepartment
+          ? `${g.name}：他学科の科目ですが、開講学科・科目を特定できません。自動算入しません`
+          : `${g.name || "名称未入力"}：未知の科目・分類。自動算入しません`,
       );
       continue;
     }

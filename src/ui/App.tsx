@@ -1,13 +1,25 @@
 import { useEffect, useRef, useState } from "react";
 import {
   registry,
+  courseMaster,
   parseStudentNumber,
   sectionLabels,
   selectManualCurriculum,
 } from "../data/registry";
-import { creditText, type Grade, type GradeStatus } from "../domain/schema";
+import {
+  creditText,
+  units,
+  type Grade,
+  type GradeStatus,
+} from "../domain/schema";
 import { evaluateCurriculum } from "../domain/engine";
+import {
+  isExcludedSimilar,
+  lookupMaster,
+  type MasterCourse,
+} from "../domain/master";
 import { identityIssue } from "../pdf/normalize";
+import { GradeSummary } from "./GradeSummary";
 import {
   authConfig,
   authReady,
@@ -20,6 +32,15 @@ const headlines = {
   unmet: "単位要件に未充足あり",
   review: "要確認",
 };
+const groupLabels: Record<MasterCourse["group"], string> = {
+  I: "第Ⅰ群",
+  "II-a": "第Ⅱ群a",
+  "II-b": "第Ⅱ群b",
+  III: "第Ⅲ群",
+  other: "その他",
+};
+const offering = (x: MasterCourse) =>
+  `${courseMaster.departments[x.department]?.label ?? x.department}・${groupLabels[x.group]}・${x.credits}単位`;
 type Result = ReturnType<typeof evaluateCurriculum>;
 export default function App() {
   const [session, setSession] = useState<"none" | "local" | "demo">("none");
@@ -33,11 +54,14 @@ export default function App() {
   const [grades, setGrades] = useState<Grade[]>([]);
   const [pdfIds, setPdfIds] = useState<string[]>([]);
   const [pdfLoaded, setPdfLoaded] = useState(false);
-  const [reviewed, setReviewed] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [discarded, setDiscarded] = useState<Grade[]>([]);
+  // Rows needing review when the correction screen opened. Kept fixed so a row
+  // does not vanish from the list the moment it is fixed.
+  const [focusIds, setFocusIds] = useState<string[]>([]);
+  const [onlyReview, setOnlyReview] = useState(true);
   const [authEmail, setAuthEmail] = useState<string | null>(null);
   const [consent, setConsent] = useState(false);
   const [authError, setAuthError] = useState("");
@@ -71,7 +95,6 @@ export default function App() {
   }, [step]);
   const invalidate = () => {
     setResult(null);
-    setReviewed(false);
     setError("");
   };
   // Gate the app behind Google sign-in only when a client ID is configured.
@@ -99,14 +122,12 @@ export default function App() {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showLoginGate, step, consent]);
+  // Rows are taken as read (no per-row confirmation); the engine still flags
+  // rows it cannot place, and the student fixes them here only when needed.
   const update = (id: string, patch: Partial<Grade>) => {
     invalidate();
     setGrades((gs) =>
-      gs.map((g) =>
-        g.id === id
-          ? { ...g, ...patch, confirmed: patch.confirmed ?? false }
-          : g,
-      ),
+      gs.map((g) => (g.id === id ? { ...g, ...patch, confirmed: true } : g)),
     );
   };
   const selectCourse = (g: Grade, id: string) => {
@@ -114,21 +135,34 @@ export default function App() {
       p = c.placements.find((x) => x.courseId === id);
     update(g.id, {
       courseId: id,
+      masterId: id,
       ...(course && p
         ? {
             name: course.name,
             code: course.officialCode ?? "",
             credits: p.credits,
+            creditSource: "master",
           }
         : {}),
     });
   };
+  // Another department's offering chosen by the student (ambiguous name).
+  const selectOffering = (g: Grade, id: string) => {
+    const x = courseMaster.courses.find((m) => m.id === id);
+    update(g.id, {
+      masterId: id,
+      ...(x ? { credits: x.credits, creditSource: "master" } : {}),
+    });
+  };
   const add = () => {
+    const id = crypto.randomUUID();
     invalidate();
+    // Keep a newly added row visible when only the review rows are shown.
+    setFocusIds((f) => (f.length ? [...f, id] : f));
     setGrades((gs) => [
       ...gs,
       {
-        id: crypto.randomUUID(),
+        id,
         courseId: "",
         name: "",
         code: "",
@@ -136,7 +170,7 @@ export default function App() {
         evaluation: "",
         year: "",
         status: "unknown",
-        confirmed: false,
+        confirmed: true,
         provenance: { kind: "manual", raw: "本人による手入力" },
       },
     ]);
@@ -145,12 +179,13 @@ export default function App() {
   const loadDemo = async (complete = false) => {
     if (!import.meta.env.DEV || !demoAvailable || session !== "demo") return;
     const { demoGrades } = await import("../data/demo");
+    const gs = demoGrades(c, complete);
     invalidate();
-    setGrades(demoGrades(c, complete));
+    setGrades(gs);
     setPdfIds([]);
     setPdfLoaded(false);
     setDiscarded([]);
-    setStep(3);
+    assess(gs, []);
   };
   const importPdf = async (file?: File) => {
     if (!file || busy) return;
@@ -167,12 +202,14 @@ export default function App() {
       const { readPdf } = await import("../pdf/read");
       const parsed = await readPdf(file, c);
       if (generation !== alive.current) return;
-      setGrades(parsed.grades);
+      const gs = parsed.grades.map((g) => ({ ...g, confirmed: true }));
+      setGrades(gs);
       setPdfIds(parsed.identifiers);
       setPdfLoaded(true);
       setDiscarded([]);
       invalidate();
-      setStep(3);
+      // Straight to the result; corrections are optional from there.
+      assess(gs, parsed.identifiers);
     } catch (e) {
       if (generation === alive.current)
         setError(e instanceof Error ? e.message : "読み取りに失敗しました。");
@@ -196,7 +233,6 @@ export default function App() {
     setFaculty("");
     setDepartment("");
     setApplicable(false);
-    setReviewed(false);
     setSession("none");
     setStep(0);
     setError("");
@@ -205,15 +241,22 @@ export default function App() {
     setAuthError("");
     void logout();
   };
-  const assess = () => {
-    if (!selected || !applicable || mismatch || !reviewed) {
-      setError(
-        mismatch ?? "所属・適用カリキュラムと成績の確認を完了してください。",
-      );
+  const assess = (gs = grades, ids = pdfIds) => {
+    if (!selected || !applicable) {
+      setError("所属・適用カリキュラムの確認を完了してください。");
+      return;
+    }
+    // A student-number mismatch stops at the grade screen, which shows it.
+    const issue =
+      studentIssue ||
+      (student.trim() ? identityIssue(candidate.normalized, ids) : null);
+    if (issue) {
+      setResult(null);
+      openEditor(gs);
       return;
     }
     try {
-      setResult(evaluateCurriculum(c, grades));
+      setResult(evaluateCurriculum(c, gs, { master: courseMaster }));
       setStep(4);
       setError("");
     } catch {
@@ -222,6 +265,28 @@ export default function App() {
       );
     }
   };
+  // A row the engine cannot count as read: status undecided, course not
+  // identified, or (for an earned course) credits differing from the master.
+  const needsReview = (g: Grade) => {
+    const p = c.placements.find((x) => x.courseId === g.courseId);
+    const m = g.otherDepartment
+      ? courseMaster.courses.find((x) => x.id === g.masterId)
+      : undefined;
+    const expected = p?.credits ?? m?.credits;
+    if (g.status === "unknown" || expected === undefined) return true;
+    if (g.status !== "earned") return false;
+    try {
+      return units(g.credits) !== units(expected);
+    } catch {
+      return true;
+    }
+  };
+  const openEditor = (gs = grades) => {
+    setFocusIds(gs.filter(needsReview).map((g) => g.id));
+    setOnlyReview(true);
+    setStep(3);
+  };
+  const focused = onlyReview && focusIds.length > 0;
   const backToId = () => {
     setStep(0);
     setApplicable(false);
@@ -259,7 +324,7 @@ export default function App() {
               "卒業までの道のりを、確かめる。",
               "あなたのカリキュラムを確認",
               "成績を取り込む",
-              "読み取った成績を確認",
+              "成績を修正",
               "卒業要件チェックの結果",
             ][step]
           }
@@ -268,24 +333,20 @@ export default function App() {
           {c.label}。成績と履修要件を照合し、今の修得状況を整理します。
         </p>
         <ol className="steps" aria-label="操作の進捗">
-          {["対象確認", "取り込み", "成績確認", "結果"].map((s, i) => (
-            <li
-              key={s}
-              aria-current={
-                (step === 0 ? 0 : step - 1) === i ? "step" : undefined
-              }
-              className={
-                (step === 0 ? 0 : step - 1) === i
-                  ? "active"
-                  : (step === 0 ? 0 : step - 1) > i
-                    ? "done"
-                    : ""
-              }
-            >
-              <span>{(step === 0 ? 0 : step - 1) > i ? "✓" : i + 1}</span>
-              {s}
-            </li>
-          ))}
+          {["対象確認", "取り込み", "結果"].map((s, i) => {
+            // The optional correction screen (step 3) belongs to the result.
+            const at = step === 0 ? 0 : step === 2 ? 1 : 2;
+            return (
+              <li
+                key={s}
+                aria-current={at === i ? "step" : undefined}
+                className={at === i ? "active" : at > i ? "done" : ""}
+              >
+                <span>{at > i ? "✓" : i + 1}</span>
+                {s}
+              </li>
+            );
+          })}
         </ol>
         {error && (
           <div role="alert" className="notice error">
@@ -513,8 +574,7 @@ export default function App() {
               </button>
             </div>
             <p className="notice">
-              実際のKu-port
-              PDFは未検証です。初期版は文字行を確認候補として抽出します。科目・単位・修得状況を確認してから計算してください。
+              読み取った成績からすぐに結果を表示します。読み取れなかった行や読み間違いは、結果画面の「成績を修正する」から直せます。
             </p>
             <div className="actions">
               <button onClick={add} disabled={busy}>
@@ -537,10 +597,10 @@ export default function App() {
           <section className="panel review">
             <div className="section-head">
               <div>
-                <h2>成績の確認・修正</h2>
+                <h2>成績の修正</h2>
                 <p>
                   {grades.length}
-                  件。原文と科目マスターを照合し、修得状況を選んで「確認済み」にしてください。
+                  件。直したい行だけ修正して「結果を更新する」を押してください。「要確認」の行は卒業判定に算入されていません。
                 </p>
               </div>
               <div className="actions">
@@ -567,11 +627,40 @@ export default function App() {
               </p>
             )}
             <p className="small">
-              不明な評価は「要確認」のまま残してください。修得済みへの変更は原本での確認が必要です。氏名など成績以外の行は「対象外の行として除く」で除外できます。
+              不明な評価は「要確認」のまま残してください。氏名など成績以外の行は「対象外の行として除く」で除外できます。
             </p>
+            {!!focusIds.length && (
+              <label className="check">
+                <input
+                  type="checkbox"
+                  checked={onlyReview}
+                  onChange={(e) => setOnlyReview(e.target.checked)}
+                />
+                要確認だった行（{focusIds.length}件）だけを表示する
+              </label>
+            )}
             <div className="grade-list">
               {grades.map((g, index) => {
+                if (focused && !focusIds.includes(g.id)) return null;
                 const p = c.placements.find((x) => x.courseId === g.courseId);
+                const m = courseMaster.courses.find((x) => x.id === g.masterId);
+                const found = g.otherDepartment
+                  ? lookupMaster(courseMaster, c, g.name, {
+                      otherDepartment: true,
+                    })
+                  : undefined;
+                const choice = !m ? found : undefined;
+                // Equivalent offerings in several departments: name them all,
+                // since the PDF cannot tell which one was taken.
+                const offerings =
+                  m &&
+                  found &&
+                  !found.needsChoice &&
+                  found.candidates.length > 1
+                    ? found.candidates
+                    : m
+                      ? [m]
+                      : [];
                 return (
                   <article className="grade-row" key={g.id}>
                     <div className="row-top">
@@ -579,19 +668,53 @@ export default function App() {
                         {String(index + 1).padStart(2, "0")}
                       </span>
                       <strong>{g.name || "新しい科目"}</strong>
-                      <span
+                      {needsReview(g) && (
+                        <span className="badge review">要確認</span>
+                      )}
+                    </div>
+                    {g.otherDepartment && m && (
+                      <p
                         className={
-                          "badge " +
-                          (g.confirmed && g.status !== "unknown" && p
-                            ? "met"
-                            : "review")
+                          "master-info" +
+                          (isExcludedSimilar(courseMaster, c, m) ? " warn" : "")
                         }
                       >
-                        {g.confirmed && g.status !== "unknown" && p
-                          ? "確認済み"
-                          : "要確認"}
-                      </span>
-                    </div>
+                        他学科の科目：{offerings.map(offering).join(" または ")}
+                        {isExcludedSimilar(courseMaster, c, m)
+                          ? " — 類似科目のため、学部枠として卒業単位に算入できません（公式PDF p4 注1）"
+                          : " — 学部枠（最大6単位・選択扱い）の対象"}
+                      </p>
+                    )}
+                    {choice?.needsChoice && (
+                      <label className="master-info warn">
+                        同じ名前の科目が複数の学科にあります。開講学科を選んでください。
+                        <select
+                          aria-label={`開講学科 ${index + 1}`}
+                          value=""
+                          onChange={(e) => selectOffering(g, e.target.value)}
+                        >
+                          <option value="">選択してください</option>
+                          {choice.candidates.map((x) => (
+                            <option key={x.id} value={x.id}>
+                              {offering(x)}
+                              {isExcludedSimilar(courseMaster, c, x)
+                                ? "（類似科目・算入不可）"
+                                : ""}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                    )}
+                    {g.otherDepartment && !m && !choice?.candidates.length && (
+                      <p className="master-info warn">
+                        他学科の科目ですが、科目マスター（情報学部4学科の第Ⅱ群b・第Ⅲ群）に見つかりません。
+                      </p>
+                    )}
+                    {!g.credits.trim() && (
+                      <p className="master-info warn">
+                        単位数が分かりません。シラバス等で確認して入力してください。
+                      </p>
+                    )}
                     <div className="grade-fields">
                       <label className="course-field">
                         科目マスターとの対応
@@ -619,7 +742,11 @@ export default function App() {
                           aria-label={`科目名 ${index + 1}`}
                           value={g.name}
                           onChange={(e) =>
-                            update(g.id, { name: e.target.value, courseId: "" })
+                            update(g.id, {
+                              name: e.target.value,
+                              courseId: "",
+                              masterId: "",
+                            })
                           }
                         />
                       </label>
@@ -634,12 +761,16 @@ export default function App() {
                       </label>
                       <label>
                         単位
+                        {g.creditSource === "master" && "（マスターで補完）"}
                         <input
                           aria-label={`単位 ${index + 1}`}
                           inputMode="decimal"
                           value={g.credits}
                           onChange={(e) =>
-                            update(g.id, { credits: e.target.value })
+                            update(g.id, {
+                              credits: e.target.value,
+                              creditSource: "user",
+                            })
                           }
                         />
                       </label>
@@ -666,7 +797,7 @@ export default function App() {
                         />
                       </label>
                       <label>
-                        本人確認した修得状況
+                        修得状況
                         <select
                           aria-label={`修得状況 ${index + 1}`}
                           value={g.status}
@@ -685,17 +816,6 @@ export default function App() {
                       </label>
                     </div>
                     <div className="row-footer">
-                      <label className="check">
-                        <input
-                          aria-label={`確認済み ${index + 1}`}
-                          type="checkbox"
-                          checked={g.confirmed}
-                          onChange={(e) =>
-                            update(g.id, { confirmed: e.target.checked })
-                          }
-                        />
-                        原本と照合して確認済み
-                      </label>
                       <button
                         className="text-button"
                         onClick={() => {
@@ -748,20 +868,15 @@ export default function App() {
               </details>
             )}
             <div className="review-confirm">
-              <label className="check">
-                <input
-                  type="checkbox"
-                  checked={reviewed}
-                  onChange={(e) => setReviewed(e.target.checked)}
-                />
-                成績一覧・修得状況・除外した行を確認しました。不明な項目は「要確認」のまま判定します。
-              </label>
+              <p className="small">
+                修正内容は「結果を更新する」で判定に反映されます。
+              </p>
               <button
                 className="primary"
-                onClick={assess}
-                disabled={!reviewed || !!mismatch || !grades.length}
+                onClick={() => assess()}
+                disabled={!!mismatch || !grades.length}
               >
-                卒業要件をチェック →
+                結果を更新する →
               </button>
             </div>
           </section>
@@ -773,15 +888,15 @@ export default function App() {
                 <span className="eyebrow">YOUR PROGRESS</span>
                 <h2>{headlines[result.status]}</h2>
                 <p>
-                  確認済みの修得データに基づく結果です。
+                  読み取った成績に基づく結果です。
                   {result.status === "review"
-                    ? "未確認の項目は算入していません。"
+                    ? "読み取れなかった行（下の「確認事項」）は算入していません。"
                     : ""}
                 </p>
                 <span className="badge">
                   {session === "demo"
                     ? "架空データの結果"
-                    : "本人による入力確認"}{" "}
+                    : "PDFの読み取り結果"}{" "}
                   / 本人対応未確認
                 </span>
               </div>
@@ -794,16 +909,25 @@ export default function App() {
             <div className="actions no-print">
               <button
                 onClick={() => {
-                  setStep(3);
+                  openEditor();
                   setResult(null);
                 }}
               >
-                成績を修正して再計算
+                成績を修正する
+                {result.issues.length
+                  ? `（要確認 ${result.issues.length}件）`
+                  : ""}
               </button>
               <button className="primary" onClick={() => window.print()}>
                 印刷・PDF保存
               </button>
             </div>
+            {pdfLoaded && (!pdfIds.length || !student.trim()) && (
+              <p className="notice">
+                学籍番号の照合ができていません。本人の成績か、原本で確認してください。
+              </p>
+            )}
+            <GradeSummary grades={grades} />
             <p className="small">
               不足単位は条件ごとに重なります。各条件の不足を合算して、卒業までの不足総単位数にはできません。
             </p>

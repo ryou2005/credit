@@ -2,6 +2,7 @@ node_modules/
 dist/
 .env*
 !.env.example
+!.env.e2e
 playwright-report/
 test-results/
 *.tsbuildinfo

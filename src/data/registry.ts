@@ -1,7 +1,10 @@
 import raw from "./kogakuin-2024.json";
+import rawMaster from "./course-master.json";
 import { validateCurriculum } from "../domain/validate";
+import { validateCourseMaster } from "../domain/master";
 export { validateCurriculum } from "../domain/validate";
 export const official = validateCurriculum(raw);
+export const courseMaster = validateCourseMaster(rawMaster);
 export const registry = [official].filter(
   (c) => c.releaseStatus === "verified",
 );
@@ -74,6 +77,7 @@ export const sectionLabels: Record<string, string> = {
   "III-B": "専門 B",
   "III-C": "専門 C",
   "III-common": "専門 共通",
+  external: "他学科（学部枠）",
   thesis: "卒業論文",
   excluded: "算入対象外",
 };
