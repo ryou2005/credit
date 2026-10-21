@@ -8,6 +8,12 @@ import {
 import { creditText, type Grade, type GradeStatus } from "../domain/schema";
 import { evaluateCurriculum } from "../domain/engine";
 import { identityIssue } from "../pdf/normalize";
+import {
+  authConfig,
+  authReady,
+  mountGoogleButton,
+  logout,
+} from "../auth/session";
 const states = { met: "充足", unmet: "未充足", review: "要確認" };
 const headlines = {
   met: "確認できた単位要件を充足",
@@ -32,9 +38,15 @@ export default function App() {
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [discarded, setDiscarded] = useState<Grade[]>([]);
+  const [authEmail, setAuthEmail] = useState<string | null>(null);
+  const [consent, setConsent] = useState(false);
+  const [authError, setAuthError] = useState("");
   const fileInput = useRef<HTMLInputElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
+  const googleBtn = useRef<HTMLDivElement>(null);
   const alive = useRef(0);
+  // Login is required only once a real client ID is configured; dev/demo stay open.
+  const authConfigured = authReady(authConfig);
 
   const c = selected ?? registry[0];
   const candidate = parseStudentNumber(student);
@@ -62,6 +74,31 @@ export default function App() {
     setReviewed(false);
     setError("");
   };
+  // Gate the app behind Google sign-in only when a client ID is configured.
+  const showLoginGate = authConfigured && session !== "demo" && !authEmail;
+  const onLogin = (email: string) => {
+    const parsed = parseStudentNumber(email.split("@")[0] ?? "");
+    setAuthEmail(email);
+    setAuthError("");
+    setSession("local");
+    setStudent(parsed.normalized);
+    if (parsed.supported) {
+      setEntryYear(parsed.entryYear ?? "");
+      setFaculty(parsed.facultyLabel ?? "");
+      setDepartment(parsed.departmentLabel ?? "");
+    }
+    setApplicable(false);
+    invalidate();
+  };
+  useEffect(() => {
+    if (!showLoginGate || step !== 0 || !consent || !googleBtn.current) return;
+    return mountGoogleButton(googleBtn.current, onLogin, () =>
+      setAuthError(
+        "Googleログインに失敗しました。学内アカウント（@g.kogakuin.jp）でログインし、ポップアップのブロックを解除してください。",
+      ),
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showLoginGate, step, consent]);
   const update = (id: string, patch: Partial<Grade>) => {
     invalidate();
     setGrades((gs) =>
@@ -163,6 +200,10 @@ export default function App() {
     setSession("none");
     setStep(0);
     setError("");
+    setAuthEmail(null);
+    setConsent(false);
+    setAuthError("");
+    void logout();
   };
   const assess = () => {
     if (!selected || !applicable || mismatch || !reviewed) {
@@ -197,9 +238,11 @@ export default function App() {
           <span className="tag">
             {session === "demo"
               ? "架空データのデモ"
-              : session === "local"
-                ? "認証なし / 本人未確認"
-                : "工学院大学向け"}
+              : authEmail
+                ? `${authEmail} / 本人未確認`
+                : session === "local"
+                  ? "認証なし / 本人未確認"
+                  : "工学院大学向け"}
           </span>
           {session !== "none" && (
             <button className="text-button" onClick={reset}>
@@ -256,93 +299,163 @@ export default function App() {
         </div>
         {step === 0 && (
           <section className="panel narrow">
-            <h2>入学年度・学部・学科を入力</h2>
-            <p>
-              ログインは不要です。現在の対応範囲は{" "}
-              {registry.map((x) => x.label).join("、")} です。
-            </p>
-            <label>
-              入学年度
-              <input
-                value={entryYear}
-                inputMode="numeric"
-                placeholder="例：2024"
-                onChange={(e) => {
-                  setEntryYear(e.target.value);
-                  setApplicable(false);
-                  invalidate();
-                }}
-              />
-            </label>
-            <label>
-              学部
-              <input
-                value={faculty}
-                placeholder="例：情報学部"
-                onChange={(e) => {
-                  setFaculty(e.target.value);
-                  setApplicable(false);
-                  invalidate();
-                }}
-              />
-            </label>
-            <label>
-              学科
-              <input
-                value={department}
-                placeholder="例：コンピュータ科学科"
-                onChange={(e) => {
-                  setDepartment(e.target.value);
-                  setApplicable(false);
-                  invalidate();
-                }}
-              />
-            </label>
-            <p role="status">
-              {selected
-                ? selected.label
-                : entryYear && faculty && department
-                  ? "未対応の年度・学部学科です。別の条件へ自動変更しません。"
-                  : "入学年度・学部・学科を入力してください。"}
-            </p>
-            <label>
-              学籍番号（任意）
-              <input
-                aria-label="学籍番号"
-                value={student}
-                autoComplete="off"
-                placeholder="PDF内の番号と照合したい場合に入力"
-                onChange={(e) => {
-                  setStudent(e.target.value);
-                  setApplicable(false);
-                  invalidate();
-                }}
-              />
-            </label>
-            {studentIssue && <p className="notice error">{studentIssue}</p>}
-            <p className="small">
-              所属は自己申告です。学籍番号を省略するとPDFとの番号照合は行いません。ご自身の成績であることを確認してください。
-            </p>
-            <label className="check">
-              <input
-                type="checkbox"
-                checked={applicable}
-                disabled={!selected || !!studentIssue}
-                onChange={(e) => setApplicable(e.target.checked)}
-              />
-              このカリキュラムが自分に適用されることを確認しました。編入・転学科・特例は教務窓口で確認します。
-            </label>
-            <button
-              className="primary"
-              disabled={!selected || !applicable || !!studentIssue}
-              onClick={() => {
-                setSession(session === "demo" ? "demo" : "local");
-                setStep(2);
-                setError("");
-              }}
-            >
-              成績の取り込みへ →
-            </button>
+            {showLoginGate ? (
+              <>
+                <h2>学内Googleアカウントでログイン</h2>
+                <p>
+                  工学院大学の <strong>@g.kogakuin.jp</strong>{" "}
+                  アカウントでログインしてください。メールアドレスの学籍番号から、入学年度・学部・学科を判定します。これは大学非公式のツールです。
+                </p>
+                <label className="check">
+                  <input
+                    type="checkbox"
+                    checked={consent}
+                    onChange={(e) => setConsent(e.target.checked)}
+                  />
+                  大学非公式のツールであること、成績は端末内だけで処理され外部へ送信・保存されないことを理解しました。
+                </label>
+                {authError && <p className="notice error">{authError}</p>}
+                <div
+                  ref={googleBtn}
+                  className="google-btn"
+                  style={consent ? undefined : { display: "none" }}
+                />
+                {!consent && (
+                  <p className="small">
+                    上の確認にチェックすると、ログインボタンが表示されます。
+                  </p>
+                )}
+              </>
+            ) : (
+              <>
+                <h2>入学年度・学部・学科を入力</h2>
+                {authEmail ? (
+                  <>
+                    <p>
+                      <strong>{authEmail}</strong>{" "}
+                      でログイン中です。学籍番号から判定した所属を確認してください。
+                    </p>
+                    <dl className="id-summary">
+                      <div>
+                        <dt>学籍番号</dt>
+                        <dd>{student || "—"}</dd>
+                      </div>
+                      <div>
+                        <dt>入学年度</dt>
+                        <dd>{entryYear || "—"}</dd>
+                      </div>
+                      <div>
+                        <dt>学部・学科</dt>
+                        <dd>
+                          {faculty && department
+                            ? `${faculty} ${department}`
+                            : "—"}
+                        </dd>
+                      </div>
+                    </dl>
+                    <p role="status">
+                      {selected
+                        ? selected.label
+                        : "学籍番号から対応カリキュラムを判定できませんでした。別年度・別学科へは自動変更しません。"}
+                    </p>
+                    {studentIssue && (
+                      <p className="notice error">{studentIssue}</p>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <p>
+                      ログインは不要です。現在の対応範囲は{" "}
+                      {registry.map((x) => x.label).join("、")} です。
+                    </p>
+                    <label>
+                      入学年度
+                      <input
+                        value={entryYear}
+                        inputMode="numeric"
+                        placeholder="例：2024"
+                        onChange={(e) => {
+                          setEntryYear(e.target.value);
+                          setApplicable(false);
+                          invalidate();
+                        }}
+                      />
+                    </label>
+                    <label>
+                      学部
+                      <input
+                        value={faculty}
+                        placeholder="例：情報学部"
+                        onChange={(e) => {
+                          setFaculty(e.target.value);
+                          setApplicable(false);
+                          invalidate();
+                        }}
+                      />
+                    </label>
+                    <label>
+                      学科
+                      <input
+                        value={department}
+                        placeholder="例：コンピュータ科学科"
+                        onChange={(e) => {
+                          setDepartment(e.target.value);
+                          setApplicable(false);
+                          invalidate();
+                        }}
+                      />
+                    </label>
+                    <p role="status">
+                      {selected
+                        ? selected.label
+                        : entryYear && faculty && department
+                          ? "未対応の年度・学部学科です。別の条件へ自動変更しません。"
+                          : "入学年度・学部・学科を入力してください。"}
+                    </p>
+                    <label>
+                      学籍番号（任意）
+                      <input
+                        aria-label="学籍番号"
+                        value={student}
+                        autoComplete="off"
+                        placeholder="PDF内の番号と照合したい場合に入力"
+                        onChange={(e) => {
+                          setStudent(e.target.value);
+                          setApplicable(false);
+                          invalidate();
+                        }}
+                      />
+                    </label>
+                    {studentIssue && (
+                      <p className="notice error">{studentIssue}</p>
+                    )}
+                    <p className="small">
+                      所属は自己申告です。学籍番号を省略するとPDFとの番号照合は行いません。ご自身の成績であることを確認してください。
+                    </p>
+                  </>
+                )}
+                <label className="check">
+                  <input
+                    type="checkbox"
+                    checked={applicable}
+                    disabled={!selected || !!studentIssue}
+                    onChange={(e) => setApplicable(e.target.checked)}
+                  />
+                  このカリキュラムが自分に適用されることを確認しました。編入・転学科・特例は教務窓口で確認します。
+                </label>
+                <button
+                  className="primary"
+                  disabled={!selected || !applicable || !!studentIssue}
+                  onClick={() => {
+                    setSession(session === "demo" ? "demo" : "local");
+                    setStep(2);
+                    setError("");
+                  }}
+                >
+                  成績の取り込みへ →
+                </button>
+              </>
+            )}
             {demoAvailable && (
               <div className="demo-box">
                 <p>架空データだけで試す場合はこちら。</p>
