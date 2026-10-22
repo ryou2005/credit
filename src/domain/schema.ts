@@ -128,7 +128,7 @@ export interface Grade {
   year: string;
   status: GradeStatus;
   confirmed: boolean;
-  provenance: { kind: "pdf" | "manual" | "demo"; page?: number; raw: string };
+  provenance: { kind: "pdf" | "manual"; page?: number; raw: string };
   // Course master entry (any 情報学部 department); "" when not identified.
   masterId?: string;
   // Where `credits` came from: printed in the PDF, filled from the course

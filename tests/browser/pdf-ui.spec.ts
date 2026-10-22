@@ -30,10 +30,19 @@ test("認証なしの取り込み画面：暗号化・破損PDFから手入力�
 test("結果のスマートフォン表示と印刷PDF出力", async ({ page }, info) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
-  await page.getByRole("button", { name: "デモを始める" }).click();
+  await page.getByLabel("入学年度", { exact: true }).fill("2024");
+  await page.getByLabel("学部", { exact: true }).fill("情報学部");
+  await page.getByLabel("学科", { exact: true }).fill("コンピュータ科学科");
   await page.getByRole("checkbox").check();
   await page.getByRole("button", { name: "成績の取り込みへ" }).click();
-  await page.getByRole("button", { name: "架空の成績を読み込む" }).click();
+  await page.getByRole("button", { name: "手入力で始める" }).click();
+  await page
+    .getByRole("combobox", { name: "科目 1", exact: true })
+    .selectOption({ index: 1 });
+  await page
+    .getByRole("combobox", { name: "修得状況 1", exact: true })
+    .selectOption("earned");
+  await page.getByRole("button", { name: "結果を更新する" }).click();
   await expect(
     page.getByRole("heading", { name: "単位要件に未充足あり" }),
   ).toBeVisible();

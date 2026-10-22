@@ -153,5 +153,3 @@ export function mountGoogleButton(
 export async function logout() {
   window.google?.accounts.id.disableAutoSelect();
 }
-export const canUseDemo = (dev: boolean, hostname: string) =>
-  dev && ["localhost", "127.0.0.1", "[::1]"].includes(hostname);

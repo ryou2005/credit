@@ -43,7 +43,7 @@ const offering = (x: MasterCourse) =>
   `${courseMaster.departments[x.department]?.label ?? x.department}・${groupLabels[x.group]}・${x.credits}単位`;
 type Result = ReturnType<typeof evaluateCurriculum>;
 export default function App() {
-  const [session, setSession] = useState<"none" | "local" | "demo">("none");
+  const [session, setSession] = useState<"none" | "local">("none");
   const [step, setStep] = useState(0);
   const [student, setStudent] = useState("");
   const [entryYear, setEntryYear] = useState("");
@@ -69,7 +69,7 @@ export default function App() {
   const heading = useRef<HTMLHeadingElement>(null);
   const googleBtn = useRef<HTMLDivElement>(null);
   const alive = useRef(0);
-  // Login is required only once a real client ID is configured; dev/demo stay open.
+  // Login is required only once a real client ID is configured; dev stays open.
   const authConfigured = authReady(authConfig);
 
   const c = selected ?? registry[0];
@@ -87,9 +87,6 @@ export default function App() {
     totalRule?.expression.type === "credits"
       ? totalRule.expression.minimum
       : "—";
-  const demoAvailable =
-    import.meta.env.DEV &&
-    ["localhost", "127.0.0.1", "[::1]"].includes(location.hostname);
   useEffect(() => {
     heading.current?.focus();
   }, [step]);
@@ -98,7 +95,7 @@ export default function App() {
     setError("");
   };
   // Gate the app behind Google sign-in only when a client ID is configured.
-  const showLoginGate = authConfigured && session !== "demo" && !authEmail;
+  const showLoginGate = authConfigured && !authEmail;
   const onLogin = (email: string) => {
     const parsed = parseStudentNumber(email.split("@")[0] ?? "");
     setAuthEmail(email);
@@ -176,25 +173,8 @@ export default function App() {
     ]);
     setStep(3);
   };
-  const loadDemo = async (complete = false) => {
-    if (!import.meta.env.DEV || !demoAvailable || session !== "demo") return;
-    const { demoGrades } = await import("../data/demo");
-    const gs = demoGrades(c, complete);
-    invalidate();
-    setGrades(gs);
-    setPdfIds([]);
-    setPdfLoaded(false);
-    setDiscarded([]);
-    assess(gs, []);
-  };
   const importPdf = async (file?: File) => {
     if (!file || busy) return;
-    if (session === "demo") {
-      setError(
-        "デモモードは架空データ専用です。実際の成績PDFは取り込めません。",
-      );
-      return;
-    }
     const generation = ++alive.current;
     setBusy(true);
     setError("");
@@ -301,13 +281,11 @@ export default function App() {
         </a>
         <div className="header-actions">
           <span className="tag">
-            {session === "demo"
-              ? "架空データのデモ"
-              : authEmail
-                ? `${authEmail} / 本人未確認`
-                : session === "local"
-                  ? "認証なし / 本人未確認"
-                  : "工学院大学向け"}
+            {authEmail
+              ? `${authEmail} / 本人未確認`
+              : session === "local"
+                ? "認証なし / 本人未確認"
+                : "工学院大学向け"}
           </span>
           {session !== "none" && (
             <button className="text-button" onClick={reset}>
@@ -508,7 +486,7 @@ export default function App() {
                   className="primary"
                   disabled={!selected || !applicable || !!studentIssue}
                   onClick={() => {
-                    setSession(session === "demo" ? "demo" : "local");
+                    setSession("local");
                     setStep(2);
                     setError("");
                   }}
@@ -516,23 +494,6 @@ export default function App() {
                   成績の取り込みへ →
                 </button>
               </>
-            )}
-            {demoAvailable && (
-              <div className="demo-box">
-                <p>架空データだけで試す場合はこちら。</p>
-                <button
-                  onClick={() => {
-                    setSession("demo");
-                    setEntryYear(String(registry[0].entryYear));
-                    setFaculty("情報学部");
-                    setDepartment("コンピュータ科学科");
-                    setStudent("");
-                    setApplicable(false);
-                  }}
-                >
-                  デモを始める
-                </button>
-              </div>
             )}
           </section>
         )}
@@ -564,11 +525,11 @@ export default function App() {
                 accept="application/pdf,.pdf"
                 aria-label="成績PDF"
                 onChange={(e) => void importPdf(e.target.files?.[0])}
-                disabled={busy || session === "demo"}
+                disabled={busy}
               />
               <button
                 onClick={() => fileInput.current?.click()}
-                disabled={busy || session === "demo"}
+                disabled={busy}
               >
                 {busy ? "読み取り中…" : "PDFを選択する"}
               </button>
@@ -580,16 +541,6 @@ export default function App() {
               <button onClick={add} disabled={busy}>
                 手入力で始める
               </button>
-              {session === "demo" && demoAvailable && (
-                <>
-                  <button onClick={() => loadDemo()}>
-                    架空の成績を読み込む
-                  </button>
-                  <button onClick={() => loadDemo(true)}>
-                    全条件充足のデモ
-                  </button>
-                </>
-              )}
             </div>
           </section>
         )}
@@ -832,9 +783,7 @@ export default function App() {
                       <p>
                         {g.provenance.kind === "pdf"
                           ? `PDF ${g.provenance.page}ページ`
-                          : g.provenance.kind === "demo"
-                            ? "架空データ"
-                            : "手入力"}{" "}
+                          : "手入力"}{" "}
                         /{" "}
                         {p
                           ? `${sectionLabels[p.section] ?? p.section}・${p.kind === "required" ? "必修" : p.kind === "selective" ? "選択必修" : p.kind === "excluded" ? "算入対象外" : "選択"}`
@@ -894,10 +843,7 @@ export default function App() {
                     : ""}
                 </p>
                 <span className="badge">
-                  {session === "demo"
-                    ? "架空データの結果"
-                    : "PDFの読み取り結果"}{" "}
-                  / 本人対応未確認
+                  PDFの読み取り結果 / 本人対応未確認
                 </span>
               </div>
               <div className="total">

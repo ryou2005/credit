@@ -1,8 +1,13 @@
 import { pdf } from "./pdf-fixture";
 import { test, expect, type Page } from "@playwright/test";
+async function profile(page: Page) {
+  await page.getByLabel("入学年度", { exact: true }).fill("2024");
+  await page.getByLabel("学部", { exact: true }).fill("情報学部");
+  await page.getByLabel("学科", { exact: true }).fill("コンピュータ科学科");
+}
 async function enter(page: Page) {
   await page.goto("/");
-  await page.getByRole("button", { name: "デモを始める" }).click();
+  await profile(page);
   await page.getByLabel("学籍番号", { exact: true }).fill(" ｊ１２４０００ ");
   await page.getByRole("checkbox").check();
   await page.getByRole("button", { name: "成績の取り込みへ" }).click();
@@ -11,15 +16,25 @@ async function enter(page: Page) {
 async function calculate(page: Page) {
   await page.getByRole("button", { name: "結果を更新する" }).click();
 }
+// One known course entered by hand, with the given status.
+async function manualCourse(page: Page, status = "earned") {
+  await page.getByRole("button", { name: "手入力で始める" }).click();
+  await page
+    .getByRole("combobox", { name: "科目 1", exact: true })
+    .selectOption({ index: 1 });
+  await page
+    .getByRole("combobox", { name: "修得状況 1", exact: true })
+    .selectOption(status);
+  await calculate(page);
+}
 
-test("架空データの入力・修正・再計算・印刷・リセット", async ({ page }) => {
+test("手入力・修正・再計算・印刷・リセット", async ({ page }) => {
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
   await enter(page);
-  // No confirmation screen: the result appears right after loading grades.
-  await page.getByRole("button", { name: "全条件充足のデモ" }).click();
+  await manualCourse(page);
   await expect(
-    page.getByRole("heading", { name: "確認できた単位要件を充足" }),
+    page.getByRole("heading", { name: "単位要件に未充足あり" }),
   ).toBeVisible();
   await page.getByRole("button", { name: /成績を修正する/ }).click();
   await page
@@ -43,7 +58,7 @@ test("架空データの入力・修正・再計算・印刷・リセット", as
 });
 test("単位の集計：落単を数え、結果画面にも表示する", async ({ page }) => {
   await enter(page);
-  await page.getByRole("button", { name: "全条件充足のデモ" }).click();
+  await manualCourse(page);
   const summary = page.getByRole("region", { name: "単位の集計" });
   await expect(summary).toBeVisible();
   await expect(summary.getByText("落単している科目")).toHaveCount(0);
@@ -53,12 +68,14 @@ test("単位の集計：落単を数え、結果画面にも表示する", async
     .selectOption("failed");
   await calculate(page);
   await expect(summary.getByText("落単している科目")).toBeVisible();
-  await expect(summary.getByText("1科目", { exact: true })).toBeVisible();
+  await expect(
+    summary.locator("small").getByText("1科目", { exact: true }),
+  ).toBeVisible();
 });
 test("対象外番号とスマートフォン幅", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
-  await page.getByRole("button", { name: "デモを始める" }).click();
+  await profile(page);
   await page.getByLabel("学籍番号", { exact: true }).fill("J125000");
   await expect(
     page.getByRole("button", { name: "成績の取り込みへ" }),
@@ -88,7 +105,7 @@ test("成績データをネットワーク送信・永続保存しない", async
     if (r.method() !== "GET") outgoing.push(r.url());
   });
   await enter(page);
-  await page.getByRole("button", { name: "架空の成績を読み込む" }).click();
+  await manualCourse(page);
   await expect(
     page.getByRole("heading", { name: "卒業要件チェックの結果" }),
   ).toBeVisible();

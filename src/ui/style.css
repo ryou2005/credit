@@ -254,14 +254,6 @@ p {
   color: #65766e;
   font-size: 13px;
 }
-.demo-box {
-  border-top: 1px solid #e3eae6;
-  padding-top: 18px;
-  margin-top: 26px;
-}
-.demo-box p {
-  font-size: 13px;
-}
 .google-btn {
   display: flex;
   justify-content: center;
