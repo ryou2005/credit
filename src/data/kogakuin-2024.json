@@ -4017,6 +4017,29 @@
       }
     },
     {
+      "id": "kogakuin-2024-information-cs-v1-I-b-required",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "graduation",
+      "label": "外国語科目の必修",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "credits",
+        "minimum": "6",
+        "selector": {
+          "sections": ["I-b"],
+          "kinds": ["required"]
+        }
+      }
+    },
+    {
       "id": "kogakuin-2024-information-cs-v1-I-c",
       "curriculumId": "kogakuin-2024-information-cs-v1",
       "entryYear": 2024,
@@ -4057,6 +4080,29 @@
         "minimum": "12",
         "selector": {
           "sections": ["II-a"]
+        }
+      }
+    },
+    {
+      "id": "kogakuin-2024-information-cs-v1-II-a-required",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "graduation",
+      "label": "共通基礎科目の必修",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "credits",
+        "minimum": "8",
+        "selector": {
+          "sections": ["II-a"],
+          "kinds": ["required"]
         }
       }
     },
@@ -4276,6 +4322,329 @@
           "kgu-cs-3-160",
           "kgu-cs-3-162"
         ]
+      }
+    },
+    {
+      "id": "kogakuin-2024-information-cs-v1-entry-total",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "thesis-entry",
+      "label": "算入対象の合計単位",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "credits",
+        "minimum": "105",
+        "selector": {}
+      }
+    },
+    {
+      "id": "kogakuin-2024-information-cs-v1-entry-I-a",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "thesis-entry",
+      "label": "総合文化科目",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "credits",
+        "minimum": "8",
+        "selector": {
+          "sections": ["I-a"]
+        }
+      }
+    },
+    {
+      "id": "kogakuin-2024-information-cs-v1-entry-I-b",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "thesis-entry",
+      "label": "外国語科目",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "credits",
+        "minimum": "8",
+        "selector": {
+          "sections": ["I-b"]
+        }
+      }
+    },
+    {
+      "id": "kogakuin-2024-information-cs-v1-entry-I-b-required",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "thesis-entry",
+      "label": "外国語科目の必修",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "credits",
+        "minimum": "6",
+        "selector": {
+          "sections": ["I-b"],
+          "kinds": ["required"]
+        }
+      }
+    },
+    {
+      "id": "kogakuin-2024-information-cs-v1-entry-I-c",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "thesis-entry",
+      "label": "保健体育科目",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "credits",
+        "minimum": "2",
+        "selector": {
+          "sections": ["I-c"],
+          "kinds": ["required"]
+        }
+      }
+    },
+    {
+      "id": "kogakuin-2024-information-cs-v1-entry-II-a",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "thesis-entry",
+      "label": "共通基礎科目",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "credits",
+        "minimum": "12",
+        "selector": {
+          "sections": ["II-a"]
+        }
+      }
+    },
+    {
+      "id": "kogakuin-2024-information-cs-v1-entry-II-a-required",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "thesis-entry",
+      "label": "共通基礎科目の必修",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "credits",
+        "minimum": "8",
+        "selector": {
+          "sections": ["II-a"],
+          "kinds": ["required"]
+        }
+      }
+    },
+    {
+      "id": "kogakuin-2024-information-cs-v1-entry-special",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "thesis-entry",
+      "label": "専門基礎＋専門（卒論除く）",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "credits",
+        "minimum": "65",
+        "selector": {
+          "sections": [
+            "II-b",
+            "III-A",
+            "III-B",
+            "III-C",
+            "III-common",
+            "external"
+          ]
+        }
+      }
+    },
+    {
+      "id": "kogakuin-2024-information-cs-v1-entry-mandatory-special",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "thesis-entry",
+      "label": "専門基礎＋専門の必修",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "credits",
+        "minimum": "27",
+        "selector": {
+          "sections": ["II-b", "III-A", "III-B", "III-C", "III-common"],
+          "kinds": ["required"]
+        }
+      }
+    },
+    {
+      "id": "kogakuin-2024-information-cs-v1-entry-mandatory-named",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "thesis-entry",
+      "label": "必修に含める実験・セミナー（注2）",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "allCourses",
+        "courseIds": [
+          "kgu-cs-3-116",
+          "kgu-cs-3-118",
+          "kgu-cs-3-159",
+          "kgu-cs-3-160"
+        ]
+      }
+    },
+    {
+      "id": "kogakuin-2024-information-cs-v1-entry-selective",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "thesis-entry",
+      "label": "専門基礎＋専門の選択必修",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "credits",
+        "minimum": "12",
+        "selector": {
+          "sections": ["II-b", "III-A", "III-B", "III-C", "III-common"],
+          "kinds": ["selective"]
+        }
+      }
+    },
+    {
+      "id": "kogakuin-2024-information-cs-v1-entry-III-A-selective",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "thesis-entry",
+      "label": "III-A 選択必修",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "credits",
+        "minimum": "2",
+        "selector": {
+          "sections": ["III-A"],
+          "kinds": ["selective"]
+        }
+      }
+    },
+    {
+      "id": "kogakuin-2024-information-cs-v1-entry-III-B-selective",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "thesis-entry",
+      "label": "III-B 選択必修",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "credits",
+        "minimum": "2",
+        "selector": {
+          "sections": ["III-B"],
+          "kinds": ["selective"]
+        }
+      }
+    },
+    {
+      "id": "kogakuin-2024-information-cs-v1-entry-III-C-selective",
+      "curriculumId": "kogakuin-2024-information-cs-v1",
+      "entryYear": 2024,
+      "department": "cs",
+      "assessment": "thesis-entry",
+      "label": "III-C 選択必修",
+      "source": {
+        "url": "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/2025info2.pdf",
+        "pages": [4],
+        "checkedAt": "2026-10-16",
+        "status": "verified",
+        "sha256": "07e67166639650a0b0535b7976cc27d8870f1f61e8a89b7c8c3628b0b4d67df4"
+      },
+      "expression": {
+        "type": "credits",
+        "minimum": "2",
+        "selector": {
+          "sections": ["III-C"],
+          "kinds": ["selective"]
+        }
       }
     }
   ],

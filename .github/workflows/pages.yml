@@ -16,11 +16,15 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: "22"
           cache: npm
       - run: npm ci
       - run: npm test
       - run: npm run build
+        env:
+          # Login is required; without these the site stops at the login screen.
+          VITE_GOOGLE_CLIENT_ID: ${{ vars.VITE_GOOGLE_CLIENT_ID }}
+          VITE_ALLOWED_EMAIL_DOMAINS: ${{ vars.VITE_ALLOWED_EMAIL_DOMAINS }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

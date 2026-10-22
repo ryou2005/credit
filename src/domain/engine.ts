@@ -47,7 +47,8 @@ function externalPlacement(
     },
   };
 }
-const matches = (p: Placement, s: Selector) =>
+type Assessment = Curriculum["rules"][number]["assessment"];
+export const matches = (p: Placement, s: Selector) =>
   (!s.sections || s.sections.includes(p.section)) &&
   (!s.kinds || s.kinds.includes(p.kind)) &&
   (!s.courseIds || s.courseIds.includes(p.courseId)) &&
@@ -188,32 +189,40 @@ export function evaluateCurriculum(
           : "unmet";
     return { status, reason: children.map((r) => r.reason).join(" / ") };
   };
-  const results = c.rules
-    .filter((r) => r.assessment === "graduation")
-    .map((r) => ({
-      id: r.id,
-      label: r.label,
-      source: r.source,
-      ...(r.source.status === "verified"
-        ? expr(r.expression)
-        : {
-            status: "review" as const,
-            reason: "判定ルールの根拠が未確認です",
-          }),
-    }));
+  const evaluate = (assessment: Assessment) =>
+    c.rules
+      .filter((r) => r.assessment === assessment)
+      .map((r) => ({
+        id: r.id,
+        label: r.label,
+        source: r.source,
+        expression: r.expression,
+        ...(r.source.status === "verified"
+          ? expr(r.expression)
+          : {
+              status: "review" as const,
+              reason: "判定ルールの根拠が未確認です",
+            }),
+      }));
   const capPending = c.caps.some((cap) => cap.source.status !== "verified");
   if (capPending) issues.push("算入上限の根拠が未確認です");
   // Global uncertainty takes precedence: the confirmed total is a lower bound, never an inferred pass.
-  const status: CheckStatus =
-    issues.length || results.some((r) => r.status === "review")
+  const overall = (rs: ReturnType<typeof evaluate>): CheckStatus =>
+    issues.length || rs.some((r) => r.status === "review")
       ? "review"
-      : results.some((r) => r.status === "unmet")
+      : rs.some((r) => r.status === "unmet")
         ? "unmet"
         : "met";
+  const results = evaluate("graduation");
+  const thesisResults = evaluate("thesis-entry");
   return {
-    status,
+    status: overall(results),
     earned: sum({}),
     results,
+    // Empty when the curriculum defines no thesis-entry rules.
+    thesisEntry: { status: overall(thesisResults), results: thesisResults },
+    // Credits of the counted courses matching a selector (caps applied).
+    creditsFor: sum,
     issues,
     notes,
     accepted: [...accepted.keys()],

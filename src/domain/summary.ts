@@ -71,7 +71,7 @@ export function summarizeGrades(
     const graded = attempts
       .filter((g) => rank(g.evaluation) >= 0)
       .sort((a, b) => rank(a.evaluation) - rank(b.evaluation));
-    // Rows without a scale grade (manual/demo) fall back to the chosen status.
+    // Rows without a scale grade (manual) fall back to the chosen status.
     const passed =
       graded.find((g) => g.evaluation !== "F") ??
       attempts.find((g) => !graded.includes(g) && g.status === "earned");

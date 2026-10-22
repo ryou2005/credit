@@ -11,14 +11,14 @@ import {
   type Grade,
   type Expression,
 } from "../src/domain/schema";
-import { demoGrades } from "../src/data/demo";
+import { syntheticGrades } from "./synthetic-grades";
 import {
   parseTextLines,
   identityIssue,
   validatePdfFile,
 } from "../src/pdf/normalize";
-import { canUseDemo, allowedIdentity, authReady } from "../src/auth/session";
-const all = () => demoGrades(official, true);
+import { allowedIdentity, authReady } from "../src/auth/session";
+const all = () => syntheticGrades(official);
 const run = (g: Grade[]) => evaluateCurriculum(official, g);
 function fixture() {
   const c = structuredClone(official);
@@ -190,7 +190,7 @@ describe("共通エンジンの拡張", () => {
   it("他年度の同科目を別ルールで判定・上限・小数", () => {
     const c = fixture();
     addRule(c, { type: "credits", minimum: "4.5", selector: {} });
-    const r = evaluateCurriculum(c, demoGrades(c, true), {
+    const r = evaluateCurriculum(c, syntheticGrades(c), {
       allowFixture: true,
     });
     expect(r.earned).toBe(450);
@@ -201,7 +201,7 @@ describe("共通エンジンの拡張", () => {
     const c = fixture();
     c.placements[0].kind = "required";
     addRule(c, { type: "allCourses", courseIds: [c.placements[0].courseId] });
-    const missing = demoGrades(c, true).slice(1);
+    const missing = syntheticGrades(c).slice(1);
     expect(evaluateCurriculum(c, missing, { allowFixture: true }).status).toBe(
       "unmet",
     );
@@ -227,7 +227,7 @@ describe("共通エンジンの拡張", () => {
       ],
     });
     expect(
-      evaluateCurriculum(c, demoGrades(c, true), { allowFixture: true }).status,
+      evaluateCurriculum(c, syntheticGrades(c), { allowFixture: true }).status,
     ).toBe("met");
   });
   it("代替・同等科目は根拠付き対応だけ適用し重複排除", () => {
@@ -238,7 +238,7 @@ describe("共通エンジンの拡張", () => {
     ];
     c.placements[0].credits = "2";
     addRule(c, { type: "allCourses", courseIds: [c.courses[0].id] });
-    const gs = demoGrades(c, true).slice(0, 2);
+    const gs = syntheticGrades(c).slice(0, 2);
     expect(evaluateCurriculum(c, gs, { allowFixture: true }).earned).toBe(200);
   });
   it("異なるカリキュラムのルール混入を拒否", () => {
@@ -271,7 +271,7 @@ describe("共通エンジンの拡張", () => {
     addRule(c, { type: "credits", minimum: "1", selector: {} });
     c.rules[0].source = { ...c.source, status: "pending" };
     expect(
-      evaluateCurriculum(c, demoGrades(c, true), { allowFixture: true }).status,
+      evaluateCurriculum(c, syntheticGrades(c), { allowFixture: true }).status,
     ).toBe("review");
   });
 });
@@ -283,7 +283,7 @@ describe("PDF取り込み境界と学校認証", () => {
         name: "x.pdf",
         type: "application/pdf",
       }),
-    ).toThrow("20MB");
+    ).toThrow("大きすぎます");
     expect(() => validatePdfFile({ size: 0, name: "x.pdf", type: "" })).toThrow(
       "空",
     );
@@ -332,10 +332,5 @@ describe("PDF取り込み境界と学校認証", () => {
         allowedDomains: [],
       }),
     ).toBe(false);
-  });
-  it("本番のデモ回避は許可しない", () => {
-    expect(canUseDemo(false, "localhost")).toBe(false);
-    expect(canUseDemo(true, "example.com")).toBe(false);
-    expect(canUseDemo(true, "127.0.0.1")).toBe(true);
   });
 });

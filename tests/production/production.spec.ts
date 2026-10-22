@@ -1,17 +1,11 @@
 import { test, expect } from "@playwright/test";
-import { readdirSync } from "node:fs";
-test("公開ビルドは認証なしで開始し、デモを表示しない", async ({ page }) => {
-  await page.goto("/?demo=true&VITE_DEMO=true");
-  await expect(
-    page.getByRole("heading", { name: "入学年度・学部・学科を入力" }),
-  ).toBeVisible();
-  await expect(page.getByRole("button", { name: "デモを始める" })).toHaveCount(
-    0,
+test("公開ビルドはGoogleログインから始まる", async ({ page }) => {
+  await page.route("https://accounts.google.com/gsi/client*", (r) =>
+    r.fulfill({ contentType: "application/javascript", body: "" }),
   );
-  await expect(
-    page.getByRole("button", { name: "Googleでログイン" }),
-  ).toHaveCount(0);
-  expect(
-    readdirSync("dist/assets").some((name) => name.startsWith("demo-")),
-  ).toBe(false);
+  await page.goto("/");
+  await expect(page.getByText("あと何単位？")).toBeVisible();
+  await expect(page.getByText("@g.kogakuin.jp").first()).toBeVisible();
+  // No sign-in, no way past the login screen.
+  await expect(page.getByLabel("成績PDF", { exact: true })).toHaveCount(0);
 });

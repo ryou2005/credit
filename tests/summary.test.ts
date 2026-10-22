@@ -118,7 +118,7 @@ describe("単位の集計（gpa_2024.pdf の同一科目ルール）", () => {
     expect(s.unknownCredits).toEqual(["未知の科目"]);
   });
 
-  it("評価記号のない手入力・デモの行は修得状況で数える", () => {
+  it("評価記号のない手入力の行は修得状況で数える", () => {
     const s = summarizeGrades([
       grade({
         name: "文学A",
