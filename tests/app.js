@@ -4,35 +4,58 @@
  * 各ファイルを連携させ、単位数計算の流れを制御する
  */
 
+/*
+学生情報setupStudentInfoをインポート
+*/
 import { setupStudentInfo } from "./studentInfo.js";
 
+/*
+必要単位数getrequirementと学生情報を表示用文字列にするgetStudentLabelをインポート
+*/
 import {
   getRequirements,
   getStudentLabel
 } from "./requirements.js";
 
+/*
+PDF内の科目情報を読み取るreadSubjectsFromPdfをインポート
+*/
 import { readSubjectsFromPdf } from "./pdfReader.js";
 
+/*
+単位数計算を行うcalculateCreditsをインポート
+*/
 import { calculateCredits } from "./creditCalculator.js";
 
+/*
+計算結果を画面に表示するdisplayResultsをインポート
+*/
 import { displayResults } from "./result.js";
 
-// 学生情報の入力機能を初期化
+/*
+学生情報の入力機能を初期化
+*/
 const studentInfo = setupStudentInfo();
 
-// HTMLの要素を取得
+/* 
+PDFファイルの入力欄、計算ボタン、メッセージ表示欄、計算結果表示欄の要素をHTMLから取得
+*/
 const fileInput = document.querySelector("#pdfFile");
 const calculateButton = document.querySelector("#calculateButton");
 const status = document.querySelector("#status");
 const resultSection = document.querySelector("#resultSection");
 
-// 計算ボタンが押されたときの処理
+/*
+ 計算ボタンがクリックされたときの処理を設定
+ asnyにより非同期処理を行うPDF読み取りや単位数計算を待機する
+*/
 calculateButton.addEventListener("click", async () => {
-  // 前回の結果とメッセージをリセット
+  // 前回の結果、メッセージ、計算ボタンをリセット
   status.textContent = "";
   resultSection.hidden = true;
   calculateButton.disabled = true;
 
+  // エラー処理を行うためtry-catch-finally構文を使用
   try {
     // 入学年度・学部・学科を取得
     const student = studentInfo.getValue();
@@ -61,8 +84,9 @@ calculateButton.addEventListener("click", async () => {
     const results = calculateCredits(subjects, requirements);
 
     // 学生情報・科目一覧・計算結果を画面に表示
+    //displayResults関数を呼び出し、学生情報のラベル、科目情報、計算結果を渡す
     displayResults({
-      studentLabel: getStudentLabel(student),
+      studentLabel: getStudentLabel(student), //ラベルに変換して渡す
       subjects,
       results
     });
