@@ -283,7 +283,7 @@ describe("PDF取り込み境界と学校認証", () => {
         name: "x.pdf",
         type: "application/pdf",
       }),
-    ).toThrow("20MB");
+    ).toThrow("大きすぎます");
     expect(() => validatePdfFile({ size: 0, name: "x.pdf", type: "" })).toThrow(
       "空",
     );

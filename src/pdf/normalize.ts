@@ -256,10 +256,10 @@ export function validatePdfFile(file: {
 }) {
   if (file.size > 20 * 1024 * 1024)
     throw new Error(
-      "20MBを超えています。成績ページだけをPDF保存し直すか、手入力してください。",
+      "ファイルが大きすぎます。Ku-portから成績ページだけをPDF保存し直してください。",
     );
   if (!file.size)
     throw new Error("空のファイルです。PDFを保存し直してください。");
   if (!file.name.toLowerCase().endsWith(".pdf"))
-    throw new Error("PDFを選択してください。手入力でも進められます。");
+    throw new Error("PDF以外のファイルは読み取れません。Ku-portから出力した成績PDFを選んでください。");
 }

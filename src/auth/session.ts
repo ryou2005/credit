@@ -73,7 +73,15 @@ interface GoogleId {
   }): void;
   renderButton(
     element: HTMLElement,
-    options: { theme: string; size: string; locale: string; width: number },
+    options: {
+      theme: string;
+      size: string;
+      shape: string;
+      text: string;
+      logo_alignment: string;
+      locale: string;
+      width: number;
+    },
   ): void;
   disableAutoSelect(): void;
 }
@@ -109,6 +117,7 @@ export function mountGoogleButton(
   element: HTMLElement,
   success: (email: string) => void,
   failure: () => void,
+  width = 280,
 ) {
   let active = true,
     consumed = false;
@@ -135,11 +144,15 @@ export function mountGoogleButton(
             });
         },
       });
+      // Official button, shaped toward the design's pill (Google caps width at 400).
       google.renderButton(element, {
         theme: "outline",
         size: "large",
+        shape: "pill",
+        text: "signin_with",
+        logo_alignment: "center",
         locale: "ja",
-        width: 280,
+        width: Math.min(400, Math.max(200, Math.round(width))),
       });
     })
     .catch(() => {

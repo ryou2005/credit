@@ -1,0 +1,225 @@
+/* Design tokens from the Claude Design handoff (design-system-fb04106c).
+   Fonts are bundled through @fontsource in main.tsx instead of Google Fonts. */
+:root {
+  /* Ink (warm charcoal — never pure black) */
+  --ink-900: #22252a;
+  --ink-700: #3f434a;
+  --ink-500: #5e636b;
+  --ink-400: #80858c;
+  --ink-300: #a9adb2;
+  --ink-200: #d3d4d2;
+  /* Paper (white + warm off-whites) */
+  --paper-0: #ffffff;
+  --paper-50: #faf9f6;
+  --paper-100: #f3f2ed;
+  --paper-200: #e8e6df;
+  --paper-300: #dad8d0;
+  /* Brand: Sora teal */
+  --teal-50: #eaf8f9;
+  --teal-100: #d2f0f2;
+  --teal-200: #a6e1e5;
+  --teal-300: #74cfd5;
+  --teal-400: #4ec3cb;
+  --teal-500: #1fa9b3;
+  --teal-600: #0a7f8a;
+  --teal-700: #086670;
+  --teal-800: #064d55;
+  /* Accent palette (graphic shapes, highlights, status) */
+  --sun-100: #fdf5cf;
+  --sun-300: #f8e27a;
+  --sun-400: #f5d547;
+  --sun-700: #7a5e00;
+  --coral-100: #fde7de;
+  --coral-300: #f7a889;
+  --coral-400: #f07a4a;
+  --coral-600: #c94a1e;
+  --coral-700: #a33b16;
+  --lilac-100: #eeeaf8;
+  --lilac-300: #b7a9e0;
+  --lilac-400: #8c76c4;
+  --lilac-600: #5f4aa0;
+  --mint-100: #e0f5ec;
+  --mint-300: #9adbc0;
+  --mint-400: #6cc7a4;
+  --mint-600: #1c8a5c;
+  --mint-700: #156c48;
+
+  /* Semantic aliases */
+  --bg-page: var(--paper-0);
+  --bg-subtle: var(--paper-50);
+  --bg-sunken: var(--paper-100);
+  --bg-inverse: var(--ink-900);
+  --surface-card: var(--paper-50);
+  --surface-raised: var(--paper-0);
+  --text-strong: var(--ink-900);
+  --text-body: var(--ink-700);
+  --text-muted: var(--ink-500);
+  --text-subtle: var(--ink-400);
+  --text-disabled: var(--ink-300);
+  --text-inverse: var(--paper-0);
+  --text-link: var(--teal-600);
+  --text-link-hover: var(--teal-700);
+  --border-subtle: var(--paper-200);
+  --border-default: var(--paper-300);
+  --border-strong: var(--ink-300);
+  --border-focus: var(--teal-500);
+  --action-primary: var(--teal-600);
+  --action-primary-hover: var(--teal-700);
+  --action-primary-press: var(--teal-800);
+  --action-primary-tint: var(--teal-50);
+  --action-secondary: var(--ink-900);
+  --action-secondary-hover: #000000;
+  --action-neutral: var(--paper-100);
+  --action-neutral-hover: var(--paper-200);
+  --focus-ring: 0 0 0 3px var(--teal-200);
+  /* Judgement status */
+  --status-done-fg: var(--mint-700);
+  --status-done-bg: var(--mint-100);
+  --status-done-fill: var(--mint-400);
+  --status-near-fg: var(--sun-700);
+  --status-near-bg: var(--sun-100);
+  --status-near-fill: var(--sun-400);
+  --status-short-fg: var(--coral-700);
+  --status-short-bg: var(--coral-100);
+  --status-short-fill: var(--coral-400);
+  --status-info-fg: var(--teal-700);
+  --status-info-bg: var(--teal-50);
+  --status-info-fill: var(--teal-400);
+  --status-none-fg: var(--ink-500);
+  --status-none-bg: var(--paper-100);
+  --status-none-fill: var(--ink-200);
+  /* Decorative shape colors */
+  --shape-1: var(--teal-300);
+  --shape-2: var(--sun-400);
+  --shape-3: var(--coral-400);
+  --shape-4: var(--lilac-400);
+  --shape-5: var(--mint-400);
+
+  /* Typography */
+  --font-jp:
+    "Zen Kaku Gothic New", "Hiragino Sans", "Hiragino Kaku Gothic ProN",
+    "Noto Sans JP", "Yu Gothic", sans-serif;
+  --font-latin: "Poppins", "Zen Kaku Gothic New", sans-serif;
+  --font-num: "Poppins", "Zen Kaku Gothic New", sans-serif;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+  --fw-black: 900;
+  --fs-display: 64px;
+  --fs-h1: 44px;
+  --fs-h2: 32px;
+  --fs-h3: 24px;
+  --fs-h4: 20px;
+  --fs-body-lg: 18px;
+  --fs-body: 16px;
+  --fs-sm: 14px;
+  --fs-xs: 12px;
+  --fs-num-xl: 96px;
+  --fs-num-lg: 64px;
+  --fs-num-md: 40px;
+  --fs-num-sm: 24px;
+  --lh-tight: 1.3;
+  --lh-snug: 1.5;
+  --lh-body: 1.9;
+  --lh-ui: 1.4;
+  --ls-display: 0.04em;
+  --ls-heading: 0.06em;
+  --ls-body: 0.06em;
+  --ls-ui: 0.08em;
+  --ls-label: 0.14em;
+  --text-display-font: var(--fw-black) var(--fs-display) / var(--lh-tight)
+    var(--font-jp);
+  --text-h1-font: var(--fw-black) var(--fs-h1) / var(--lh-tight) var(--font-jp);
+  --text-h2-font: var(--fw-bold) var(--fs-h2) / var(--lh-snug) var(--font-jp);
+  --text-h3-font: var(--fw-bold) var(--fs-h3) / var(--lh-snug) var(--font-jp);
+  --text-h4-font: var(--fw-bold) var(--fs-h4) / var(--lh-snug) var(--font-jp);
+  --text-body-font: var(--fw-medium) var(--fs-body) / var(--lh-body)
+    var(--font-jp);
+  --text-eyebrow-font: var(--fw-bold) var(--fs-xs) / 1 var(--font-latin);
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-14: 56px;
+  --space-18: 72px;
+  --space-24: 96px;
+  --container-wide: 1320px;
+  --gutter: 40px;
+
+  /* Radii */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 40px;
+  --radius-pill: 999px;
+  --border-w: 1.5px;
+  --border-w-strong: 2px;
+  --divider-dotted: 2px dotted var(--ink-300);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(34, 37, 42, 0.06);
+  --shadow-float:
+    0 16px 48px rgba(34, 37, 42, 0.12), 0 2px 6px rgba(34, 37, 42, 0.06);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast: 120ms;
+  --dur-base: 220ms;
+  --dur-progress: 900ms;
+}
+@media (max-width: 720px) {
+  :root {
+    --fs-display: 40px;
+    --fs-h2: 26px;
+    --fs-h3: 21px;
+    --gutter: 16px;
+  }
+}
+html {
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  background: var(--bg-page);
+  color: var(--text-body);
+  font-family: var(--font-jp);
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  letter-spacing: var(--ls-body);
+  -webkit-font-smoothing: antialiased;
+}
+a {
+  color: var(--text-link);
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 4px;
+}
+a:hover {
+  color: var(--text-link-hover);
+  text-decoration-style: solid;
+}
+::selection {
+  background: var(--sun-300);
+  color: var(--ink-900);
+}
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+  }
+}

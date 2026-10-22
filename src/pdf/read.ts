@@ -13,7 +13,7 @@ export async function readPdf(file: File, c: Curriculum) {
   const bytes = new Uint8Array(await file.arrayBuffer());
   if (new TextDecoder().decode(bytes.slice(0, 5)) !== "%PDF-")
     throw new Error(
-      "PDF形式を確認できません。PDFを再出力するか手入力してください。",
+      "PDF形式を確認できません。Ku-portからPDFを出力し直してください。",
     );
   const task = getDocument({
     data: bytes,
@@ -65,7 +65,7 @@ export async function readPdf(file: File, c: Curriculum) {
     }
     if (!rows.length)
       throw new Error(
-        "文字を取り出せませんでした。画像のみのPDFは未対応です。Ku-portから文字を含むPDFを再保存するか手入力してください。",
+        "文字を取り出せませんでした。画像のみのPDFは未対応です。Ku-portから文字を含むPDFを保存し直してください。",
       );
     if (rows.length > 3000)
       throw new Error(
@@ -75,15 +75,15 @@ export async function readPdf(file: File, c: Curriculum) {
   } catch (e) {
     if (e instanceof Error && e.name === "PasswordException")
       throw new Error(
-        "暗号化・パスワード付きPDFは未対応です。保護のないPDFを再出力するか手入力してください。",
+        "暗号化・パスワード付きPDFは未対応です。保護のないPDFを出力し直してください。",
       );
     if (e instanceof Error && e.name === "InvalidPDFException")
       throw new Error(
-        "PDFが破損している可能性があります。再保存または手入力してください。",
+        "PDFが破損している可能性があります。保存し直してください。",
       );
     if (e instanceof Error && /PDF|ページ|文字行/.test(e.message)) throw e;
     throw new Error(
-      "PDFを読み取れませんでした。別のPDFで再試行するか手入力してください。",
+      "PDFを読み取れませんでした。別のPDFでもう一度お試しください。",
     );
   } finally {
     await task.destroy();
