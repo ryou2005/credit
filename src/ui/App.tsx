@@ -107,8 +107,11 @@ export default function App() {
       setFaculty(parsed.facultyLabel ?? "");
       setDepartment(parsed.departmentLabel ?? "");
     }
-    setApplicable(false);
+    // The curriculum follows from the signed-in student number, so go straight
+    // to the PDF screen (which shows it). Unsupported numbers stay here.
+    setApplicable(parsed.supported);
     invalidate();
+    if (parsed.supported) setStep(2);
   };
   useEffect(() => {
     if (!showLoginGate || step !== 0 || !consent || !googleBtn.current) return;
@@ -501,10 +504,35 @@ export default function App() {
           <section className="panel">
             <div className="section-head">
               <h2>Ku-portで保存した成績PDF</h2>
-              <button className="text-button" onClick={backToId}>
-                対象を変更
-              </button>
+              {!authEmail && (
+                <button className="text-button" onClick={backToId}>
+                  対象を変更
+                </button>
+              )}
             </div>
+            <dl className="id-summary">
+              {student.trim() && (
+                <div>
+                  <dt>学籍番号</dt>
+                  <dd>{candidate.normalized}</dd>
+                </div>
+              )}
+              <div>
+                <dt>入学年度</dt>
+                <dd>{c.entryYear}年度</dd>
+              </div>
+              <div>
+                <dt>学部・学科</dt>
+                <dd>
+                  {faculty.trim()} {department.trim()}
+                </dd>
+              </div>
+            </dl>
+            {authEmail && (
+              <p className="small">
+                学籍番号から判定しました。編入・転学科・特例の場合は教務窓口で確認してください。
+              </p>
+            )}
             <p>
               Ku-portの成績参照画面から、ご自身でPDF保存してください。自動ログイン・自動取得は行いません。
             </p>

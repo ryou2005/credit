@@ -32,6 +32,11 @@ test("手入力・修正・再計算・印刷・リセット", async ({ page }) 
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
   await enter(page);
+  // The PDF screen shows the curriculum the grades are checked against.
+  await expect(page.getByText("2024年度", { exact: true })).toBeVisible();
+  await expect(
+    page.getByText("情報学部 コンピュータ科学科", { exact: true }),
+  ).toBeVisible();
   await manualCourse(page);
   await expect(
     page.getByRole("heading", { name: "単位要件に未充足あり" }),
