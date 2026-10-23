@@ -7,7 +7,7 @@
 /*
 学生情報setupStudentInfoをインポート
 */
-import { setupStudentInfo } from "./studentInfo.js";
+import { setupStudentInfo } from "../studentInfo.js";
 
 /*
 必要単位数getrequirementと学生情報を表示用文字列にするgetStudentLabelをインポート
@@ -15,7 +15,7 @@ import { setupStudentInfo } from "./studentInfo.js";
 import {
   getRequirements,
   getStudentLabel
-} from "./requirements.js";
+} from "../requirement.js";
 
 /*
 PDF内の科目情報を読み取るreadSubjectsFromPdfをインポート
