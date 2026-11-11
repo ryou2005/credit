@@ -1,11 +1,23 @@
 import raw from "./kogakuin-2024.json";
+import rawIc from "./kogakuin-2024-ic.json";
+import rawId from "./kogakuin-2024-id.json";
+import rawIs from "./kogakuin-2024-is.json";
 import rawMaster from "./course-master.json";
 import { validateCurriculum } from "../domain/validate";
 import { validateCourseMaster } from "../domain/master";
+import type { Curriculum } from "../domain/schema";
 export { validateCurriculum } from "../domain/validate";
+// コンピュータ科学科 (hand-checked, docs/evidence.md). The other three are built
+// by scripts/build-curricula.mjs from the course master and each PDF's p4.
 export const official = validateCurriculum(raw);
+export const curricula = {
+  ic: validateCurriculum(rawIc),
+  cs: official,
+  id: validateCurriculum(rawId),
+  is: validateCurriculum(rawIs),
+};
 export const courseMaster = validateCourseMaster(rawMaster);
-export const registry = [official].filter(
+export const registry = Object.values(curricula).filter(
   (c) => c.releaseStatus === "verified",
 );
 export const institution = {
@@ -15,7 +27,13 @@ export const institution = {
     J: {
       id: "information",
       label: "情報学部",
-      departments: { "1": { id: "cs", label: "コンピュータ科学科" } },
+      // 2文字目の数字（依頼者確認、2026-11-11）
+      departments: {
+        "0": { id: "ic", label: "情報通信工学科" },
+        "1": { id: "cs", label: "コンピュータ科学科" },
+        "2": { id: "id", label: "情報デザイン学科" },
+        "3": { id: "is", label: "情報科学科" },
+      },
     },
   },
 };
@@ -23,7 +41,7 @@ export const studentNumberPolicy = {
   pattern: /^([A-Z])(\d)(\d{2})(\d{3})$/,
   years: { "24": 2024 } as Record<string, number>,
   source:
-    "依頼者提供のJ124241例に基づく初期版の入力形式。大学公式の桁数仕様は未確認。",
+    "依頼者提供のJ124241例と学科番号（情報通信工0・コンピュータ科学1・情報デザイン2・情報科学3）に基づく初期版の入力形式。大学公式の桁数仕様は未確認。",
 };
 export function parseStudentNumber(input: string) {
   const normalized = input.normalize("NFKC").trim().toUpperCase();
@@ -81,6 +99,9 @@ export const sectionLabels: Record<string, string> = {
   thesis: "卒業論文",
   excluded: "算入対象外",
 };
+// A section's display name in this curriculum (its own 第Ⅲ群 区分 names first).
+export const sectionLabel = (c: Curriculum, section: string) =>
+  c.sectionLabels?.[section] ?? sectionLabels[section];
 
 export function selectManualCurriculum(
   year: string,

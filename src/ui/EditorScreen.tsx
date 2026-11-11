@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { courseMaster, sectionLabels } from "../data/registry";
+import { courseMaster, sectionLabel } from "../data/registry";
 import {
   units,
   type Curriculum,
@@ -242,10 +242,11 @@ export function EditorScreen({
                       {c.courses.map((x) => (
                         <option key={x.id} value={x.id}>
                           {x.name}（
-                          {sectionLabels[
+                          {sectionLabel(
+                            c,
                             c.placements.find((p) => p.courseId === x.id)
-                              ?.section ?? ""
-                          ] ?? "その他"}
+                              ?.section ?? "",
+                          ) ?? "その他"}
                           ）
                         </option>
                       ))}
@@ -345,7 +346,7 @@ export function EditorScreen({
                       : "手入力"}{" "}
                     /{" "}
                     {p
-                      ? `${sectionLabels[p.section] ?? p.section}・${p.kind === "required" ? "必修" : p.kind === "selective" ? "選択必修" : p.kind === "excluded" ? "算入対象外" : "選択"}`
+                      ? `${sectionLabel(c, p.section) ?? p.section}・${p.kind === "required" ? "必修" : p.kind === "selective" ? "選択必修" : p.kind === "excluded" ? "算入対象外" : "選択"}`
                       : "分類未確認"}
                   </p>
                   <pre>{g.provenance.raw}</pre>

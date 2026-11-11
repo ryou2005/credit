@@ -1,4 +1,9 @@
-import { curriculumSchema, type Curriculum, type Expression } from "./schema";
+import {
+  curriculumSchema,
+  matches,
+  type Curriculum,
+  type Expression,
+} from "./schema";
 export function validateCurriculum(input: unknown): Curriculum {
   const c = curriculumSchema.parse(input);
   const ids = new Set(c.courses.map((x) => x.id));
@@ -45,19 +50,7 @@ export function validateCurriculum(input: unknown): Curriculum {
       throw new Error("曖昧・連鎖する代替対応は未対応");
   });
   // Overlapping caps or partial selector/cap intersections require allocation, intentionally unsupported.
-  const match = (
-    p: Curriculum["placements"][number],
-    s: {
-      sections?: string[];
-      kinds?: string[];
-      courseIds?: string[];
-      external?: boolean;
-    },
-  ) =>
-    (!s.sections || s.sections.includes(p.section)) &&
-    (!s.kinds || s.kinds.includes(p.kind)) &&
-    (!s.courseIds || s.courseIds.includes(p.courseId)) &&
-    (s.external === undefined || s.external === p.external);
+  const match = matches;
   for (const p of c.placements)
     if (c.caps.filter((cap) => match(p, cap.selector)).length > 1)
       throw new Error("重なる算入上限は未対応");

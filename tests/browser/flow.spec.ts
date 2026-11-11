@@ -27,6 +27,22 @@ test("ログイン後は確認画面なしで取り込み画面へ進み、所�
   await expect(page.getByRole("button", { name: "判定する" })).toBeDisabled();
 });
 
+test("他学科（情報科学科）は学籍番号から所属を決め、学科の区分名で表示する", async ({
+  page,
+}) => {
+  await signIn(page, "j324000@g.kogakuin.jp");
+  await expect(
+    page.getByText("情報学部 情報科学科", { exact: true }),
+  ).toBeVisible();
+  await judge(page, "Fictional course");
+  await expect(title(page)).toContainText("あと124単位");
+  await page.getByRole("button", { name: /専門基礎＋専門科目/ }).click();
+  for (const area of ["経営情報", "情報インフラ", "データ科学"])
+    await expect(
+      page.getByText(`${area} 選択必修`, { exact: true }).first(),
+    ).toBeVisible();
+});
+
 test("判定・修正・再判定・卒論着手タブ・ログアウト", async ({ page }) => {
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));

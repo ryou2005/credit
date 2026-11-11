@@ -13,6 +13,8 @@ const selectorSchema = z
     kinds: z.array(z.string()).optional(),
     courseIds: z.array(z.string()).optional(),
     external: z.boolean().optional(),
+    // Groups that cut across sections (情報通信工学科 p4 注3); see Placement.area.
+    areas: z.array(z.string()).optional(),
   })
   .strict();
 export type Selector = z.infer<typeof selectorSchema>;
@@ -63,6 +65,9 @@ export const curriculumSchema = z.object({
   applicability: z.string(),
   releaseStatus: z.enum(["verified", "preparing", "unsupported", "fixture"]),
   source: sourceSchema,
+  // Display names of this department's sections (e.g. III-A = 専門 経営情報)
+  // where they differ from the shared defaults in registry.ts.
+  sectionLabels: z.record(z.string(), z.string()).optional(),
   courses: z.array(
     z.object({
       id: z.string(),
@@ -83,6 +88,7 @@ export const curriculumSchema = z.object({
       kind: z.enum(["required", "selective", "elective", "excluded"]),
       eligible: z.boolean(),
       external: z.boolean(),
+      area: z.string().optional(),
     }),
   ),
   equivalences: z.array(
@@ -116,6 +122,12 @@ export const curriculumSchema = z.object({
 });
 export type Curriculum = z.infer<typeof curriculumSchema>;
 export type Placement = Curriculum["placements"][number];
+export const matches = (p: Placement, s: Selector) =>
+  (!s.sections || s.sections.includes(p.section)) &&
+  (!s.kinds || s.kinds.includes(p.kind)) &&
+  (!s.courseIds || s.courseIds.includes(p.courseId)) &&
+  (s.external === undefined || s.external === p.external) &&
+  (!s.areas || (!!p.area && s.areas.includes(p.area)));
 export type GradeStatus =
   "earned" | "failed" | "enrolled" | "ungraded" | "unknown";
 export interface Grade {
