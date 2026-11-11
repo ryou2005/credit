@@ -12,7 +12,10 @@ it("年度・学部学科を明示入力し、未対応に切り替えない", (
     selectManualCurriculum("2024", "工学部", "コンピュータ科学科"),
   ).toBeUndefined();
   expect(
-    selectManualCurriculum("2024", "情報学部", "情報デザイン学科"),
+    selectManualCurriculum("2024", "情報学部", "情報デザイン学科")?.department,
+  ).toBe("id");
+  expect(
+    selectManualCurriculum("2024", "情報学部", "機械工学科"),
   ).toBeUndefined();
   expect(selectManualCurriculum("", "", "")).toBeUndefined();
 });

@@ -2,6 +2,7 @@ import { validateCurriculum } from "./validate";
 import { isExcludedSimilar, type CourseMaster } from "./master";
 import {
   units,
+  matches,
   type Curriculum,
   type Grade,
   type Placement,
@@ -48,11 +49,7 @@ function externalPlacement(
   };
 }
 type Assessment = Curriculum["rules"][number]["assessment"];
-export const matches = (p: Placement, s: Selector) =>
-  (!s.sections || s.sections.includes(p.section)) &&
-  (!s.kinds || s.kinds.includes(p.kind)) &&
-  (!s.courseIds || s.courseIds.includes(p.courseId)) &&
-  (s.external === undefined || s.external === p.external);
+export { matches };
 export function evaluateCurriculum(
   input: Curriculum,
   grades: Grade[],

@@ -18,11 +18,11 @@ interface Node {
   children: Node[];
   courses: number;
 }
-// Every (section, kind) a counted course can sit in; the 学部枠 is synthetic.
+const key = (p: Placement) => `${p.section}|${p.kind}|${p.area ?? ""}`;
+// Every (section, kind, area) a counted course can sit in; the 学部枠 is synthetic.
 function universe(c: Curriculum): Placement[] {
   const seen = new Map<string, Placement>();
-  for (const p of c.placements)
-    if (p.eligible) seen.set(`${p.section}|${p.kind}`, p);
+  for (const p of c.placements) if (p.eligible) seen.set(key(p), p);
   seen.set("external|elective", {
     courseId: "external",
     credits: "0",
@@ -33,7 +33,6 @@ function universe(c: Curriculum): Placement[] {
   });
   return [...seen.values()];
 }
-const key = (p: Placement) => `${p.section}|${p.kind}`;
 const within = (a: Set<string>, b: Set<string>) =>
   [...a].every((k) => b.has(k));
 const disjoint = (a: Set<string>, b: Set<string>) =>

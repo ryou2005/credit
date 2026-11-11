@@ -64,6 +64,7 @@ function within(a: Rule, b: Rule) {
   if (!x.sections || !y.sections || x.courseIds || y.courseIds) return false;
   return (
     x.sections.every((s) => y.sections!.includes(s)) &&
+    (!y.areas || (!!x.areas && x.areas.every((s) => y.areas!.includes(s)))) &&
     (!y.kinds || (!!x.kinds && x.kinds.every((k) => y.kinds!.includes(k))))
   );
 }
@@ -173,6 +174,22 @@ export function ResultScreen({
   const marker = thesisTotal?.required ? num(thesisTotal.required) : undefined;
   const sectionCredits = (sections: string[]) =>
     creditText(result.creditsFor({ sections }));
+  // 第Ⅲ群 sections other than the thesis (区分 names differ by department).
+  const thirdSections = [
+    ...new Set(
+      c.placements.map((p) => p.section).filter((s) => s.startsWith("III-")),
+    ),
+  ];
+  // Per-区分 選択必修 conditions (CS: III-A〜C, 情報科学科: 経営情報など,
+  // 情報通信工学科: area-*). 情報デザイン学科 has none.
+  const areaSuffixes = rules
+    .map((r) => suffix(c, r))
+    .filter((s) => /^III-.+-selective$|^area-/.test(s));
+  // 情報科学科 p4 注4: the 卒論着手 65単位 leaves out other departments' courses.
+  const specialExpr = bySuffix("special")?.expression;
+  const externalCounts =
+    specialExpr?.type !== "credits" ||
+    !!specialExpr.selector.sections?.includes("external");
 
   // Rows of the requirement groups for the selected tab. Rules not placed in a
   // group are listed under その他 so nothing the engine checks goes unseen.
@@ -242,11 +259,11 @@ export function ResultScreen({
             "mandatory-special",
             "mandatory-named",
             "selective",
-            "III-A-selective",
-            "III-B-selective",
-            "III-C-selective",
+            ...areaSuffixes,
           ],
-          "専門基礎科目と専門科目（卒業論文以外）は、合算した単位数で判定します。他学科の科目は学部枠として最大6単位まで含みます。",
+          externalCounts
+            ? "専門基礎科目と専門科目（卒業論文以外）は、合算した単位数で判定します。他学科の科目は学部枠として最大6単位まで含みます。"
+            : "専門基礎科目と専門科目（卒業論文以外）は、合算した単位数で判定します。卒業論文着手の条件には、他学科の科目を含みません。",
           [
             {
               label: "内訳：専門基礎科目",
@@ -254,12 +271,16 @@ export function ResultScreen({
             },
             {
               label: "内訳：専門科目（卒業論文以外）",
-              value: `${sectionCredits(["III-A", "III-B", "III-C", "III-common"])} 単位`,
+              value: `${sectionCredits(thirdSections)} 単位`,
             },
-            {
-              label: "内訳：他学科の科目（学部枠）",
-              value: `${sectionCredits(["external"])} 単位`,
-            },
+            ...(externalCounts
+              ? [
+                  {
+                    label: "内訳：他学科の科目（学部枠）",
+                    value: `${sectionCredits(["external"])} 単位`,
+                  },
+                ]
+              : []),
           ],
         ),
       ].filter((x): x is Row => !!x),
@@ -295,9 +316,7 @@ export function ResultScreen({
     ...required("II-a-required"),
     ...required("mandatory-special"),
     ...required("selective"),
-    ...required("III-A-selective"),
-    ...required("III-B-selective"),
-    ...required("III-C-selective"),
+    ...areaSuffixes.flatMap(required),
   ];
   const courseLists = rules.filter((r) => r.expression.type === "allCourses");
   [...mandatoryBoxes, ...courseLists].forEach((r) => used.add(r.id));
