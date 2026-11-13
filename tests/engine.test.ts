@@ -76,6 +76,15 @@ describe("学籍番号・適用範囲", () => {
   ])("対象外/未知 %s", (id) =>
     expect(parseStudentNumber(id).supported).toBe(false),
   );
+  it("PDF内の学籍番号はJX（英字2文字＋数字5けた）も読む", () => {
+    const text = "学籍番号 JX24001";
+    const r = parseTextLines(
+      [{ page: 1, y: 700, text, items: [{ str: text, x: 40, width: 100 }] }],
+      official,
+    );
+    expect(r.identifiers).toEqual(["JX24001"]);
+    expect(r.grades).toEqual([]);
+  });
   it("PDF学籍番号の不一致・複数番号を検出", () => {
     expect(identityIssue("J124000", ["J124001"])).toBeTruthy();
     expect(identityIssue("J124000", ["J124000", "J124001"])).toBeTruthy();
