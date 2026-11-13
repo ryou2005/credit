@@ -385,6 +385,40 @@
   letter-spacing: var(--ls-ui);
   color: var(--text-subtle);
 }
+.dept-choice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+.dept-choice select {
+  min-width: 0;
+  height: 40px;
+  padding: 0 12px;
+  border: var(--border-w) solid var(--border-default);
+  border-radius: var(--radius-sm);
+  background: var(--paper-0);
+  color: var(--text-strong);
+  font: inherit;
+  font-size: 15px;
+  font-weight: var(--fw-medium);
+  letter-spacing: normal;
+}
+.dept-choice select:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: var(--focus-ring);
+}
+.account-note {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+.account-note.warn {
+  font-weight: var(--fw-bold);
+  color: var(--status-short-fg);
+}
 .account-info dd {
   margin: 0;
   font-size: var(--fs-body);

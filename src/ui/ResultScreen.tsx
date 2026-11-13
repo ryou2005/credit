@@ -134,6 +134,7 @@ export function ResultScreen({
   pdfName,
   judgedAt,
   unverifiedId,
+  transferred,
   toast,
   onCloseToast,
   onLogout,
@@ -147,6 +148,8 @@ export function ResultScreen({
   pdfName: string;
   judgedAt: Date;
   unverifiedId: boolean;
+  // 出席番号401以降（転籍・編入学）.
+  transferred: boolean;
   toast: string;
   onCloseToast: () => void;
   onLogout: () => void;
@@ -390,6 +393,11 @@ export function ResultScreen({
             {unverifiedId && (
               <span className="meta-warn">
                 PDF内の学籍番号を照合できませんでした
+              </span>
+            )}
+            {transferred && (
+              <span className="meta-warn">
+                転籍・編入学の学籍番号：認定単位などは教務窓口で確認してください
               </span>
             )}
           </div>

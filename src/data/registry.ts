@@ -27,22 +27,37 @@ export const institution = {
     J: {
       id: "information",
       label: "情報学部",
-      // 2文字目の数字（依頼者確認、2026-11-11）
+      // 学科記号 J0〜J3（学生便覧 office2023.pdf「学籍番号」で確認、docs/evidence.md）。
       departments: {
         "0": { id: "ic", label: "情報通信工学科" },
         "1": { id: "cs", label: "コンピュータ科学科" },
         "2": { id: "id", label: "情報デザイン学科" },
         "3": { id: "is", label: "情報科学科" },
       },
+      // JX: 2年次後期にJ0〜J3へ振り分けられるが記号は変わらない。学科は本人が選ぶ。
+      undecided: "X",
     },
   },
 };
 export const studentNumberPolicy = {
-  pattern: /^([A-Z])(\d)(\d{2})(\d{3})$/,
+  // 学科記号2文字＋入学年度の下2けた＋出席番号3けた（メールアドレスではハイフンなし）。
+  pattern: /^([A-Z])([0-9A-Z])(\d{2})(\d{3})$/,
   years: { "24": 2024 } as Record<string, number>,
+  // 転籍・編入学の出席番号は401以降。
+  transferFrom: 401,
   source:
-    "依頼者提供のJ124241例と学科番号（情報通信工0・コンピュータ科学1・情報デザイン2・情報科学3）に基づく初期版の入力形式。大学公式の桁数仕様は未確認。",
+    "学生便覧（2023年度版）の学籍番号：2文字の学科記号＋入学年度下2けた＋出席番号3けた。情報学部はJ0=情報通信工・J1=コンピュータ科学・J2=情報デザイン・J3=情報科学、JX=学科未定（振り分け後も記号は変わらない）。転籍・編入学は出席番号401以降。",
 };
+interface Faculty {
+  id: string;
+  label: string;
+  departments: Record<string, { id: string; label: string }>;
+  undecided?: string;
+}
+export interface DepartmentChoice {
+  curriculumId: string;
+  departmentLabel: string;
+}
 export function parseStudentNumber(input: string) {
   const normalized = input.normalize("NFKC").trim().toUpperCase();
   const m = studentNumberPolicy.pattern.exec(normalized);
@@ -50,38 +65,49 @@ export function parseStudentNumber(input: string) {
     return {
       normalized,
       supported: false,
+      choices: [] as DepartmentChoice[],
+      transferred: false,
       label:
-        "形式を確認できません。初期版は英字1文字＋数字6桁の例に対応しています。",
+        "形式を確認できません。学科記号2文字＋数字5けた（例：J124241）の学籍番号に対応しています。",
     };
-  const faculties = institution.facultyPrefixes as Record<
-    string,
-    {
-      id: string;
-      label: string;
-      departments: Record<string, { id: string; label: string }>;
-    }
-  >;
+  const faculties = institution.facultyPrefixes as Record<string, Faculty>;
   const f = faculties[m[1]],
-    d = f?.departments[m[2]],
     year = studentNumberPolicy.years[m[3]];
-  const candidate = registry.find(
-    (c) =>
-      c.university === institution.id &&
-      c.faculty === f?.id &&
-      c.department === d?.id &&
-      c.entryYear === year,
-  );
+  const undecided = !!f?.undecided && m[2] === f.undecided;
+  const departments = undecided
+    ? Object.values(f.departments)
+    : [f?.departments[m[2]]].filter((d) => !!d);
+  // Curricula this number can use: one for J0〜J3, every department for JX.
+  const choices = departments.flatMap((d) => {
+    const c = registry.find(
+      (x) =>
+        x.university === institution.id &&
+        x.faculty === f.id &&
+        x.department === d.id &&
+        x.entryYear === year,
+    );
+    return c ? [{ curriculumId: c.id, departmentLabel: d.label }] : [];
+  });
+  const candidate = undecided
+    ? undefined
+    : registry.find((x) => x.id === choices[0]?.curriculumId);
+  const supported = undecided ? choices.length > 0 : !!candidate;
   return {
     normalized,
-    supported: !!candidate,
+    supported,
     curriculumId: candidate?.id,
     // Display labels for auto-filling the form after login; present only when supported.
-    entryYear: candidate ? String(candidate.entryYear) : undefined,
-    facultyLabel: candidate ? f?.label : undefined,
-    departmentLabel: candidate ? d?.label : undefined,
+    entryYear: supported ? String(year) : undefined,
+    facultyLabel: supported ? f.label : undefined,
+    departmentLabel: candidate ? choices[0].departmentLabel : undefined,
+    // JX: the department cannot be read from the number; the student picks it.
+    choices: undecided && supported ? choices : [],
+    transferred: Number(m[4]) >= studentNumberPolicy.transferFrom,
     label:
       candidate?.label ??
-      "対象外です。別年度・別学科のルールへは切り替えません。",
+      (supported
+        ? "学籍番号から学科を判定できません（JX）。振り分けられた学科を選んでください。"
+        : "対象外です。別年度・別学科のルールへは切り替えません。"),
   };
 }
 export const sectionLabels: Record<string, string> = {

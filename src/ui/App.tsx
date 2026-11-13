@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { registry, courseMaster, parseStudentNumber } from "../data/registry";
+import {
+  registry,
+  courseMaster,
+  parseStudentNumber,
+  type DepartmentChoice,
+} from "../data/registry";
 import type { Curriculum, Grade } from "../domain/schema";
 import { evaluateCurriculum } from "../domain/engine";
 import { identityIssue } from "../pdf/normalize";
@@ -14,8 +19,15 @@ type Step = "login" | "upload" | "editor" | "result";
 interface Account {
   email: string;
   student: string;
-  curriculum: Curriculum;
+  // null until a JX student picks the department they were assigned to.
+  curriculum: Curriculum | null;
+  faculty: string;
   department: string;
+  entryYear: number;
+  // JX only: the departments the student can pick from.
+  choices: DepartmentChoice[];
+  // 出席番号401以降（転籍・編入学）.
+  transferred: boolean;
 }
 
 export default function App() {
@@ -36,11 +48,13 @@ export default function App() {
     window.scrollTo(0, 0);
   }, [step]);
 
-  // The signed-in student number decides the curriculum; nothing is entered by hand.
+  // The signed-in student number decides the curriculum. Only a JX student
+  // (department not in the number) picks the department on the upload screen.
   const onLogin = (email: string) => {
     const parsed = parseStudentNumber(email.split("@")[0] ?? "");
-    const curriculum = registry.find((x) => x.id === parsed.curriculumId);
-    if (!parsed.supported || !curriculum) {
+    const curriculum =
+      registry.find((x) => x.id === parsed.curriculumId) ?? null;
+    if (!parsed.supported || (!curriculum && !parsed.choices.length)) {
       setBlocked(
         `${email} の学籍番号から、対応しているカリキュラムを判定できませんでした。現在の対応範囲は ${registry.map((x) => x.label).join("、")} です。別年度・別学科のルールへは切り替えません。`,
       );
@@ -50,10 +64,30 @@ export default function App() {
       email,
       student: parsed.normalized,
       curriculum,
-      department: `${parsed.facultyLabel} ${parsed.departmentLabel}`,
+      faculty: parsed.facultyLabel ?? "",
+      department: curriculum
+        ? `${parsed.facultyLabel} ${parsed.departmentLabel}`
+        : "",
+      entryYear: Number(parsed.entryYear),
+      choices: parsed.choices,
+      transferred: parsed.transferred,
     });
     setStep("upload");
   };
+  const chooseDepartment = (curriculumId: string) =>
+    setAccount((a) => {
+      if (!a) return a;
+      const choice = a.choices.find((x) => x.curriculumId === curriculumId);
+      return {
+        ...a,
+        curriculum: choice
+          ? (registry.find((x) => x.id === curriculumId) ?? null)
+          : null,
+        department: choice
+          ? `${a.faculty} ${choice.departmentLabel}（本人が選択）`
+          : "",
+      };
+    });
   const signOut = () => {
     setAccount(null);
     setBlocked("");
@@ -88,6 +122,7 @@ export default function App() {
 
   // Reads the PDF, checks it is the signed-in student's, and assesses it.
   const judge = async (file: File) => {
+    if (!c) throw new Error("学科を選んでから判定してください。");
     const { readPdf } = await import("../pdf/read");
     const parsed = await readPdf(file, c);
     if (identityIssue(account.student, parsed.identifiers))
@@ -117,11 +152,17 @@ export default function App() {
       <UploadScreen
         email={account.email}
         department={account.department}
-        entryYear={c.entryYear}
+        entryYear={account.entryYear}
+        faculty={account.faculty}
+        choices={account.choices}
+        chosen={c?.id ?? ""}
+        onChoose={chooseDepartment}
+        transferred={account.transferred}
         onLogout={signOut}
         onJudge={judge}
       />
     );
+  if (!c) return null;
   if (step === "editor")
     return (
       <EditorScreen
@@ -152,6 +193,7 @@ export default function App() {
       pdfName={pdfName}
       judgedAt={judgedAt}
       unverifiedId={!pdfIds.length}
+      transferred={account.transferred}
       toast={toast}
       onCloseToast={() => setToast("")}
       onLogout={signOut}

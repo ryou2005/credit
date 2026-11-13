@@ -68,6 +68,39 @@ describe("学籍番号の2文字目で学科を決める", () => {
     expect(parseStudentNumber("J225001").supported).toBe(false));
 });
 
+describe("学籍番号JX（学科未定）と転籍・編入学（学生便覧）", () => {
+  it("JXは学科を決めず、4学科から本人が選ぶ", () => {
+    const p = parseStudentNumber("jx24001");
+    expect(p.supported).toBe(true);
+    expect(p.curriculumId).toBeUndefined();
+    expect(p.departmentLabel).toBeUndefined();
+    expect(p.facultyLabel).toBe("情報学部");
+    expect(p.entryYear).toBe("2024");
+    expect(p.choices).toEqual([
+      { curriculumId: curricula.ic.id, departmentLabel: "情報通信工学科" },
+      { curriculumId: curricula.cs.id, departmentLabel: "コンピュータ科学科" },
+      { curriculumId: curricula.id.id, departmentLabel: "情報デザイン学科" },
+      { curriculumId: curricula.is.id, departmentLabel: "情報科学科" },
+    ]);
+  });
+  it("学科が決まる番号は選択肢を出さない", () =>
+    expect(parseStudentNumber("J124241").choices).toEqual([]));
+  it.each(["JX25001", "AX24001", "J424001"])("%s は対象外", (id) => {
+    const p = parseStudentNumber(id);
+    expect(p.supported).toBe(false);
+    expect(p.choices).toEqual([]);
+  });
+  it.each([
+    ["J124400", false],
+    ["J124401", true],
+    ["JX24450", true],
+  ])("%s 転籍・編入学（出席番号401以降）= %s", (id, transferred) => {
+    const p = parseStudentNumber(id);
+    expect(p.supported).toBe(true);
+    expect(p.transferred).toBe(transferred);
+  });
+});
+
 describe.each(others)("%s（2024年度入学）", (label, c) => {
   const mine = courseMaster.courses.filter(
     (x) => x.department === c.department,

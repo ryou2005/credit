@@ -26,7 +26,9 @@ const statuses: Record<string, Grade["status"]> = {
 const CREDIT = /^\d+(\.\d{1,2})?$/;
 const YEAR = /^\d{4}$/;
 const EVAL = /^(A\+|A|B|C|D|F)$/;
-const IDENT = /\b([A-Za-z]\d{6})\b/g;
+// 学籍番号：英字＋数字6けた（J124241）か、学科未定のJX＋数字5けた（JX24001）。
+const STUDENT = String.raw`[A-Za-z]\d{6}|[Jj][Xx]\d{5}`;
+const IDENT = new RegExp(String.raw`\b(${STUDENT})\b`, "g");
 
 // Page titles that are summaries, not course detail — never parse as grades.
 const SKIP_PAGE = /GPA推移表|単位修得状況表/;
@@ -219,7 +221,8 @@ export function parseTextLines(
 
       // Fallback for PDFs without a header row: explicit interchange format or
       // whole-line name match. Not Ku-port; used by synthetic fixtures/tests.
-      if (/^学籍番号\s*[:：]?\s*[A-Za-z]\d{6}$/.test(text)) continue;
+      if (new RegExp(String.raw`^学籍番号\s*[:：]?\s*(${STUDENT})$`).test(text))
+        continue;
       const cells = text.split(/[|\t]/).map((s) => s.trim());
       if (cells.length === 6) {
         const course = matchCourse(c, cells[0], cells[1]);

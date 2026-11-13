@@ -9,6 +9,7 @@ import {
   useEntered,
 } from "./ds";
 import { TopBar } from "./TopBar";
+import type { DepartmentChoice } from "../data/registry";
 
 type Phase = "empty" | "selected" | "processing" | "error";
 const sizeText = (n: number) =>
@@ -21,12 +22,24 @@ export function UploadScreen({
   email,
   department,
   entryYear,
+  faculty,
+  choices,
+  chosen,
+  onChoose,
+  transferred,
   onLogout,
   onJudge,
 }: {
   email: string;
   department: string;
   entryYear: number;
+  faculty: string;
+  // JX students (department not in the student number) pick from these.
+  choices: DepartmentChoice[];
+  chosen: string;
+  onChoose: (curriculumId: string) => void;
+  // 出席番号401以降（転籍・編入学）.
+  transferred: boolean;
   onLogout: () => void;
   // Reads and assesses the file; resolves with the step that shows the result.
   onJudge: (file: File) => Promise<() => void>;
@@ -62,7 +75,7 @@ export function UploadScreen({
     setReadError("");
   };
   const judge = async () => {
-    if (!file || phase !== "selected") return;
+    if (!file || phase !== "selected" || needsDepartment) return;
     setPhase("processing");
     setProgress(0);
     // Reading has no byte-level progress; ease toward 90% until it finishes.
@@ -84,6 +97,7 @@ export function UploadScreen({
     }
   };
   const busy = phase === "processing";
+  const needsDepartment = choices.length > 0 && !chosen;
   const rise = (delay: number) => ({
     opacity: entered ? 1 : 0,
     transform: entered ? "none" : "translateY(28px)",
@@ -139,12 +153,43 @@ export function UploadScreen({
             </span>
             <dl>
               <dt>学部・学科</dt>
-              <dd>{department}</dd>
+              <dd>
+                {choices.length ? (
+                  <label className="dept-choice">
+                    {faculty}
+                    <select
+                      aria-label="学科"
+                      value={chosen}
+                      disabled={busy}
+                      onChange={(e) => onChoose(e.target.value)}
+                    >
+                      <option value="">学科を選択してください</option>
+                      {choices.map((x) => (
+                        <option key={x.curriculumId} value={x.curriculumId}>
+                          {x.departmentLabel}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                ) : (
+                  department
+                )}
+              </dd>
               <dt>入学年度</dt>
               <dd>
                 <span className="num">{entryYear}</span>年度
               </dd>
             </dl>
+            {choices.length > 0 && (
+              <p className="account-note">
+                学籍番号（JX）からは学科を判定できません。振り分けられた学科を選んでください。振り分け前の場合は、希望する学科の卒業要件で確認できます。
+              </p>
+            )}
+            {transferred && (
+              <p className="account-note warn">
+                転籍・編入学の学籍番号（出席番号401以降）です。認定された単位や適用されるカリキュラムは、教務窓口で確認してください。
+              </p>
+            )}
           </div>
         </section>
         <section
@@ -211,7 +256,9 @@ export function UploadScreen({
               />
               {phase === "selected" && (
                 <p className="muted">
-                  このファイルで判定します。内容を確認して「判定する」を押してください。
+                  {needsDepartment
+                    ? "左の「学部・学科」で学科を選ぶと判定できます。"
+                    : "このファイルで判定します。内容を確認して「判定する」を押してください。"}
                 </p>
               )}
               {busy && (
@@ -244,7 +291,7 @@ export function UploadScreen({
             <Button
               size="lg"
               iconRight="arrow-right"
-              disabled={phase !== "selected"}
+              disabled={phase !== "selected" || needsDepartment}
               loading={busy}
               onClick={() => void judge()}
             >

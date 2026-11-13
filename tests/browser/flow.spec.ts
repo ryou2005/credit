@@ -83,6 +83,51 @@ test("判定・修正・再判定・卒論着手タブ・ログアウト", async
   expect(errors).toEqual([]);
 });
 
+test("学籍番号JXは学科を選ぶまで判定できず、選んだ学科で判定する", async ({
+  page,
+}) => {
+  await signIn(page, "jx24001@g.kogakuin.jp");
+  const dept = page.getByLabel("学科", { exact: true });
+  await expect(dept).toHaveValue("");
+  await expect(
+    page.getByText("学籍番号（JX）からは学科を判定できません", {
+      exact: false,
+    }),
+  ).toBeVisible();
+  await page.getByLabel("成績PDF", { exact: true }).setInputFiles({
+    name: "fictional.pdf",
+    mimeType: "application/pdf",
+    buffer: Buffer.from(pdf("JX24001 Fictional course")),
+  });
+  await expect(page.getByRole("button", { name: "判定する" })).toBeDisabled();
+  await dept.selectOption({ label: "情報科学科" });
+  await page.getByRole("button", { name: "判定する" }).click();
+  await expect(title(page)).toContainText("あと124単位");
+  await expect(
+    page.getByText("情報学部 情報科学科（本人が選択）", { exact: false }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("PDF内の学籍番号を照合できませんでした"),
+  ).toHaveCount(0);
+});
+
+test("転籍・編入学の学籍番号（401以降）は教務窓口での確認を促す", async ({
+  page,
+}) => {
+  await signIn(page, "j124401@g.kogakuin.jp");
+  await expect(
+    page.getByText("転籍・編入学の学籍番号（出席番号401以降）です", {
+      exact: false,
+    }),
+  ).toBeVisible();
+  await judge(page, "Fictional course");
+  await expect(
+    page.getByText(
+      "転籍・編入学の学籍番号：認定単位などは教務窓口で確認してください",
+    ),
+  ).toBeVisible();
+});
+
 test("対象外の学籍番号はログイン画面で止める", async ({ page }) => {
   await fakeGoogle(page, "j125000@g.kogakuin.jp");
   await page.goto("/");
