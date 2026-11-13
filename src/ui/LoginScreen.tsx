@@ -1,5 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { authConfig, authReady, mountGoogleButton } from "../auth/session";
+import {
+  authConfig,
+  authReady,
+  mountGoogleButton,
+  type LoginFailure,
+} from "../auth/session";
 import {
   Alert,
   Blob,
@@ -10,6 +15,29 @@ import {
   StatusBadge,
   useEntered,
 } from "./ds";
+
+// What the student can do about each kind of sign-in failure.
+export const loginFailureMessages: Record<
+  LoginFailure,
+  { title: string; body: string }
+> = {
+  load: {
+    title: "Googleログインを読み込めませんでした",
+    body: "広告ブロッカーやブラウザの保護機能（Braveのシールドなど）が、Googleログインを止めていないか確認して、ページを再読み込みしてください。LINEなどのアプリ内で開いている場合は、SafariやChromeで開き直してください。",
+  },
+  domain: {
+    title: "学内アカウントでログインしてください",
+    body: "工学院大学のアカウント（@g.kogakuin.jp）を選んでください。個人のGoogleアカウントでは利用できません。",
+  },
+  clock: {
+    title: "端末の時刻がずれています",
+    body: "端末の日付と時刻を「自動で設定」にしてから、もう一度ログインしてください。",
+  },
+  verify: {
+    title: "Googleログインを確認できませんでした",
+    body: "ページを再読み込みして、もう一度ログインしてください。続く場合は、別のブラウザでお試しください。",
+  },
+};
 
 // 01 ログイン. Google sign-in is required; the decorative card shows sample values.
 export function LoginScreen({
@@ -25,7 +53,7 @@ export function LoginScreen({
   const entered = useEntered();
   const [hover, setHover] = useState(false);
   const [ring, setRing] = useState(0);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<LoginFailure | null>(null);
   const slot = useRef<HTMLDivElement>(null);
   const configured = authReady(authConfig);
   useEffect(() => {
@@ -37,10 +65,7 @@ export function LoginScreen({
     return mountGoogleButton(
       slot.current,
       onLogin,
-      () =>
-        setError(
-          "Googleログインに失敗しました。学内アカウント（@g.kogakuin.jp）でログインし、ポップアップのブロックを解除してください。",
-        ),
+      setError,
       slot.current.clientWidth,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -98,7 +123,11 @@ export function LoginScreen({
             ) : (
               <>
                 <div ref={slot} className="google-slot" />
-                {error && <Alert tone="short">{error}</Alert>}
+                {error && (
+                  <Alert tone="short" title={loginFailureMessages[error].title}>
+                    {loginFailureMessages[error].body}
+                  </Alert>
+                )}
               </>
             )}
             <p className="muted">
