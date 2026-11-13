@@ -99,9 +99,15 @@ export async function verifyCredential(
       config.allowedDomains,
     )
   )
+    // Domains and flags only, never the address itself, so the console says
+    // which check failed without exposing who tried.
     throw new LoginError(
       "domain",
-      "対象のドメインのアカウントではありません。",
+      `対象のドメインのアカウントではありません。(hd=${String(payload.hd ?? "なし")}, email domain=${
+        typeof payload.email === "string"
+          ? (payload.email.split("@")[1] ?? "不明")
+          : "なし"
+      }, email_verified=${String(payload.email_verified)}, allowed=${config.allowedDomains.join(",")})`,
     );
   return payload;
 }
