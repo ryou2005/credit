@@ -149,8 +149,19 @@ test("ドメイン外のアカウントはログインできない", async ({ pa
     .getByRole("button", { name: "Googleでログイン（テスト）" })
     .click();
   await expect(page.getByRole("alert")).toContainText(
-    "Googleログインに失敗しました",
+    "学内アカウントでログインしてください",
   );
+});
+
+test("Googleログインを読み込めないときは、ブロッカーやアプリ内ブラウザを案内する", async ({
+  page,
+}) => {
+  await page.route("https://accounts.google.com/gsi/client*", (r) => r.abort());
+  await page.goto("/");
+  await expect(page.getByRole("alert")).toContainText(
+    "Googleログインを読み込めませんでした",
+  );
+  await expect(page.getByRole("alert")).toContainText("Braveのシールド");
 });
 
 test("PDF内の学籍番号が違えば判定しない", async ({ page }) => {

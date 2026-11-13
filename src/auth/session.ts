@@ -1,5 +1,6 @@
 import {
   createRemoteJWKSet,
+  errors,
   jwtVerify,
   type JWTPayload,
   type JWTVerifyGetKey,
@@ -29,6 +30,29 @@ export function allowedIdentity(
     (!domains.length || domains.includes(email.split("@")[1].toLowerCase()))
   );
 }
+// Why a sign-in failed, so the login screen can say what to do about it.
+// load: the Google button could not load (blocker, in-app browser, offline).
+// domain: not a verified account of an allowed domain.
+// clock: the token's times do not fit this device's clock.
+// verify: anything else (signature, audience, nonce, ...).
+export type LoginFailure = "load" | "domain" | "clock" | "verify";
+export class LoginError extends Error {
+  constructor(
+    readonly reason: LoginFailure,
+    message: string,
+    options?: ErrorOptions,
+  ) {
+    super(message, options);
+    this.name = "LoginError";
+  }
+}
+// Google's iat is its own clock; a device a few seconds behind would otherwise
+// see the token as issued in the future and reject every sign-in.
+export const CLOCK_TOLERANCE = "5 minutes";
+const TIME_CLAIMS = new Set(["iat", "exp", "nbf"]);
+const timeIssue = (e: unknown) =>
+  e instanceof errors.JWTExpired ||
+  (e instanceof errors.JWTClaimValidationFailed && TIME_CLAIMS.has(e.claim));
 const googleKeys = createRemoteJWKSet(
   new URL("https://www.googleapis.com/oauth2/v3/certs"),
 );
@@ -39,18 +63,32 @@ export async function verifyCredential(
   config = authConfig,
   keys: JWTVerifyGetKey = googleKeys,
 ): Promise<JWTPayload> {
-  if (!authReady(config) || !nonce) throw new Error("認証設定が不正です。");
-  const { payload } = await jwtVerify(token, keys, {
-    algorithms: ["RS256"],
-    issuer: ["https://accounts.google.com", "accounts.google.com"],
-    audience: config.clientId,
-    requiredClaims: ["exp", "iat", "sub", "nonce"],
-    maxTokenAge: "10 minutes",
-  });
+  if (!authReady(config) || !nonce)
+    throw new LoginError("verify", "認証設定が不正です。");
+  let payload: JWTPayload;
+  try {
+    ({ payload } = await jwtVerify(token, keys, {
+      algorithms: ["RS256"],
+      issuer: ["https://accounts.google.com", "accounts.google.com"],
+      audience: config.clientId,
+      requiredClaims: ["exp", "iat", "sub", "nonce"],
+      maxTokenAge: "10 minutes",
+      clockTolerance: CLOCK_TOLERANCE,
+    }));
+  } catch (e) {
+    throw new LoginError(
+      timeIssue(e) ? "clock" : "verify",
+      "Googleアカウントの確認に失敗しました。",
+      { cause: e },
+    );
+  }
   if (
     payload.nonce !== nonce ||
     !payload.sub ||
-    (payload.azp && payload.azp !== config.clientId) ||
+    (payload.azp && payload.azp !== config.clientId)
+  )
+    throw new LoginError("verify", "Googleアカウントの確認に失敗しました。");
+  if (
     // Workspace hosted-domain claim must match the allowlist when both are present.
     (config.allowedDomains.length &&
       typeof payload.hd === "string" &&
@@ -61,7 +99,10 @@ export async function verifyCredential(
       config.allowedDomains,
     )
   )
-    throw new Error("Googleアカウントの確認に失敗しました。");
+    throw new LoginError(
+      "domain",
+      "対象のドメインのアカウントではありません。",
+    );
   return payload;
 }
 interface GoogleId {
@@ -116,7 +157,7 @@ function loadGoogle() {
 export function mountGoogleButton(
   element: HTMLElement,
   success: (email: string) => void,
-  failure: () => void,
+  failure: (reason: LoginFailure) => void,
   width = 280,
 ) {
   let active = true,
@@ -136,10 +177,13 @@ export function mountGoogleButton(
             .then((payload) => {
               if (active) success(String(payload.email ?? ""));
             })
-            .catch(() => {
+            .catch((e: unknown) => {
+              const reason = e instanceof LoginError ? e.reason : "verify";
+              // Reason only; the token and its claims are never logged.
+              console.warn("[login]", reason, errorText(e));
               if (active) {
                 consumed = false;
-                failure();
+                failure(reason);
               }
             });
         },
@@ -155,14 +199,21 @@ export function mountGoogleButton(
         width: Math.min(400, Math.max(200, Math.round(width))),
       });
     })
-    .catch(() => {
-      if (active) failure();
+    .catch((e: unknown) => {
+      console.warn("[login]", "load", errorText(e));
+      if (active) failure("load");
     });
   return () => {
     active = false;
     element.replaceChildren();
   };
 }
+const errorText = (e: unknown) => {
+  const cause = e instanceof Error ? e.cause : undefined;
+  return cause instanceof Error
+    ? `${cause.name}: ${cause.message}`
+    : String(e instanceof Error ? e.message : e);
+};
 export async function logout() {
   window.google?.accounts.id.disableAutoSelect();
 }
