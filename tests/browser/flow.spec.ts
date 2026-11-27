@@ -35,8 +35,11 @@ test("他学科（情報科学科）は学籍番号から所属を決め、学�
     page.getByText("情報学部 情報科学科", { exact: true }),
   ).toBeVisible();
   await judge(page, "Fictional course");
-  await expect(title(page)).toContainText("あと124単位");
-  await page.getByRole("button", { name: /専門基礎＋専門科目/ }).click();
+  await expect(title(page)).toContainText("あと116単位");
+  await page
+    .locator("#requirements")
+    .getByRole("button", { name: /専門基礎＋専門科目/ })
+    .click();
   for (const area of ["経営情報", "情報インフラ", "データ科学"])
     await expect(
       page.getByText(`${area} 選択必修`, { exact: true }).first(),
@@ -49,7 +52,7 @@ test("判定・修正・再判定・卒論着手タブ・ログアウト", async
   await signIn(page);
   await judge(page, "Fictional course");
   // The unreadable line is left for review, so nothing counts yet.
-  await expect(title(page)).toContainText("あと124単位");
+  await expect(title(page)).toContainText("あと116単位");
   await expect(page.getByText("要確認", { exact: true }).first()).toBeVisible();
   await expect(
     page
@@ -67,15 +70,27 @@ test("判定・修正・再判定・卒論着手タブ・ログアウト", async
     .getByRole("combobox", { name: "修得状況 1", exact: true })
     .selectOption("earned");
   await page.getByRole("button", { name: "結果を更新する" }).click();
-  await expect(title(page)).not.toContainText("あと124単位");
+  await expect(title(page)).not.toContainText("あと116単位");
   await expect(title(page)).toContainText("卒業まで");
-  await expect(page.getByText("卒業条件 未達成")).toBeVisible();
+  await expect(page.getByText(/^不足 \d+(\.\d+)?単位$/)).toBeVisible();
+  // 足りない単位 lists each 区分; a row jumps to that 区分 on the 卒業条件 tab.
+  await expect(
+    page.getByRole("heading", { name: "足りない単位" }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: /総合文化科目.*来期に履修/ }).click();
+  await expect(page.getByText("必要単位", { exact: true })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "次にやること" }),
+  ).toBeVisible();
 
   await page.getByRole("tab", { name: "卒論着手条件" }).click();
   await expect(
     page.getByText(/卒業論文着手条件（総取得単位105単位以上）/),
   ).toBeVisible();
-  await page.getByRole("button", { name: /総合文化科目/ }).click();
+  await page
+    .locator("#requirements")
+    .getByRole("button", { name: /総合文化科目/ })
+    .click();
   await expect(page.getByText("必要単位", { exact: true })).toBeVisible();
 
   await page.getByRole("button", { name: "ログアウト" }).click();
@@ -102,7 +117,7 @@ test("学籍番号JXは学科を選ぶまで判定できず、選んだ学科で
   await expect(page.getByRole("button", { name: "判定する" })).toBeDisabled();
   await dept.selectOption({ label: "情報科学科" });
   await page.getByRole("button", { name: "判定する" }).click();
-  await expect(title(page)).toContainText("あと124単位");
+  await expect(title(page)).toContainText("あと116単位");
   await expect(
     page.getByText("情報学部 情報科学科（本人が選択）", { exact: false }),
   ).toBeVisible();

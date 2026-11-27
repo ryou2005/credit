@@ -57,6 +57,12 @@ export function evaluateCurriculum(
     allowFixture?: boolean;
     documentIssues?: string[];
     master?: CourseMaster;
+    // Counts 履修中 courses as if passed (the outlook once this term ends).
+    // Such a row that could not count anyway is skipped without a note or
+    // issue, since the earned-only assessment reports nothing for it either.
+    countEnrolled?: boolean;
+    // Course ids assumed passed, e.g. the 卒業論文 not yet registered.
+    assume?: string[];
   } = {},
 ) {
   const c = validateCurriculum(input);
@@ -68,7 +74,15 @@ export function evaluateCurriculum(
   const issues: string[] = [...(options.documentIssues ?? [])],
     notes: string[] = [];
   const accepted = new Map<string, Placement>();
+  // Counted course → name as listed; which are only being taken or assumed.
+  const names = new Map<string, string>();
+  const enrolled = new Set<string>();
+  const assumed = new Set<string>();
   for (const g of grades) {
+    const projected = !!options.countEnrolled && g.status === "enrolled";
+    const report = (list: string[], text: string) => {
+      if (!projected) list.push(text);
+    };
     const external = g.courseId ? {} : externalPlacement(c, options.master, g);
     const original = external.placement
       ? { source: { status: "verified" } }
@@ -89,18 +103,20 @@ export function evaluateCurriculum(
       );
       continue;
     }
-    if (g.status !== "earned") {
+    if (g.status !== "earned" && !projected) {
       notes.push(`${g.name}：修得済みではないため算入しません`);
       continue;
     }
     if (external.excluded) {
-      notes.push(
+      report(
+        notes,
         `${g.name}：他学科の類似科目のため学部枠に算入しません（p4 注1）`,
       );
       continue;
     }
     if (!original || !p) {
-      issues.push(
+      report(
+        issues,
         g.otherDepartment
           ? `${g.name}：他学科の科目ですが、開講学科・科目を特定できません。自動算入しません`
           : `${g.name || "名称未入力"}：未知の科目・分類。自動算入しません`,
@@ -108,22 +124,36 @@ export function evaluateCurriculum(
       continue;
     }
     if (!p.eligible) {
-      notes.push(`${g.name}：卒業単位への算入対象外`);
+      report(notes, `${g.name}：卒業単位への算入対象外`);
       continue;
     }
     try {
       if (units(g.credits) !== units(p.credits)) throw new Error();
     } catch {
-      issues.push(`${g.name}：単位数がカリキュラムと一致しません`);
+      report(issues, `${g.name}：単位数がカリキュラムと一致しません`);
       continue;
     }
     if (original.source.status !== "verified") {
-      issues.push(`${g.name}：根拠未確認`);
+      report(issues, `${g.name}：根拠未確認`);
       continue;
     }
-    if (accepted.has(p.courseId))
+    if (accepted.has(p.courseId)) {
+      if (projected) continue;
       notes.push(`${g.name}：重複・再履修は1科目分のみ算入`);
+      // Passed once counts as passed, even when also listed as 履修中.
+      enrolled.delete(p.courseId);
+      continue;
+    }
     accepted.set(p.courseId, p);
+    names.set(p.courseId, g.name);
+    if (projected) enrolled.add(p.courseId);
+  }
+  for (const id of options.assume ?? []) {
+    const p = c.placements.find((x) => x.courseId === id);
+    if (!p || accepted.has(id)) continue;
+    accepted.set(id, p);
+    assumed.add(id);
+    names.set(id, c.courses.find((x) => x.id === id)?.name ?? id);
   }
   const rows = [...accepted.values()].sort((a, b) =>
     a.courseId.localeCompare(b.courseId),
@@ -223,6 +253,13 @@ export function evaluateCurriculum(
     issues,
     notes,
     accepted: [...accepted.keys()],
+    // Counted courses with their placement, assumed ones included.
+    counted: [...accepted.values()].map((p) => ({
+      placement: p,
+      name: names.get(p.courseId) ?? p.courseId,
+      enrolled: enrolled.has(p.courseId),
+      assumed: assumed.has(p.courseId),
+    })),
     caps: c.caps.map((cap) => ({
       id: cap.id,
       actual: rows
