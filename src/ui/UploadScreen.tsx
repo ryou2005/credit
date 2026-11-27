@@ -9,23 +9,21 @@ import {
   useEntered,
 } from "./ds";
 import { TopBar } from "./TopBar";
-import type { DepartmentChoice } from "../data/registry";
 
 type Phase = "empty" | "selected" | "processing" | "error";
 const sizeText = (n: number) =>
   n > 1048576
     ? (n / 1048576).toFixed(1) + " MB"
     : Math.max(1, Math.round(n / 1024)) + " KB";
+// How long a chosen file can still be swapped before judging starts.
+export const AUTO_JUDGE_DELAY = 500;
 
-// 02 PDFアップロード: choose a file, then 判定する reads and assesses it.
+// 02 PDFアップロード: only one file is needed, so choosing it starts judging.
 export function UploadScreen({
   email,
   department,
   entryYear,
-  faculty,
-  choices,
-  chosen,
-  onChoose,
+  onChangeDepartment,
   transferred,
   onLogout,
   onJudge,
@@ -33,11 +31,8 @@ export function UploadScreen({
   email: string;
   department: string;
   entryYear: number;
-  faculty: string;
-  // JX students (department not in the student number) pick from these.
-  choices: DepartmentChoice[];
-  chosen: string;
-  onChoose: (curriculumId: string) => void;
+  // JX students picked the department themselves and may change it here.
+  onChangeDepartment?: () => void;
   // 出席番号401以降（転籍・編入学）.
   transferred: boolean;
   onLogout: () => void;
@@ -66,16 +61,19 @@ export function UploadScreen({
     setFile(f);
     setFileError("");
     setPhase("selected");
+    timers.current.push(
+      window.setTimeout(() => void judge(f), AUTO_JUDGE_DELAY),
+    );
   };
   const reset = () => {
     timers.current.forEach(clearInterval);
+    timers.current = [];
     setPhase("empty");
     setFile(null);
     setProgress(0);
     setReadError("");
   };
-  const judge = async () => {
-    if (!file || phase !== "selected" || needsDepartment) return;
+  const judge = async (file: File) => {
     setPhase("processing");
     setProgress(0);
     // Reading has no byte-level progress; ease toward 90% until it finishes.
@@ -97,7 +95,6 @@ export function UploadScreen({
     }
   };
   const busy = phase === "processing";
-  const needsDepartment = choices.length > 0 && !chosen;
   const rise = (delay: number) => ({
     opacity: entered ? 1 : 0,
     transform: entered ? "none" : "translateY(28px)",
@@ -148,43 +145,33 @@ export function UploadScreen({
             Ku-portから出力した成績PDFを選ぶだけ。卒業要件との照合は自動で行います。
           </p>
           <div className="account-info" style={rise(600)}>
-            <span className="label-muted">
-              Googleアカウントから確認した情報
-            </span>
+            <div className="account-head">
+              <span className="label-muted">
+                {onChangeDepartment
+                  ? "選択した所属"
+                  : "Googleアカウントから確認した情報"}
+              </span>
+              {onChangeDepartment && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  iconLeft="pencil"
+                  // The chosen file is judged with the department it was chosen under.
+                  disabled={phase === "selected" || busy}
+                  onClick={onChangeDepartment}
+                >
+                  変更
+                </Button>
+              )}
+            </div>
             <dl>
               <dt>学部・学科</dt>
-              <dd>
-                {choices.length ? (
-                  <label className="dept-choice">
-                    {faculty}
-                    <select
-                      aria-label="学科"
-                      value={chosen}
-                      disabled={busy}
-                      onChange={(e) => onChoose(e.target.value)}
-                    >
-                      <option value="">学科を選択してください</option>
-                      {choices.map((x) => (
-                        <option key={x.curriculumId} value={x.curriculumId}>
-                          {x.departmentLabel}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                ) : (
-                  department
-                )}
-              </dd>
+              <dd>{department}</dd>
               <dt>入学年度</dt>
               <dd>
                 <span className="num">{entryYear}</span>年度
               </dd>
             </dl>
-            {choices.length > 0 && (
-              <p className="account-note">
-                学籍番号（JX）からは学科を判定できません。振り分けられた学科を選んでください。振り分け前の場合は、希望する学科の卒業要件で確認できます。
-              </p>
-            )}
             {transferred && (
               <p className="account-note warn">
                 転籍・編入学の学籍番号（出席番号401以降）です。認定された単位や適用されるカリキュラムは、教務窓口で確認してください。
@@ -256,9 +243,7 @@ export function UploadScreen({
               />
               {phase === "selected" && (
                 <p className="muted">
-                  {needsDepartment
-                    ? "左の「学部・学科」で学科を選ぶと判定できます。"
-                    : "このファイルで判定します。内容を確認して「判定する」を押してください。"}
+                  このファイルで判定を始めます。別のファイルを使う場合は「ファイルを変更」から選び直してください。
                 </p>
               )}
               {busy && (
@@ -287,17 +272,6 @@ export function UploadScreen({
               )}
             </div>
           )}
-          <div className="judge-row">
-            <Button
-              size="lg"
-              iconRight="arrow-right"
-              disabled={phase !== "selected" || needsDepartment}
-              loading={busy}
-              onClick={() => void judge()}
-            >
-              {busy ? "判定しています…" : "判定する"}
-            </Button>
-          </div>
         </section>
       </main>
     </div>

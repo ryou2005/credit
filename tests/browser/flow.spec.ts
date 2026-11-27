@@ -1,8 +1,8 @@
 import { pdf } from "./pdf-fixture";
-import { AUTH_HOSTS, fakeGoogle, signIn } from "./google-fixture";
+import { AUTH_HOSTS, fakeGoogle, pressSignIn, signIn } from "./google-fixture";
 import { test, expect, type Page } from "@playwright/test";
 
-// Chooses a synthetic PDF and presses 判定する.
+// Chooses a synthetic PDF; judging starts by itself.
 async function judge(page: Page, text: string) {
   await page.getByLabel("成績PDF", { exact: true }).setInputFiles({
     name: "fictional.pdf",
@@ -10,7 +10,6 @@ async function judge(page: Page, text: string) {
     buffer: Buffer.from(pdf(text)),
   });
   await expect(page.getByText("fictional.pdf")).toBeVisible();
-  await page.getByRole("button", { name: "判定する" }).click();
 }
 const title = (page: Page) => page.getByRole("heading", { level: 1 });
 
@@ -24,7 +23,35 @@ test("ログイン後は確認画面なしで取り込み画面へ進み、所�
   await expect(page.getByText("2024", { exact: true })).toBeVisible();
   await expect(page.getByText("j124000@g.kogakuin.jp")).toBeVisible();
   await expect(page.getByRole("checkbox")).toHaveCount(0);
-  await expect(page.getByRole("button", { name: "判定する" })).toBeDisabled();
+  // Read from the student number: no dialog, the usual label, nothing to change.
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await expect(
+    page.getByText("Googleアカウントから確認した情報"),
+  ).toBeVisible();
+  await expect(page.getByRole("button", { name: "変更" })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "判定する" })).toHaveCount(0);
+});
+
+test("ファイルを選ぶと自動で判定し、直後なら「ファイルを変更」で取り消せる", async ({
+  page,
+}) => {
+  await signIn(page);
+  const input = page.getByLabel("成績PDF", { exact: true });
+  const file = {
+    name: "fictional.pdf",
+    mimeType: "application/pdf",
+    buffer: Buffer.from(pdf("Fictional course")),
+  };
+  await input.setInputFiles(file);
+  await expect(
+    page.getByText("このファイルで判定を始めます。", { exact: false }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "ファイルを変更" }).click();
+  await page.waitForTimeout(900);
+  await expect(page.getByLabel("成績PDF", { exact: true })).toBeAttached();
+  await expect(page.getByText("判定しています")).toHaveCount(0);
+  await input.setInputFiles(file);
+  await expect(title(page)).toContainText("卒業まで");
 });
 
 test("他学科（情報科学科）は学籍番号から所属を決め、学科の区分名で表示する", async ({
@@ -98,25 +125,28 @@ test("判定・修正・再判定・卒論着手タブ・ログアウト", async
   expect(errors).toEqual([]);
 });
 
-test("学籍番号JXは学科を選ぶまで判定できず、選んだ学科で判定する", async ({
+test("学籍番号JXはログイン直後のポップアップで学科を選び、選んだ学科で判定する", async ({
   page,
 }) => {
-  await signIn(page, "jx24001@g.kogakuin.jp");
-  const dept = page.getByLabel("学科", { exact: true });
-  await expect(dept).toHaveValue("");
+  await pressSignIn(page, "jx24001@g.kogakuin.jp");
+  const dialog = page.getByRole("dialog", { name: "学科を選んでください" });
+  await expect(dialog).toBeVisible();
+  await expect(dialog).toContainText("情報学部");
+  await expect(dialog).toContainText("2024年度");
+  await expect(dialog).toContainText("jx24001@g.kogakuin.jp");
+  const start = dialog.getByRole("button", { name: "判定をはじめる" });
+  await expect(start).toBeDisabled();
+  await expect(dialog.getByRole("radio")).toHaveCount(4);
+  await dialog.getByRole("radio", { name: "情報科学科" }).check();
+  await start.click();
   await expect(
-    page.getByText("学籍番号（JX）からは学科を判定できません", {
-      exact: false,
-    }),
+    page.getByRole("heading", { name: /成績PDFを\s*アップロード/ }),
   ).toBeVisible();
-  await page.getByLabel("成績PDF", { exact: true }).setInputFiles({
-    name: "fictional.pdf",
-    mimeType: "application/pdf",
-    buffer: Buffer.from(pdf("JX24001 Fictional course")),
-  });
-  await expect(page.getByRole("button", { name: "判定する" })).toBeDisabled();
-  await dept.selectOption({ label: "情報科学科" });
-  await page.getByRole("button", { name: "判定する" }).click();
+  await expect(page.getByText("選択した所属")).toBeVisible();
+  await expect(
+    page.getByText("情報学部 情報科学科", { exact: true }),
+  ).toBeVisible();
+  await judge(page, "JX24001 Fictional course");
   await expect(title(page)).toContainText("あと116単位");
   await expect(
     page.getByText("情報学部 情報科学科（本人が選択）", { exact: false }),
@@ -124,6 +154,58 @@ test("学籍番号JXは学科を選ぶまで判定できず、選んだ学科で
   await expect(
     page.getByText("PDF内の学籍番号を照合できませんでした"),
   ).toHaveCount(0);
+
+  // The pick is kept in this browser: the next sign-in skips the dialog.
+  await page.getByRole("button", { name: "ログアウト" }).click();
+  await page
+    .getByRole("button", { name: "Googleでログイン（テスト）" })
+    .click();
+  await expect(
+    page.getByRole("heading", { name: /成績PDFを\s*アップロード/ }),
+  ).toBeVisible();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await expect(
+    page.getByText("情報学部 情報科学科", { exact: true }),
+  ).toBeVisible();
+
+  // 変更 reopens it with the current pick; a new pick replaces it.
+  await page.getByRole("button", { name: "変更" }).click();
+  await expect(dialog.getByRole("radio", { name: "情報科学科" })).toBeChecked();
+  await dialog.getByRole("button", { name: "閉じる" }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await page.getByRole("button", { name: "変更" }).click();
+  await dialog.getByRole("radio", { name: "情報デザイン学科" }).check();
+  await dialog.getByRole("button", { name: "判定をはじめる" }).click();
+  await expect(
+    page.getByText("情報学部 情報デザイン学科", { exact: true }),
+  ).toBeVisible();
+});
+
+test("学科選択のポップアップから「アカウントを変更」でログインに戻る", async ({
+  page,
+}) => {
+  await pressSignIn(page, "jx24002@g.kogakuin.jp");
+  const dialog = page.getByRole("dialog", { name: "学科を選んでください" });
+  await dialog.getByRole("button", { name: "アカウントを変更" }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await expect(
+    page.getByRole("button", { name: "Googleでログイン（テスト）" }),
+  ).toBeVisible();
+});
+
+test("学科選択のポップアップはスマートフォン幅でも横にはみ出さない", async ({
+  page,
+}, info) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await pressSignIn(page, "jx24003@g.kogakuin.jp");
+  const dialog = page.getByRole("dialog", { name: "学科を選んでください" });
+  await expect(dialog).toBeVisible();
+  const box = await dialog.boundingBox();
+  expect(box && box.x >= 0 && box.x + box.width <= 390).toBe(true);
+  await info.attach("dept-dialog-mobile", {
+    body: await page.screenshot(),
+    contentType: "image/png",
+  });
 });
 
 test("転籍・編入学の学籍番号（401以降）は教務窓口での確認を促す", async ({

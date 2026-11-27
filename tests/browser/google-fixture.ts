@@ -54,13 +54,18 @@ export async function fakeGoogle(page: Page, email = "j124000@g.kogakuin.jp") {
   );
 }
 
-// Signs in from the login screen and waits for the PDF upload screen.
-export async function signIn(page: Page, email?: string) {
+// Presses the (fake) Google button on the login screen.
+export async function pressSignIn(page: Page, email?: string) {
   await fakeGoogle(page, email);
   await page.goto("/");
   await page
     .getByRole("button", { name: "Googleでログイン（テスト）" })
     .click();
+}
+
+// Signs in from the login screen and waits for the PDF upload screen.
+export async function signIn(page: Page, email?: string) {
+  await pressSignIn(page, email);
   await expect(
     page.getByRole("heading", { name: /成績PDFを\s*アップロード/ }),
   ).toBeVisible();

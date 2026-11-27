@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   authConfig,
   authReady,
@@ -44,11 +44,14 @@ export function LoginScreen({
   onLogin,
   blocked,
   onLogout,
+  overlay,
 }: {
   onLogin: (email: string) => void;
   // Set after a sign-in whose student number is outside the supported range.
   blocked?: string;
   onLogout: () => void;
+  // The department dialog shown over this screen right after sign-in.
+  overlay?: ReactNode;
 }) {
   const entered = useEntered();
   const [hover, setHover] = useState(false);
@@ -255,6 +258,7 @@ export function LoginScreen({
           成績PDFと成績はこの端末のブラウザ内だけで処理し、外部へ送信・保存しません。
         </p>
       </main>
+      {overlay}
     </div>
   );
 }
