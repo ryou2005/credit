@@ -1136,6 +1136,64 @@ export function FileItem({
   );
 }
 
+// Modal panel over a dimmed page. Without onClose it can only be left through
+// its own actions (the department step after login has no way to skip it).
+export function Dialog({
+  title,
+  width = 520,
+  onClose,
+  children,
+}: {
+  title: string;
+  width?: number;
+  onClose?: () => void;
+  children: ReactNode;
+}) {
+  const panel = useRef<HTMLDivElement>(null);
+  const titleId = useRef("dialog-" + Math.random().toString(36).slice(2));
+  const close = useRef(onClose);
+  close.current = onClose;
+  useEffect(() => {
+    const back = document.activeElement as HTMLElement | null;
+    panel.current?.focus();
+    const key = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close.current?.();
+    };
+    document.addEventListener("keydown", key);
+    const scroll = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", key);
+      document.body.style.overflow = scroll;
+      back?.focus?.();
+    };
+  }, []);
+  return (
+    <div className="dialog-overlay" onClick={onClose}>
+      <div
+        ref={panel}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId.current}
+        tabIndex={-1}
+        className="dialog"
+        style={{ width }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {onClose && (
+          <span className="dialog-close">
+            <IconButton icon="x" label="閉じる" onClick={onClose} />
+          </span>
+        )}
+        <h2 id={titleId.current} className="dialog-title">
+          {title}
+        </h2>
+        {children}
+      </div>
+    </div>
+  );
+}
+
 // Entrance and hover motion shared by the screens' decorative shapes.
 export function useEntered() {
   const reduced =

@@ -8,6 +8,11 @@ import {
 import type { Curriculum, Grade } from "../domain/schema";
 import { evaluateOutlook, type Outlook } from "../domain/outlook";
 import { identityIssue } from "../pdf/normalize";
+import {
+  loadChosenDepartment,
+  saveChosenDepartment,
+} from "../data/chosen-department";
+import { DepartmentDialog } from "./DepartmentDialog";
 import { logout } from "../auth/session";
 import { LoginScreen } from "./LoginScreen";
 import { UploadScreen } from "./UploadScreen";
@@ -15,7 +20,7 @@ import { ResultScreen, useToast } from "./ResultScreen";
 import { EditorScreen, needsReview } from "./EditorScreen";
 
 type Result = Outlook;
-type Step = "login" | "upload" | "editor" | "result";
+type Step = "login" | "department" | "upload" | "editor" | "result";
 interface Account {
   email: string;
   student: string;
@@ -29,6 +34,17 @@ interface Account {
   // 出席番号401以降（転籍・編入学）.
   transferred: boolean;
 }
+// The account with a JX student's chosen department applied.
+const withDepartment = (a: Account, curriculumId: string): Account => {
+  const choice = a.choices.find((x) => x.curriculumId === curriculumId);
+  return {
+    ...a,
+    curriculum: choice
+      ? (registry.find((x) => x.id === curriculumId) ?? null)
+      : null,
+    department: choice ? `${a.faculty} ${choice.departmentLabel}` : "",
+  };
+};
 
 export default function App() {
   const [step, setStep] = useState<Step>("login");
@@ -44,12 +60,15 @@ export default function App() {
   const [judgedAt, setJudgedAt] = useState(new Date());
   const [result, setResult] = useState<Result | null>(null);
   const [toast, setToast] = useToast();
+  // The department dialog reopened from the upload screen (変更).
+  const [deptOpen, setDeptOpen] = useState(false);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [step]);
 
   // The signed-in student number decides the curriculum. Only a JX student
-  // (department not in the number) picks the department on the upload screen.
+  // (department not in the number) picks the department, in a dialog right
+  // after sign-in; the pick is kept in this browser for the next sign-in.
   const onLogin = (email: string) => {
     const parsed = parseStudentNumber(email.split("@")[0] ?? "");
     const curriculum =
@@ -60,7 +79,7 @@ export default function App() {
       );
       return;
     }
-    setAccount({
+    const base: Account = {
       email,
       student: parsed.normalized,
       curriculum,
@@ -71,24 +90,27 @@ export default function App() {
       entryYear: Number(parsed.entryYear),
       choices: parsed.choices,
       transferred: parsed.transferred,
-    });
+    };
+    const saved = parsed.choices.length
+      ? loadChosenDepartment(
+          parsed.normalized,
+          parsed.choices.map((x) => x.curriculumId),
+        )
+      : undefined;
+    setAccount(saved ? withDepartment(base, saved) : base);
+    setStep(curriculum || saved ? "upload" : "department");
+  };
+  const chooseDepartment = (curriculumId: string) => {
+    if (!account) return;
+    saveChosenDepartment(account.student, curriculumId);
+    setAccount(withDepartment(account, curriculumId));
+    // A result judged under the previous department no longer applies.
+    setResult(null);
+    setDeptOpen(false);
     setStep("upload");
   };
-  const chooseDepartment = (curriculumId: string) =>
-    setAccount((a) => {
-      if (!a) return a;
-      const choice = a.choices.find((x) => x.curriculumId === curriculumId);
-      return {
-        ...a,
-        curriculum: choice
-          ? (registry.find((x) => x.id === curriculumId) ?? null)
-          : null,
-        department: choice
-          ? `${a.faculty} ${choice.departmentLabel}（本人が選択）`
-          : "",
-      };
-    });
   const signOut = () => {
+    setDeptOpen(false);
     setAccount(null);
     setBlocked("");
     setGrades([]);
@@ -110,15 +132,36 @@ export default function App() {
     }
   };
 
-  if (step === "login" || !account)
+  const departmentDialog = (a: Account, onClose?: () => void) => (
+    <DepartmentDialog
+      email={a.email}
+      faculty={a.faculty}
+      entryYear={a.entryYear}
+      choices={a.choices}
+      initial={a.curriculum?.id}
+      onDecide={chooseDepartment}
+      onChangeAccount={signOut}
+      onClose={onClose}
+    />
+  );
+  // The dialog opens over the login screen, which stays as it was behind it.
+  if (step === "login" || step === "department" || !account)
     return (
       <LoginScreen
         onLogin={onLogin}
         blocked={blocked || undefined}
         onLogout={signOut}
+        overlay={
+          step === "department" && account
+            ? departmentDialog(account)
+            : undefined
+        }
       />
     );
   const c = account.curriculum;
+  // Shown with results so a self-reported department is not mistaken for one
+  // read from the student number.
+  const selfChosen = account.choices.length > 0;
 
   // Reads the PDF, checks it is the signed-in student's, and assesses it.
   const judge = async (file: File) => {
@@ -149,18 +192,18 @@ export default function App() {
 
   if (step === "upload")
     return (
-      <UploadScreen
-        email={account.email}
-        department={account.department}
-        entryYear={account.entryYear}
-        faculty={account.faculty}
-        choices={account.choices}
-        chosen={c?.id ?? ""}
-        onChoose={chooseDepartment}
-        transferred={account.transferred}
-        onLogout={signOut}
-        onJudge={judge}
-      />
+      <>
+        <UploadScreen
+          email={account.email}
+          department={account.department}
+          entryYear={account.entryYear}
+          onChangeDepartment={selfChosen ? () => setDeptOpen(true) : undefined}
+          transferred={account.transferred}
+          onLogout={signOut}
+          onJudge={judge}
+        />
+        {deptOpen && departmentDialog(account, () => setDeptOpen(false))}
+      </>
     );
   if (!c) return null;
   if (step === "editor")
@@ -189,7 +232,9 @@ export default function App() {
       c={c}
       result={result}
       email={account.email}
-      department={account.department}
+      department={
+        selfChosen ? `${account.department}（本人が選択）` : account.department
+      }
       pdfName={pdfName}
       judgedAt={judgedAt}
       unverifiedId={!pdfIds.length}
