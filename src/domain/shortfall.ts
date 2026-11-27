@@ -4,6 +4,7 @@ import {
   type Curriculum,
   type Expression,
   type Placement,
+  type Selector,
 } from "./schema";
 
 interface ResultLike {
@@ -88,4 +89,31 @@ export function combinedShortfall(c: Curriculum, results: ResultLike[]) {
     return Math.max(n.need, inside);
   };
   return need(root);
+}
+
+// Shortfall (×100) of one 区分: the conditions whose courses all lie inside
+// `selector` (the 区分 rule and the narrower ones within it) and the missing
+// required courses placed there.
+export function shortfallWithin(
+  c: Curriculum,
+  results: ResultLike[],
+  selector: Selector,
+) {
+  const all = universe(c);
+  const area = new Set(all.filter((p) => matches(p, selector)).map(key));
+  const inside: ResultLike[] = [];
+  for (const r of results) {
+    const e = r.expression;
+    if (e.type === "credits" && !e.selector.courseIds) {
+      const keys = new Set(all.filter((p) => matches(p, e.selector)).map(key));
+      if (keys.size && within(keys, area)) inside.push(r);
+    } else if (r.missingCourses?.length) {
+      const missingCourses = r.missingCourses.filter((id) => {
+        const p = c.placements.find((x) => x.courseId === id);
+        return !!p && area.has(key(p));
+      });
+      if (missingCourses.length) inside.push({ ...r, missingCourses });
+    }
+  }
+  return combinedShortfall(c, inside);
 }

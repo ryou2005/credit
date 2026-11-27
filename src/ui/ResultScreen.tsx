@@ -5,13 +5,12 @@ import {
   type MouseEvent,
   type ReactNode,
 } from "react";
-import { evaluateCurriculum } from "../domain/engine";
-import { combinedShortfall } from "../domain/shortfall";
-import { creditText, type Curriculum } from "../domain/schema";
+import type { Outlook } from "../domain/outlook";
+import { combinedShortfall, shortfallWithin } from "../domain/shortfall";
+import { creditText, matches, units, type Curriculum } from "../domain/schema";
 import {
   Blob,
   Button,
-  ProgressBar,
   RequirementRow,
   Shape,
   StatNumber,
@@ -20,15 +19,16 @@ import {
   Toast,
   useEntered,
   type Status,
-  type TagTone,
 } from "./ds";
 import { TopBar } from "./TopBar";
 
 const GPA_SOURCE =
   "https://www.kogakuin.ac.jp/student/syllabus_binran/u53qdr00000037u3-att/gpa_2024.pdf";
-type Result = ReturnType<typeof evaluateCurriculum>;
-type Rule = Result["results"][number];
+type Assessment = Outlook["projected"];
+type Rule = Assessment["results"][number];
 type Tab = "grad" | "thesis";
+// Courses listed in an opened row before 「すべての科目を表示」.
+const COURSE_LIMIT = 9;
 
 const num = (u: number) => Number(creditText(u));
 // Engine status → design status. Within 4 credits of a goal reads as あと少し.
@@ -49,49 +49,26 @@ const isTotal = (r: Rule) =>
 // Rule ids are `${curriculum id}-${suffix}`; thesis-entry rules add `entry-`.
 const suffix = (c: Curriculum, r: Rule) =>
   r.id.slice(c.id.length + 1).replace(/^entry-/, "");
-
-// A credit rule whose courses all lie inside another's (e.g. 必修 inside 専門).
-function within(a: Rule, b: Rule) {
-  if (
-    a === b ||
-    isTotal(b) ||
-    a.expression.type !== "credits" ||
-    b.expression.type !== "credits"
-  )
-    return false;
-  const x = a.expression.selector,
-    y = b.expression.selector;
-  if (!x.sections || !y.sections || x.courseIds || y.courseIds) return false;
-  return (
-    x.sections.every((s) => y.sections!.includes(s)) &&
-    (!y.areas || (!!x.areas && x.areas.every((s) => y.areas!.includes(s)))) &&
-    (!y.kinds || (!!x.kinds && x.kinds.every((k) => y.kinds!.includes(k))))
-  );
-}
-// Unmet conditions not already covered by a broader unmet one; the narrower
-// ones stay visible in the requirement groups below.
-const broadest = (rs: Rule[]) =>
-  rs.filter((r) => !rs.some((q) => within(r, q)));
-
-// Which design group a rule's sections fall in, for the category tag.
-function categoryOf(r: Rule): [string, TagTone] {
-  if (isTotal(r)) return ["合計", "ink"];
-  if (r.expression.type === "allCourses") return ["必修", "lilac"];
-  const sections =
-    r.expression.type === "credits"
-      ? (r.expression.selector.sections ?? [])
-      : [];
-  if (sections.every((s) => s.startsWith("I-"))) return ["第I群", "teal"];
-  if (sections.every((s) => s === "II-a")) return ["第II群", "teal"];
-  if (sections.every((s) => s === "thesis")) return ["第III群", "coral"];
-  return ["第II群＋第III群", "teal"];
-}
+// The 区分 whose shortfall is listed under 足りない単位 (graduation rules).
+const CATEGORIES = [
+  ["I-a", "第I群", "総合文化科目"],
+  ["I-b", "第I群", "外国語科目"],
+  ["I-c", "第I群", "保健体育科目"],
+  ["II-a", "第II群", "共通基礎科目"],
+  ["special", "第II群＋第III群", "専門基礎＋専門科目"],
+] as const;
 
 interface Detail {
   label: string;
   value: string;
   status?: Status;
   badge?: string;
+}
+interface Course {
+  id: string;
+  name: string;
+  credits: string;
+  enrolled: boolean;
 }
 interface Row {
   key: string;
@@ -100,6 +77,7 @@ interface Row {
   noReq?: { earned: string; text: string; badge: string };
   details: Detail[];
   note?: string;
+  courses?: Course[];
 }
 const ruleDetail = (r: Rule, label = r.label): Detail =>
   r.expression.type === "allCourses"
@@ -142,7 +120,7 @@ export function ResultScreen({
   onEdit,
 }: {
   c: Curriculum;
-  result: Result;
+  result: Outlook;
   email: string;
   department: string;
   pdfName: string;
@@ -160,21 +138,62 @@ export function ResultScreen({
   const [hover, setHover] = useState(false);
   const [tab, setTab] = useState<Tab>("grad");
   const [open, setOpen] = useState<Record<string, boolean>>({});
+  const [showAll, setShowAll] = useState<Record<string, boolean>>({});
   const reqRef = useRef<HTMLElement>(null);
+  const { projected, planned } = result;
   const hasThesis = result.thesisEntry.results.length > 0;
-  const rules =
-    tab === "grad" || !hasThesis ? result.results : result.thesisEntry.results;
+  const onThesisTab = tab === "thesis" && hasThesis;
+  const rules = onThesisTab ? result.thesisEntry.results : result.results;
+  // The same rules once the 履修中 courses are passed.
+  const projectedRules = onThesisTab
+    ? projected.thesisEntry.results
+    : projected.results;
+  const projectedOf = (r: Rule) => projectedRules.find((x) => x.id === r.id);
   const bySuffix = (s: string) => rules.find((r) => suffix(c, r) === s);
   const gradTotal = result.results.find(isTotal);
   const thesisTotal = result.thesisEntry.results.find(isTotal);
-  const need = combinedShortfall(c, result.results);
-  const thesisNeed = combinedShortfall(c, result.thesisEntry.results);
-  const unmet = result.results.filter((r) => r.status !== "met");
-  const todo = broadest(unmet);
-  const shortList = todo.filter((r) => r.status === "unmet");
-  const earned = num(result.earned);
-  const goal = gradTotal?.required ? num(gradTotal.required) : 0;
-  const marker = thesisTotal?.required ? num(thesisTotal.required) : undefined;
+  const goal = gradTotal?.required ?? 0;
+  const entryGoal = thesisTotal?.required;
+
+  // Credits (×100) passed, being taken this term, and the 卒論 assumed.
+  const earnedU = result.earned;
+  const nowU = projected.earned - result.earned;
+  const thesisU = planned.earned - projected.earned;
+  // 不足 = what is still missing once 履修中 and the 卒論 are passed.
+  const need = combinedShortfall(c, planned.results);
+  const shorts = CATEGORIES.flatMap(([s, group, name]) => {
+    const r = result.results.find((x) => suffix(c, x) === s);
+    if (r?.expression.type !== "credits") return [];
+    const short = shortfallWithin(c, planned.results, r.expression.selector);
+    return short > 0 ? [{ id: r.id, group, name, short }] : [];
+  });
+  const catShort = shorts.reduce((a, x) => a + x.short, 0);
+  const free = Math.max(0, need - catShort);
+  const isShort = need > 0;
+  // How many 履修中 credits may be dropped with every condition still met:
+  // the least margin of the conditions they count toward (worst case).
+  let slack = nowU;
+  for (const r of planned.results) {
+    if (r.expression.type !== "credits") continue;
+    const gain =
+      (projected.results.find((x) => x.id === r.id)?.earned ?? 0) -
+      (result.results.find((x) => x.id === r.id)?.earned ?? 0);
+    if (gain > 0)
+      slack = Math.min(slack, Math.max(0, (r.earned ?? 0) - (r.required ?? 0)));
+  }
+  const requiredNow = projected.counted.some(
+    (x) =>
+      x.enrolled &&
+      planned.results.some(
+        (r) =>
+          r.expression.type === "allCourses" &&
+          r.expression.courseIds.includes(x.placement.courseId),
+      ),
+  );
+  // 卒論着手: shortfall now and once the 履修中 courses are passed.
+  const entryGap = combinedShortfall(c, result.thesisEntry.results);
+  const entryGapNow = combinedShortfall(c, projected.thesisEntry.results);
+
   const sectionCredits = (sections: string[]) =>
     creditText(result.creditsFor({ sections }));
   // 第Ⅲ群 sections other than the thesis (区分 names differ by department).
@@ -193,6 +212,20 @@ export function ResultScreen({
   const externalCounts =
     specialExpr?.type !== "credits" ||
     !!specialExpr.selector.sections?.includes("external");
+  // Counted and 履修中 courses of a rule, 履修中 first.
+  const coursesOf = (r: Rule): Course[] => {
+    const e = r.expression;
+    if (e.type !== "credits") return [];
+    return projected.counted
+      .filter((x) => !x.assumed && matches(x.placement, e.selector))
+      .map((x) => ({
+        id: x.placement.courseId,
+        name: x.name,
+        credits: `${creditText(units(x.placement.credits))}単位`,
+        enrolled: x.enrolled,
+      }))
+      .sort((a, b) => Number(b.enrolled) - Number(a.enrolled));
+  };
 
   // Rows of the requirement groups for the selected tab. Rules not placed in a
   // group are listed under その他 so nothing the engine checks goes unseen.
@@ -211,14 +244,32 @@ export function ResultScreen({
   ): Row | null => {
     const rule = take(s);
     if (!rule) return null;
+    const required = rule.required ?? 0;
+    const earned = rule.earned ?? 0;
+    const gain = (projectedOf(rule)?.earned ?? 0) - earned;
     const details: Detail[] = [
-      { label: "必要単位", value: `${creditText(rule.required ?? 0)}単位以上` },
+      { label: "必要単位", value: `${creditText(required)}単位以上` },
     ];
+    if (gain > 0)
+      details.push({ label: "履修中", value: `${creditText(gain)} 単位` });
     for (const x of subs) {
       const sub = take(x);
       if (sub) details.push(ruleDetail(sub));
     }
-    return { key: rule.id, name, rule, details: details.concat(info), note };
+    const nowNote =
+      gain > 0 && rule.status !== "met"
+        ? earned + gain >= required
+          ? `履修中の${creditText(gain)}単位を取得すると達成します。`
+          : `履修中の${creditText(gain)}単位を取得しても、あと${creditText(required - earned - gain)}単位足りません。`
+        : "";
+    return {
+      key: rule.id,
+      name,
+      rule,
+      details: details.concat(info),
+      note: [note, nowNote].filter(Boolean).join("") || undefined,
+      courses: coursesOf(rule),
+    };
   };
   const required = (s: string) => {
     const r = bySuffix(s);
@@ -292,7 +343,7 @@ export function ResultScreen({
       label: "第III群",
       name: "専門科目",
       rows: [
-        tab === "grad"
+        !onThesisTab
           ? row(
               "thesis",
               "卒業論文",
@@ -339,16 +390,9 @@ export function ResultScreen({
     c.courses.find((x) => x.id === id)?.name ?? id;
 
   const toggle = (k: string) => setOpen((o) => ({ ...o, [k]: !o[k] }));
-  const heroStatus: Status =
-    result.status === "met"
-      ? "done"
-      : result.status === "review"
-        ? "review"
-        : "near";
   const reviewCount = result.issues.length;
-  const showThesis = (e: MouseEvent) => {
-    e.preventDefault();
-    setTab("thesis");
+  const review = result.status === "review";
+  const scrollToRequirements = () => {
     const el = reqRef.current;
     if (el)
       window.scrollTo({
@@ -356,12 +400,144 @@ export function ResultScreen({
         behavior: "smooth",
       });
   };
-  const thesisText =
-    result.thesisEntry.status === "met"
-      ? `${thesisTotal ? creditText(thesisTotal.required ?? 0) : ""}単位以上・科目区分の条件をすべて満たしています`
-      : result.thesisEntry.status === "review"
-        ? "読み取れなかった成績があるため、確定できません"
-        : `着手条件まで、あと${creditText(thesisNeed)}単位です`;
+  const showThesis = (e: MouseEvent) => {
+    e.preventDefault();
+    setTab("thesis");
+    scrollToRequirements();
+  };
+  // A 足りない単位 row opens its 区分 on the 卒業条件 tab.
+  const jump = (id: string) => {
+    setTab("grad");
+    setOpen((o) => ({ ...o, [id]: true }));
+    scrollToRequirements();
+  };
+
+  const t = creditText;
+  const heroBadge: [Status, string] = review
+    ? ["review", "要確認"]
+    : isShort
+      ? ["short", `不足 ${t(need)}単位`]
+      : ["done", "不足なし"];
+  // What the shortfall takes as given, for the lead text.
+  const assumptions = [
+    nowU > 0 && `履修中の${t(nowU)}単位`,
+    thesisU > 0 && `卒業論文（${t(thesisU)}単位）`,
+  ].filter(Boolean);
+  const lead = isShort
+    ? (shorts.length
+        ? `${shorts.length}つの区分で${t(catShort)}単位が不足しています。`
+        : "") +
+      (free > 0
+        ? `${shorts.length ? "残りの" : ""}${t(free)}単位は、どの区分の科目でも構いません。`
+        : "") +
+      (assumptions.length
+        ? `${assumptions.join("と")}は、すべて取得する前提です。`
+        : "")
+    : result.status === "met"
+      ? "登録済みの卒業要件（単位数・区分・必修・選択必修）をすべて満たしています。"
+      : assumptions.length
+        ? `${[nowU > 0 && `今学期の履修中科目（${t(nowU)}単位）`, thesisU > 0 && `卒業論文（${t(thesisU)}単位）`].filter(Boolean).join("と")}を取得すれば、卒業条件をすべて満たします。`
+        : "";
+
+  // The bar: passed, 履修中, still missing, then the 卒論 assumed.
+  const scale = Math.max(goal, earnedU + nowU + need + thesisU, 1);
+  const at = (u: number) => `${(u / scale) * 100}%`;
+  const noteTone = isShort ? "short" : nowU > 0 && slack === 0 ? "tight" : "ok";
+  const barNote = isShort
+    ? nowU > 0
+      ? `履修中の${t(nowU)}単位をすべて取得しても、卒業条件まであと${t(need)}単位足りません。`
+      : `卒業条件まで、あと${t(need)}単位足りません。`
+    : nowU === 0
+      ? thesisU > 0
+        ? `卒業論文（${t(thesisU)}単位）を取得すれば、卒業条件を満たします。`
+        : "取得済みの単位で、卒業条件を満たしています。"
+      : slack === 0
+        ? `履修中の${t(nowU)}単位は、1単位も落とせません。1科目でも落とすと不足になります。`
+        : `履修中の科目のうち、${requiredNow ? "必修科目を除いて" : ""}${t(slack)}単位までは落としても卒業条件を満たします。`;
+
+  // 卒論着手 pill: 達成 / 履修中で届く (あと少し) / 不足.
+  const entryState: Status =
+    result.thesisEntry.status === "review"
+      ? "review"
+      : result.thesisEntry.status === "met"
+        ? "done"
+        : entryGapNow === 0
+          ? "near"
+          : "short";
+  const entryBadge =
+    entryState === "review"
+      ? "要確認"
+      : entryState === "done"
+        ? "達成"
+        : `あと${t(entryGap)}単位`;
+  const entryText =
+    entryState === "review"
+      ? "読み取れなかった成績があるため、確定できません"
+      : entryState === "done"
+        ? `${entryGoal ? t(entryGoal) : ""}単位以上・科目区分の条件をすべて満たしています`
+        : entryState === "near"
+          ? `履修中の${t(nowU)}単位を取得すると、着手条件を満たします`
+          : nowU > 0
+            ? `履修中の${t(nowU)}単位を取得しても、着手条件まであと${t(entryGapNow)}単位です`
+            : `着手条件まで、あと${t(entryGap)}単位です`;
+
+  const entryLabel = entryGoal ? `（${t(entryGoal)}単位）` : "";
+  const nextSteps: [string, string][] = isShort
+    ? [
+        [
+          "来期の履修登録で、不足分を優先する",
+          shorts.length
+            ? `${shorts.map((x) => x.name).join("・")}の科目を先に登録してください。${free > 0 ? `区分を問わない${t(free)}単位は、そのあとで選べます。` : ""}`
+            : `どの区分の科目でも構いません。あと${t(free)}単位を登録してください。`,
+        ],
+        ...(hasThesis && entryState !== "done" && entryState !== "review"
+          ? [
+              [
+                nowU > 0
+                  ? `履修中の${t(nowU)}単位を取り切る`
+                  : "卒業論文の着手条件を満たす",
+                entryGapNow === 0
+                  ? `取得すると卒業論文の着手条件${entryLabel}を満たし、卒論をはじめられます。`
+                  : `${nowU > 0 ? "取得しても" : ""}着手条件まであと${t(entryGapNow)}単位です。来期は${t(entryGapNow)}単位以上の上積みが必要です。`,
+              ] as [string, string],
+            ]
+          : nowU > 0
+            ? [
+                [
+                  `履修中の${t(nowU)}単位を取り切る`,
+                  "不足の計算は、履修中の単位をすべて取得する前提です。落とすと、その分だけ不足が増えます。",
+                ] as [string, string],
+              ]
+            : []),
+        [
+          "教務窓口で履修計画を確認する",
+          "判定は目安です。来期に取る科目が条件に合うか、履修登録の前に教務窓口で確認してください。",
+        ],
+      ]
+    : [
+        ...(nowU > 0
+          ? [
+              [
+                `履修中の${t(nowU)}単位を取り切る`,
+                slack === 0
+                  ? "1科目でも落とすと不足になります。出席と課題の提出を優先してください。"
+                  : `余裕は${t(slack)}単位です。${requiredNow ? "必修科目は落とせません。" : ""}`,
+              ] as [string, string],
+            ]
+          : []),
+        ...(thesisU > 0
+          ? [
+              [
+                "卒業論文の着手手続きをする",
+                "研究室配属と着手届の時期を、学科の案内で確認してください。",
+              ] as [string, string],
+            ]
+          : []),
+        [
+          "教務窓口で最終確認する",
+          "判定は目安です。卒業見込みの正式な確認は、教務窓口で行ってください。",
+        ],
+      ];
 
   return (
     <div className="page result">
@@ -423,19 +599,21 @@ export function ResultScreen({
 
         <section className="hero">
           <div className="hero-copy">
-            <StatusBadge status={heroStatus} size="lg">
-              {result.status === "met"
-                ? "卒業条件 達成"
-                : result.status === "review"
-                  ? "要確認"
-                  : "卒業条件 未達成"}
+            <StatusBadge status={heroBadge[0]} size="lg">
+              {heroBadge[1]}
             </StatusBadge>
             <h1>
-              {need > 0 ? (
+              {isShort ? (
                 <>
                   卒業まで、
                   <br />
-                  あと<mark>{creditText(need)}単位</mark>。
+                  <mark>あと{t(need)}単位</mark>。
+                </>
+              ) : review ? (
+                <>
+                  確認が必要な
+                  <br />
+                  <mark>成績があります</mark>。
                 </>
               ) : result.status === "met" ? (
                 <>
@@ -445,50 +623,25 @@ export function ResultScreen({
                 </>
               ) : (
                 <>
-                  確認が必要な
+                  このまま進めば、
                   <br />
-                  <mark>成績があります</mark>。
+                  <mark>卒業できます</mark>。
                 </>
               )}
             </h1>
             <p className="hero-lead">
-              {need > 0 && (
-                <>
-                  不足している条件：
-                  {shortList
-                    .slice(0, 4)
-                    .map((r) => `${r.label}（${lackText(r)}）`)
-                    .join("、")}
-                  {shortList.length > 4 && ` ほか${shortList.length - 4}件`}
-                  。重なる分を除いて合わせた単位数です。科目区分ごとの詳細は、下の「科目区分別の取得状況」で確認できます。
-                </>
-              )}
-              {result.status === "met" &&
-                "登録済みの卒業要件（単位数・区分・必修・選択必修）をすべて満たしています。"}
-              {result.status === "review" &&
+              {lead}
+              {review &&
                 ` 読み取れなかった行（${reviewCount}件）は算入していません。「成績を修正する」から確認してください。`}
             </p>
             {hasThesis && (
               <div className="thesis-pill">
-                <StatusBadge
-                  status={
-                    result.thesisEntry.status === "met"
-                      ? "done"
-                      : result.thesisEntry.status === "review"
-                        ? "review"
-                        : "near"
-                  }
-                  size="lg"
-                >
-                  {result.thesisEntry.status === "met"
-                    ? "達成"
-                    : result.thesisEntry.status === "review"
-                      ? "要確認"
-                      : "未達成"}
+                <StatusBadge status={entryState} size="lg">
+                  {entryBadge}
                 </StatusBadge>
                 <span className="pill-text">
                   <strong>卒業論文着手条件</strong>
-                  <small>{thesisText}</small>
+                  <small>{entryText}</small>
                 </span>
                 <a href="#requirements" onClick={showThesis}>
                   内訳を見る
@@ -537,96 +690,125 @@ export function ResultScreen({
                   <span className="eyebrow subtle">CREDITS</span>
                 </div>
                 <StatNumber
-                  value={creditText(result.earned)}
-                  total={goal || undefined}
+                  value={t(earnedU)}
+                  total={goal ? t(goal) : undefined}
                   unit="単位"
                   size="xl"
                 />
                 <div className="credit-bar">
-                  <ProgressBar
-                    value={earned}
-                    max={goal || 1}
-                    size="lg"
-                    tone="teal"
-                    marker={marker}
-                    label="総取得単位"
-                  />
+                  <div
+                    className="seg-bar"
+                    role="img"
+                    aria-label={`取得済み${t(earnedU)}単位、履修中${t(nowU)}単位、不足${t(need)}単位、卒業論文${t(thesisU)}単位（卒業条件${t(goal)}単位）`}
+                  >
+                    <div className="seg-track">
+                      {(
+                        [
+                          ["earned", earnedU],
+                          ["now", nowU],
+                          ["short", need],
+                          ["thesis", thesisU],
+                        ] as const
+                      )
+                        .filter(([, u]) => u > 0)
+                        .map(([k, u]) => (
+                          <div
+                            key={k}
+                            className={`seg ${k}`}
+                            style={{ flex: u }}
+                          />
+                        ))}
+                    </div>
+                    {entryGoal != null && goal > 0 && (
+                      <div
+                        className="seg-mark"
+                        style={{ left: at(entryGoal) }}
+                      />
+                    )}
+                    {thesisU > 0 && (
+                      <div
+                        className="seg-mark thesis"
+                        style={{ left: at(scale - thesisU) }}
+                      />
+                    )}
+                  </div>
                   <div className="bar-labels">
-                    {marker != null && goal > 0 && (
-                      <span style={{ left: `${(marker / goal) * 100}%` }}>
-                        卒論着手 <span className="num">{marker}</span>
+                    {entryGoal != null && goal > 0 && (
+                      <span style={{ left: at(entryGoal) }}>
+                        卒論着手 <span className="num">{t(entryGoal)}</span>
                       </span>
                     )}
-                    <span className="end num">{goal}</span>
-                  </div>
-                </div>
-                <div className="credit-progress">
-                  <div className="row-between">
-                    <span className="label-strong">単位取得進捗</span>
-                    <span className="label-muted">
-                      約
-                      <b className="num">
-                        {goal
-                          ? Math.min(100, Math.floor((earned / goal) * 100))
-                          : 0}
-                      </b>
-                      <b className="num">%</b>
+                    <span className="end num" style={{ left: at(goal) }}>
+                      {t(goal)}
                     </span>
                   </div>
-                  <span className="fine">
-                    総取得単位だけの進捗です。卒業の判定は、科目区分ごとの条件もあわせて行います。
-                  </span>
+                </div>
+                <div className="legend">
+                  {(
+                    [
+                      ["earned", "取得済み", earnedU],
+                      ["now", "履修中", nowU],
+                      ["thesis", "卒業論文", thesisU],
+                      ["short", "不足", need],
+                    ] as const
+                  ).map(([k, label, u]) => (
+                    <span key={k}>
+                      <span className="legend-key">
+                        <i className={`seg ${k}`} />
+                        {label}
+                      </span>
+                      <b className={k === "short" && !u ? "zero" : k}>{t(u)}</b>
+                    </span>
+                  ))}
+                </div>
+                <div className={`bar-note ${noteTone}`}>
+                  <i />
+                  <span>{barNote}</span>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {result.status !== "met" && unmet.length > 0 && (
+        {isShort && (
           <section className="block">
-            <Heading eyebrow="TO DO" title="卒業までに必要な条件" />
-            <div className="todo-grid">
+            <Heading eyebrow="SHORTAGE" tone="coral" title="足りない単位" />
+            <div className="short-grid">
               <div className="rows">
-                {todo.map((r) => {
-                  const [category, tone] = categoryOf(r);
-                  const courses =
-                    r.expression.type === "allCourses"
-                      ? r.expression.courseIds.length
-                      : 0;
-                  return (
-                    <RequirementRow
-                      key={r.id}
-                      name={r.label}
-                      category={category}
-                      categoryTone={tone}
-                      earned={
-                        courses
-                          ? courses - (r.missingCourses?.length ?? 0)
-                          : num(r.earned ?? 0)
-                      }
-                      required={courses || num(r.required ?? 0)}
-                      unit={courses ? "科目" : "単位"}
-                      status={statusOf(r)}
-                      lack={lackText(r)}
-                    />
-                  );
-                })}
+                {shorts.map((s) => (
+                  <button
+                    type="button"
+                    className="short-row"
+                    key={s.id}
+                    onClick={() => jump(s.id)}
+                  >
+                    <span className="short-name">
+                      <small>{s.group}</small>
+                      <strong>{s.name}</strong>
+                    </span>
+                    <ShortAmount value={t(s.short)} />
+                    <span className="short-hint">来期に履修</span>
+                  </button>
+                ))}
+                {free > 0 && (
+                  <div className="short-row free">
+                    <span className="short-name">
+                      <small>区分を問わない</small>
+                      <strong>総取得単位の残り</strong>
+                    </span>
+                    <ShortAmount value={t(free)} />
+                    <span className="short-hint">どの区分の科目でも可</span>
+                  </div>
+                )}
               </div>
-              {need > 0 && (
-                <div className="todo-note">
-                  <strong>重なる分を除くと、あと{creditText(need)}単位</strong>
-                  <span>
-                    条件ごとの不足は重なることがあります（たとえば卒業論文の単位は総取得単位にも入ります）。重なりを除くと、不足は合わせて
-                    <b className="num">{creditText(need)}</b>単位です。
-                  </span>
-                </div>
-              )}
-            </div>
-            <div className="dot-line">
-              <span className="dot" />
-              {unmet.length === todo.length
-                ? "ほかの科目区分・必修・選択必修は、すべて卒業条件を満たしています。"
-                : "上の条件に含まれる必修・選択必修などの状況は、下の「科目区分別の取得状況」で確認できます。"}
+              <div className="short-note">
+                <strong>合計で{t(need)}単位が足りません</strong>
+                <span>
+                  {shorts.length
+                    ? `区分の条件がある${t(catShort)}単位を先に埋めてください。行をクリックすると、その区分の取得状況に移動します。`
+                    : "区分の条件はすべて満たしています。総取得単位だけが不足しています。"}
+                </span>
+              </div>
             </div>
           </section>
         )}
@@ -649,10 +831,10 @@ export function ResultScreen({
             )}
           </div>
           <p className="muted req-lead">
-            {tab === "grad"
-              ? `卒業条件（総取得単位${goal}単位以上）に対する各区分の状況です。`
-              : `卒業論文着手条件（総取得単位${marker ?? ""}単位以上）に対する各区分の状況です。`}
-            行をクリックすると、条件の内訳を確認できます。
+            {!onThesisTab
+              ? `卒業条件（総取得単位${t(goal)}単位以上）に対する各区分の状況です。`
+              : `卒業論文着手条件（総取得単位${entryGoal ? t(entryGoal) : ""}単位以上）に対する各区分の状況です。`}
+            行をクリックすると、条件の内訳と対象の科目を確認できます。
           </p>
           <div className="groups">
             {groups
@@ -716,6 +898,18 @@ export function ResultScreen({
                             {r.note && (
                               <span className="detail-note">{r.note}</span>
                             )}
+                            {!!r.courses?.length && (
+                              <CourseChips
+                                courses={r.courses}
+                                all={!!showAll[r.key]}
+                                onToggle={() =>
+                                  setShowAll((o) => ({
+                                    ...o,
+                                    [r.key]: !o[r.key],
+                                  }))
+                                }
+                              />
+                            )}
                           </div>
                         )}
                       </div>
@@ -729,7 +923,7 @@ export function ResultScreen({
             <div className="row-between wrap">
               <h3>必修・選択必修の充足状況</h3>
               <span className="muted">
-                {tab === "grad" ? "卒業条件" : "卒業論文着手条件"}の基準
+                {!onThesisTab ? "卒業条件" : "卒業論文着手条件"}の基準
               </span>
             </div>
             <div className="mandatory-grid">
@@ -739,8 +933,8 @@ export function ResultScreen({
                     {r.label.replace("専門基礎＋専門の", "専門分野の")}
                   </span>
                   <StatNumber
-                    value={creditText(r.earned ?? 0)}
-                    total={creditText(r.required ?? 0)}
+                    value={t(r.earned ?? 0)}
+                    total={t(r.required ?? 0)}
                     unit="単位"
                     size="md"
                   />
@@ -779,6 +973,21 @@ export function ResultScreen({
           </div>
         </section>
 
+        <section className="block">
+          <Heading eyebrow="NEXT" title="次にやること" />
+          <ol className="next-grid">
+            {nextSteps.map(([title, text], i) => (
+              <li className="next-step" key={title}>
+                <span className="next-num">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <strong>{title}</strong>
+                <span>{text}</span>
+              </li>
+            ))}
+          </ol>
+        </section>
+
         <footer className="result-footer">
           <span>
             本サービスの判定結果は、成績PDFと登録済みの卒業要件にもとづく参考情報です。正式な卒業要件は、大学の履修要項等で確認してください。
@@ -804,11 +1013,74 @@ export function ResultScreen({
   );
 }
 
-function Heading({ eyebrow, title }: { eyebrow: string; title: ReactNode }) {
+function Heading({
+  eyebrow,
+  title,
+  tone,
+}: {
+  eyebrow: string;
+  title: ReactNode;
+  tone?: "coral";
+}) {
   return (
     <div className="heading">
-      <span className="eyebrow">{eyebrow}</span>
+      <span className={"eyebrow" + (tone ? ` ${tone}` : "")}>{eyebrow}</span>
       <h2>{title}</h2>
+    </div>
+  );
+}
+
+function ShortAmount({ value }: { value: string }) {
+  return (
+    <span className="short-amount">
+      <span>あと</span>
+      <b>{value}</b>
+      <small>単位</small>
+    </span>
+  );
+}
+
+// The counted and 履修中 courses of an opened row.
+function CourseChips({
+  courses,
+  all,
+  onToggle,
+}: {
+  courses: Course[];
+  all: boolean;
+  onToggle: () => void;
+}) {
+  const now = courses.filter((x) => x.enrolled).length;
+  const shown = all ? courses : courses.slice(0, COURSE_LIMIT);
+  return (
+    <div className="course-chips">
+      <div className="chips-head">
+        <span>対象の科目</span>
+        <span>
+          取得済み <b>{courses.length - now}科目</b>
+        </span>
+        {now > 0 && (
+          <span>
+            履修中 <b className="now">{now}科目</b>
+          </span>
+        )}
+      </div>
+      <div className="chips">
+        {shown.map((x) => (
+          <div className={"chip" + (x.enrolled ? " now" : "")} key={x.id}>
+            <span className="chip-name">
+              {x.enrolled && <small>履修中</small>}
+              <span>{x.name}</span>
+            </span>
+            <span className="chip-credits">{x.credits}</span>
+          </div>
+        ))}
+      </div>
+      {courses.length > COURSE_LIMIT && (
+        <button type="button" className="text-button" onClick={onToggle}>
+          {all ? "折りたたむ" : `すべての科目を表示（${courses.length}科目）`}
+        </button>
+      )}
     </div>
   );
 }

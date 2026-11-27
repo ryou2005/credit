@@ -6,7 +6,7 @@ import {
   type DepartmentChoice,
 } from "../data/registry";
 import type { Curriculum, Grade } from "../domain/schema";
-import { evaluateCurriculum } from "../domain/engine";
+import { evaluateOutlook, type Outlook } from "../domain/outlook";
 import { identityIssue } from "../pdf/normalize";
 import { logout } from "../auth/session";
 import { LoginScreen } from "./LoginScreen";
@@ -14,7 +14,7 @@ import { UploadScreen } from "./UploadScreen";
 import { ResultScreen, useToast } from "./ResultScreen";
 import { EditorScreen, needsReview } from "./EditorScreen";
 
-type Result = ReturnType<typeof evaluateCurriculum>;
+type Result = Outlook;
 type Step = "login" | "upload" | "editor" | "result";
 interface Account {
   email: string;
@@ -102,7 +102,7 @@ export default function App() {
   };
   const evaluate = (c: Curriculum, gs: Grade[]) => {
     try {
-      return evaluateCurriculum(c, gs, { master: courseMaster });
+      return evaluateOutlook(c, gs, { master: courseMaster });
     } catch {
       throw new Error(
         "ルールデータの検証に失敗しました。判定せず、管理者へ確認してください。",
